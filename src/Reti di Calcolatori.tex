@@ -2,6 +2,9 @@
 
 \usepackage{graphicx}
 \usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{listings}
+
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definizione}[section]
@@ -32,10 +35,16 @@ Concetti generali:
 	\item Information hiding
 	\item Separation of concerns
 \end{itemize}
+Vantaggi della stratificazione:
+\begin{itemize}
+	\item \textbf{Facilità di progettazione.}
+	\item \textbf{Facilità di manutenzione.}
+	\item \textbf{Possibilità di riciclo.}
+\end{itemize}
 Due modelli: \textbf{ISO/OSI} (approccio top-down) e \textbf{Stack TCP/IP} (approccio bottom-up), quest ultimo vincente.\newline
 Idea chiave: \underline{suddivisone in sottoproblemi.}
 \begin{figure}[!h]
-	\includegraphics{Immagini/Modelli_Strat.png}
+	\includegraphics[scale=0.8]{Immagini/Modelli_Strat.png}
 	\centering
 	\caption{Modello stratificato}
 \end{figure}
@@ -88,42 +97,38 @@ I sistemi terminali si possono dividere in due tipi: \textbf{host} e \textbf{ser
 Acronimo di \textbf{L}ocal \textbf{A}rea \textbf{N}etwork, è
 una rete di area geografica limitata collegata attraverso una tecnologia ethernet \textbf{bus} o ethernet \textbf{switch}:
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/LAN.png}
+	\includegraphics[scale=0.6]{Immagini/LAN.png}
 	\centering
 \end{figure}
-
-\newpage
-
 Ciascun host ha un cavo che lo collega allo switch e a ogni porta dello switch corrisponde un host. Lo \textbf{switch} possiede una tecnologia di autoapprendimento ed è una componente del \textbf{livello link}.
+\newpage
 
 \subsection{WAN}
 Acronimo di \textbf{W}ide \textbf{A}rea \textbf{N}etwork, è una rete di area geografica estesa: è composta da due o più reti collegate tramite un mezzo di trasmissione. Le reti coinvolte potrebbero anche essere reti LAN. \textit{(e il link potrebbe essere affittato a un'azienda da un operatore di telefonia).}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/WAN_Switch.png}
+	\includegraphics[scale=0.6]{Immagini/WAN_Switch.png}
 	\centering
 	\caption{Un esempio di WAN a cavo condiviso e a commutazione.\newline
 		Le WAN permettono l'esistenza di \textbf{percorsi alternativi} e la \textbf{divisione del traffico}.}
 \end{figure}
 
-\newpage
 
 \subsection{Internetwork}
 L'internetwork è un sistema in cui ci sono più reti composte, capaci di scambiarsi informazioni e collegate. Concettualmente è una WAN ma è più complicata.\newline
 I dispositivi che la compongono si distinguono in \textbf{sistemi terminali}
-e dispositivi come gli \textbf{switch} e i \textbf{routers} che si trovano nel percorso tra i sistemi sorgente e i sistemi destinazione. \newline
+e dispositivi come gli \textbf{switch} e i \textbf{routers} che si trovano nel percorso tra i sistemi sorgente e i sistemi destinazione.
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Internetwork.png}
+	\includegraphics[scale=0.4]{Immagini/Internetwork.png}
 	\centering
 	\caption{Una internetwork.}
 \end{figure}\newline
 \textit{Problema: come mandare informazioni da un host a un altro?}
-
+\newpage
 
 \subsubsection{Reti a commutazione di circuito}
 Nelle \textbf{reti a commutazione di circuito} le \textbf{risorse} sono \textbf{riservate end to end} per ogni connessione. Risulta quindi necessario il \textbf{setup della comunicazione} per instaurare la connessione ed elargire le risorse.\newline
 La risorsa non è tutto il link, bensì si considerano come risorse la capacità o la larghezza di banda porzionate per ogni connessione. Le risorse assegnate rimangono inattive se non utilizzate (\textit{e.g. telefonata}). I dispositivi mantengono lo stato della connessione. \textbf{Le performance sono garantite}. La capacità delle linee (\textit{link}) cambia a seconda della loro funzione all'interno della rete. Il \textbf{punto debole} delle reti a commutazione di circuito è la \textbf{poca flessibilità nel dispiegamento delle risorse}.
 
-\newpage
 
 \subsubsection{Reti a commutazione di pacchetto}
 Nelle \textbf{reti a commutazione di pacchetto} gli utenti inviano pacchetti che condividono le risorse del canale di comunicazione. \textbf{Non c'è} quindi \textbf{un canale dedicato} ai pacchetti di un singolo utente. La principale differenza rispetto alla commutazione di circuito risiede nell'implementazione della logica dei dispositivi di interconnessione, ovvero:
@@ -135,7 +140,7 @@ Nelle \textbf{reti a commutazione di pacchetto} gli utenti inviano pacchetti che
 Nelle reti a commutazione di pacchetto quindi le risorse vengono usate a seconda della necessità. Possono quindi verificarsi situazioni di contesa delle risorse e sussiste il pericolo di congestione o di perdita dei pacchetti nel caso in cui la dimensione della coda del router non fosse sufficiente a contenere il flusso dei pacchetti entranti: il commutatore (\textit{router}) deve infatti ricevere l’intero
 pacchetto prima di poter cominciare a trasmetterlo sul collegamento in uscita (\textit{\textbf{store and forward}}). \textbf{Non sono} quindi \textbf{garantite le prestazioni}.
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Packet_Switch.png}
+	\includegraphics[scale=0.5]{Immagini/Packet_Switch.png}
 	\centering
 	\caption{Rete a commutazione di pacchetto. Da notare le diverse capacità dei link.}
 \end{figure}
@@ -181,12 +186,10 @@ Uno scorcio delle \textbf{componenti di Internet}:
 \end{itemize}
 
 \begin{figure}[!h]
-	\includegraphics{Immagini/Internet.png}
+	\includegraphics[scale=0.5]{Immagini/Internet.png}
 	\centering
 	\caption{Una porzione di Internet}
 \end{figure}
-
-\newpage
 
 Uno scorcio delle \textbf{entità software} di Internet:
 
@@ -234,7 +237,7 @@ ISP (\textit{internet service provider}).
 \newpage
 
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Internet_Concept.png}
+	\includegraphics[scale=0.5]{Immagini/Internet_Concept.png}
 	\centering
 	\caption{Un modello concettuale di Internet}
 \end{figure}
@@ -270,7 +273,7 @@ ISP (\textit{internet service provider}).
 \subsection{Ritardi}
 Il ritardo introdotto da un nodo è la somma di questi 4 ritardi:
 \begin{figure}[!h]
-	\includegraphics{Immagini/Ritardi.png}
+	\includegraphics[scale=0.7]{Immagini/Ritardi.png}
 	\centering
 	\caption{Una visione di contesto}
 \end{figure}
@@ -307,7 +310,7 @@ $r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{10^9 bps} = 0.001$ secondi.
 
 \subsection{Volume di un link}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Link_Volume.png}
+	\includegraphics[scale=0.5]{Immagini/Link_Volume.png}
 	\centering
 \end{figure}
 \theoremstyle{definition}
@@ -318,7 +321,7 @@ $r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{10^9 bps} = 0.001$ secondi.
 
 \subsection{Esempio}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Esempio_ritardi.png}
+	\includegraphics[scale=0.5]{Immagini/Esempio_ritardi.png}
 	\centering
 \end{figure}
 Si calcoli il ritardo end-to-end di un pacchetto su un percorso con due router. Sia trascurabile il ritardo di congestione e si suppongano uguali su tutti link il propagation delay, il transmission delay e il processing delay.\newline\newline
@@ -326,40 +329,27 @@ Si calcoli il ritardo end-to-end di un pacchetto su un percorso con due router. 
 \centerline{$r_{totale} = 3\times r_{propagation} + 3\times r_{trasmission} + 3\times r_{processing}$}
 \newpage
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Soluzione_ritardi.png}
+	\includegraphics[scale=0.5]{Immagini/Soluzione_ritardi.png}
 	\centering
-	\caption{Quello che succede in dettaglio.}
+	\caption{Quello che succede in dettaglio nell'esempio precedente.}
 \end{figure}
 
 \section{Modelli Stratificati e Protocolli}
 \textit{Cos'è un protocollo? Cos'è uno strato?}
-\subsection{Principi alla base della stratificazione di un sistema}
-La stratificazione di un sistema è guidata dai seguenti principi:
-\begin{itemize}
-	\item Information hiding.
-	\item Separation of concerns.
-\end{itemize}
+
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Postale.png}
+	\includegraphics[scale=0.7]{Immagini/Postale.png}
 	\centering
 	\caption{Esempio di stratificazione. Si nota come i vari strati del modello interagiscono tra di loro, dal basso verso l'alto e viceversa, per consentire al sig. Rossi e al sig. Takamura di scambiarsi lettere.}
 \end{figure}
-\newpage
-Vantaggi della stratificazione:
-\begin{itemize}
-	\item \textbf{Facilità di progettazione.}
-	\item \textbf{Facilità di manutenzione.}
-	\item \textbf{Possibilità di riciclo.}
-\end{itemize}
-
-\textbf{\underline{N.B.}}:
+\textbf{\underline{Vademecum per la lettura del seguente contenuto: N.B.}}:
 \begin{enumerate}
 	\item Gli strati comunicano \textit{(di solito)} \textbf{solo} con gli altri strati a loro adiacenti.
 	\item Uno strato \textbf{fornisce} servizi allo strato superiore e \textbf{riceve} servizi da quello inferiore.
 	\item La comunicazione tra strati adiacenti avviene attraverso un'\textbf{interfaccia}.
 	\item Tra due entità diverse comunicano fra di loro solo gli strati dello \textbf{stesso livello} e secondo un \textbf{protocollo assegnato}, queste due entità sono dette \textbf{peer}.
 \end{enumerate}
-
+\newpage
 
 \subsection{OSI: Open Systems Interconnection}
 Le \textbf{prime} reti di calcolatori nacquero come \textbf{sistemi chiusi} in cui tutti i componenti dovevano essere dello stesso costruttore. Erano quindi tecnologie chiuse e \textbf{non interoperabili} l'una con l'altra a causa di drastiche differenze \textit{(e.g. differenza di linguaggio, \textbf{modelli di stratificazione diversi} e impossibilità per i programmi applicativi di riuscire ad operare in ambiente distribuito)}. Alla fine degli anni ‘60 esistevano: ARPANET, SNA (IBM), DNA (Digital).\newline
@@ -393,7 +383,7 @@ uno standard per l’interconnessione di sistemi aperti: l' \textbf{Open System 
 
 \subsection{Protocollo}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Protocollo.png}
+	\includegraphics[scale=0.5]{Immagini/Protocollo.png}
 	\centering
 \end{figure}
 I protocolli definiscono il \textbf{formato} e l’\textbf{ordine} dei
@@ -428,17 +418,17 @@ Un protocollo specifica quindi:
 	fornisce ad uno strato soprastante. (\textit{vedi sez. 3.4.1}).
 \end{definition}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Protocol_stack.png}
+	\includegraphics[scale=0.5]{Immagini/Protocol_stack.png}
 	\centering
 	\caption{Esempio di stack protocollare.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Osi_strati.png}
+	\includegraphics[scale=0.7]{Immagini/Osi_strati.png}
 	\centering
 	\caption{Gli strati di OSI.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/End_sys.png}
+	\includegraphics[scale=0.7]{Immagini/End_sys.png}
 	\centering
 	\caption{Esempio di collegamento tra end systems.}
 \end{figure}
@@ -450,7 +440,7 @@ All'interno della rete l'informazione ha origine \textbf{al livello
 Da ogni livello attraversato viene aggiunta all'informazione una sezione informativa (o più di una) chiamata \textbf{header} che contiene informazioni pertinenti esclusivamente al livello stesso.
 Per i dati ricevuti invece si segue il cammino inverso. Si tratta infatti di un \textbf{processo di incapsulamento \underline{reversibile}}.
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Incapsulamento.png}
+	\includegraphics[scale=0.5]{Immagini/Incapsulamento.png}
 	\centering
 \end{figure}
 \begin{itemize}
@@ -460,7 +450,7 @@ Per i dati ricevuti invece si segue il cammino inverso. Si tratta infatti di un 
 \end{itemize}
 
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Incaps_2.png}
+	\includegraphics[scale=0.7]{Immagini/Incaps_2.png}
 	\centering
 	\caption{Il processo di incapsulamento. Da notare in particolare il payload.}
 \end{figure}
@@ -478,27 +468,265 @@ Definita in origine in termini di quattro livelli software
 soprastanti a un livello hardware, \textbf{la pila TCP/IP} è \textbf{oggi}
 intesa come \textbf{composta} \textbf{di cinque livelli}.
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/TCP_IP.png}
+	\includegraphics[scale=0.6]{Immagini/TCP_IP.png}
 	\centering
 	\caption{Livelli dello stack protocollare TCP/IP, si notino le differenze tra il modello originario e il modello attuale.}
 \end{figure}
-
+\begin{itemize}
+	\item Il \textbf{livello applicativo} supporta le applicazioni di rete.
+	\item Il \textbf{livello di trasporto} supporta il trasferimento di dati da un host all'altro.
+	\item Il \textbf{livello di rete} instrada i datagrammi dalla sorgente alla destinazione.
+	\item Il \textbf{livello link} trasferisce dati tra elementi adiacenti della rete.
+	\item  Al \textbf{livello fisico} troviamo i bit sul link.
+\end{itemize}
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Incapsulamento_m.png}
+	\includegraphics[scale=0.5]{Immagini/Incapsulamento_m.png}
 	\centering
 	\caption{Esemplificazione del processo di incapsulamento/decapsulamento dell'informazione.}
 \end{figure}
 
 \begin{figure}[!h]
-	\includegraphics[width=\textwidth]{Immagini/Logfis.png}
+	\includegraphics[scale=0.5]{Immagini/Logfis.png}
 	\centering
 	\caption{I vari collegamenti logici di comunicazione, in \textbf{rosso} invece, \textbf{il collegamento fisico}. La modularità del sistema fa in modo che gli strati paritari dei due host abbiano l'\textbf{illusione} di comunicare direttamente tra di loro. Si ricorda che queste entità situate a livelli corrispondenti su macchine (host) diverse sono dette \textbf{peer}.}
 \end{figure}
 
+\subsubsection{Lo strato applicativo}
+Dello \textbf{strato applicativo} fanno parte le \textbf{applicazioni di rete}. Le applicazioni di rete sono composte da \textbf{processi distribuiti} e \textbf{comunicanti}, ovvero programmi eseguiti dai dispositivi terminali (host o end system) di una rete. Nella comunicazione \textbf{a livello applicativo} fra due dispositivi terminali interconnessi, due o più processi sono in esecuzione su ciascuno degli host comunicanti e si scambiano messaggi.
+Il protocollo dello strato applicativo definisce: (\textit{repetita iuvant})
+\begin{itemize}
+	\item I \textbf{tipi} di messaggi scambiati al livello
+	      applicativo (e.g. richiesta e risposta).
+	\item La \textbf{sintassi} e la \textbf{semantica} dei campi dei messaggi.
+	\item Le \textbf{regole} di comunicazione \textbf{interprocessuale}.
+\end{itemize}
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Application_layer.png}
+	\centering
+	\caption{Esempio di comunicazione tra applicazioni di rete. Ancora una volta è bene ricordare che il protocollo crea l'\textit{illusione} che i processi siano in comunicazione diretta.}
+\end{figure}
+Presentiamo ora i \textbf{paradigmi di comunicazione} dello strato applicativo:
+\begin{itemize}
+	\item \textbf{Client-Server}: prevede un numero \textit{limitato} di processi \textbf{server} che
+	      offrono servizi e sono \textbf{sempre} in esecuzione in attesa di ricevere richieste dai client. Un \textbf{client} è un programma che richiede un servizio. Tipicamente il client inizia il contatto con il server \textbf{inviando una richiesta} e il server risponde \textbf{offrendo il servizio} richiesto.
+	\item \textbf{Peer-to-Peer}: comunicazione tra \textbf{peer} \textit{(pari)} che possono sia \textbf{offrire} servizi che \textbf{inviare} richieste.
+	\item  \textbf{Misto}.
+\end{itemize}
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Client_server.png}
+	\centering
+	\caption{Esempio di paradigma client-server.}
+\end{figure}
+\newpage
+Abbiamo, seppur assai brevemente, esaminato la comunicazione a livello applicativo tra macchine diverse. Scendiamo ora più nel dettaglio iniziando a tracciare il percorso \textbf{reale} dei dati dallo \textbf{strato applicativo} allo \textbf{strato di trasporto}. Partiamo dalla seguente definizione:
+
+\theoremstyle{definition}
+\begin{definition}
+	\textbf{API}: acronimo di Application Programming Interface, è un insieme di \textbf{procedure} e \textbf{regole} che un programmatore deve seguire per accedere a delle risorse. Facilita molto la programmazione del software client-side.
+\end{definition}
+L' \textbf{API} che funge da \textbf{interfaccia} tra gli \textbf{strati di applicazione} \textbf{e} di \textbf{trasporto} è chiamata \textbf{socket} ed è usata dai processi dello strato applicativo per inviare e ricevere dati dallo strato di trasporto. Si tratta, ancora una volta, di una connessione \textbf{logica} poichè in realtà l'invio e la ricezione dei dati sono, nel \textbf{concreto}, responsabilità del sistema operativo e del protocollo TCP/IP.\newline
+Riportiamo un estratto dell'\textbf{API} di \textbf{TCP:}\newline\newline
+\texttt{connection TCPopen(IPaddress, int) //to open a conn.}\newline
+\texttt{void TCPsend(connection, data) //to send data}\newline
+\texttt{data TCPreceive(connection) //to receive data}\newline
+\texttt{void TCPclose(connection) //to close a conn.}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Socket.png}
+	\centering
+	\caption{In figura due processi che comunicano tramite socket. Il processo è controllato dallo sviluppatore dell'applicazione, tutto ciò che è presente sotto la socket è controllato dal sistema operativo.}
+\end{figure}
+Sorge ora spontanea una domanda: \textbf{se ci fossero più processi su ogni host}?\newline
+Servirebbe un modo per \textbf{identificarli}... ci viene in aiuto il \textbf{socket address}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Socket_addr.png}
+	\centering
+	\caption{Il socket address identifica sia il \textbf{processo} con il numero di porta che l'\textbf{host} con l'indirizzo IP, a ogni porta corrisponde un processo.}
+\end{figure}
+\newpage
+\textbf{\underline{Riassumendo}}: dello strato applicativo fanno parte le \textbf{applicazioni di rete}, composte da \textbf{processi distribuiti} su macchine diverse che comunicano tra di loro mediante il protocollo proprio dello strato applicativo. Sebbene il protocollo fornisca alle applicazioni l'illusione di comunicare direttamente, la comunicazione è in realtà garantita da tutto lo stack protocollare sottostante. In particolare, lo strato applicativo dipende dai servizi offerti dallo \textbf{strato di trasporto} che gli è immediatamente sottostante. I due strati comunicano tramite una \textbf{API} che si chiama \textbf{socket}.\newline\newline
+A seconda del \textbf{servizio di trasporto richiesto} dall'applicazione è possibile che si trovino in uso \textbf{protocolli di trasporto diversi} tra i quali: \textbf{TCP} e \textbf{UDP}. \textit{(vedi sez. 2.2)}
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Tcp_udp.png}
+	\centering
+	\caption{In figura le caratteristiche di alcune delle principali applicazioni di rete. Non tutte le applicazioni sono uguali. Tipicamente la telefonia di internet usa il protocollo UDP.}
+\end{figure}
+\subsubsection{Web}
+Il \textbf{web} è formato da risorse indirizzate da \textbf{URL}, acronimo di \textbf{uniform resource locator}. Generalmente queste risorse sono \textbf{pagine web}, formate da altri oggetti referenziati \textit{(e.g. altre pagine web, immagini ecc...)}. Lo \textbf{user agent} o \textbf{client} per il web è chiamato \textbf{browser} ed il \textbf{server} è chiamato \textbf{web server}.
+\theoremstyle{definition}
+\begin{definition}
+	Una \textbf{URI} o Uniform Resource Identifier è una stringa compatta di caratteri che identifica una risorsa fisica o astratta.
+\end{definition}
+Le \textbf{URL} sono un \textbf{sottoinsieme} delle URI e identificano le risorse tramite la loro posizione all'interno della rete. Le \textbf{URN} acronimo di \textbf{uniform resource name} sono un altro sottoinsieme delle URI la cui funzione è di rimanere \textbf{globalmente uniche} e \textbf{persistenti} anche quando le risorse da loro puntate cessano di esistere o non sono più disponibili.
+La \textbf{sintassi} delle URI è organizzata \textbf{gerarchicamente} e i componenti sono disposti in ordine di importanza da sinistra verso destra.
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/URIvsURL.png}
+	\centering
+	\caption{URN e URL non sono altro che specializzazioni delle URI.}
+\end{figure}
+\newpage
+Le \textbf{sintassi} della URI:\newline\newline
+\centerline{\LARGE$<scheme>://<authority><path>?<\textcolor{green}{query}>$}\newline\newline
+\textcolor{red}{http}://\textcolor{blue}{maps.google.it}/\textcolor{purple}{maps}/\textcolor{purple}{place}?\textcolor{green}{q=largo+bruno+pontecorvo+pisa
+	\&hl=it}
+\begin{itemize}
+	\item \textcolor{red}{\textbf{scheme}}: è \textbf{obbligatorio}, definisce lo \textbf{spazio dei nomi} della risorsa.
+	\item \textcolor{blue}{\textbf{authority}}: indica il \textbf{nome di dominio} di un host \textit{(reg\_name)} o il suo \textbf{indirizzo IP} in notazione decimale puntata. Tipicamente identifica un computer sulla rete.
+	\item \textcolor{purple}{\textbf{path}}: contiene \textbf{dati} specifici per l’authority (o per lo scheme) e \textbf{identifica} la risorsa \textbf{nel contesto} di quel namespace e di quell'authority.
+\end{itemize}
+Le URI possono essere \textbf{assolute} o \textbf{relative}, una \textbf{URI assoluta} identifica una risorsa \textbf{indipendentemente} dal contesto in cui è usata. Una \textbf{URI relativa} identifica una risorsa in relazione ad un'altra URL, \textbf{è priva di schema e di authority}, non viaggia sulla rete ed è interpretata dal browser in relazione al documento di partenza.\newline \textit{(e.g. http://www.w3.org/pub/WWW/TheProject.html oppure\newline /pub/WWW/TheProject.html \underline{sotto l'host}: www.w3.org)}.
+\subsubsection{HTTP Protocol}
+Il protocollo \textbf{HTTP} è un protocollo di tipo \textbf{request}/\textbf{response}: il client inizia la connessione inviando un messaggio di \textbf{request} al server che a sua volta invia una \textbf{response}. Si tratta di un \textbf{protocollo generico}, poichè non dipende dal formato delle risorse, e \textbf{stateless} poichè \textbf{le coppie richiesta/risposta sono indipendenti l'una dall'altra}. In \textbf{HTTP 1.0} dopo la prima coppia di richiesta/risposta la connessione viene \textbf{terminata} mentre in \textbf{HTTP 1.1} si \textbf{procede} con un’altra coppia. \newline
+Lo \textbf{schema http} è usato per accedere alle risorse attraverso il protocollo HTTP. \newpage
+Si riporta di seguito la \textbf{sintassi} per le URL http:\newline\newline
+\centerline{\LARGE$http: // <host> [ : <port> ] [ <path> ]$}
+\begin{itemize}
+	\item \textbf{host}: è un \textbf{host domain di Internet} valido oppure un indirizzo IP in forma decimale puntata.
+	\item \textbf{port}: \textbf{è un intero}, se  la porta è vuota o non è indicata si usa automaticamente la porta 80.
+	\item \textbf{path}: specifica la \textbf{request URI} \textit{(vedi seguito)}.
+\end{itemize}
+\textbf{\underline{N.B.} Il protocollo HTTP utilizza il protocollo TCP tramite la sua API.}\newline\newline
+//esempio client\newline
+\texttt{c = TCPopen("131.115.7.24", 80);}\newline
+\texttt{TCPsend(c,"GET /index.html");}\newline
+\texttt{d = TCPreceive(c);}\newline\newline
+\texttt{//esempio server}\newline
+\texttt{p = TCPbind(80); //where to wait for connections}\newline
+\texttt{d = TCPaccept(p); //waiting for connections}\newline
+\texttt{r = TCPreceive(d);}\newline
+\texttt{...}\newline
+\texttt{TCPsend(d,pag);}\newline
+\texttt{TCPclose(d);}\newline
+\theoremstyle{definition}
+\begin{definition}
+	Una \textbf{connessione http} è  un circuito logico di livello di trasporto stabilito tra due programmi applicativi per comunicare tra loro.
+\end{definition}
+Una \textbf{connessione} può essere:
+\begin{itemize}
+	\item \textbf{Non persistente}\textit{(http1.0: RFC 1945)}: si parla di connessione non persistente quando \textbf{per ogni richiesta} del \textbf{client} viene instaurata \textbf{una nuova connessione} con il \textbf{server}. Ciò aumenta il \textbf{carico} su quest ultimo e potrebbero verificarsi fenomeni di \textbf{congestione}. \textit{Infatti per visualizzare le n immagini di un sito il client invia di seguito n richieste al server.}
+	\item \textbf{Persistente}\textit{(http1.1: RFC 2616)}: la connessione è appunto \textbf{persistente}. Nello \textbf{standard} è specificato un meccanismo che consente al server di \textbf{chiudere} la connessione TCP su richiesta del client. \textit{(CONNECTION = CLOSE, in GENERAL HEADER, vedi seguito.)}\newline \textbf{\underline{N.B.}} Una volta che la chiusura della connessione è stata segnalata, il client \textbf{non deve} inviare altre richieste.
+\end{itemize}
+\newpage
+\textbf{Esempio:}\newline
+Supponiamo che l’utente digiti la seguente URL:\newline\newline \centerline{\textbf{www.someSchool.edu/someDepartment/home.index}}\newline\newline
+Con \textbf{una connessione non persistente}, in ordine temporale succedono le seguenti cose:
+\begin{enumerate}
+	\item Il \textbf{client http}  invia una richiesta di connessione
+	      \textbf{TCP} verso il server http al \textbf{www.someSchool.edu} \textit{(La porta 80 è usata di default per il server http.)}
+	\item Il \textbf{server http} dell’host	\textbf{www.someSchool.edu}, che aspetta le richieste di connessione \textbf{TCP} alla \textbf{porta 80}, \textbf{accetta} \textbf{la richiesta di connessione}  e notifica il client.
+	\item Il \textbf{client http} invia quindi un \textbf{messaggio di richiesta}, contenente la URL.
+	\item Il \textbf{server http} riceve il messaggio di richiesta, compila un \textbf{messaggio di risposta} con l’oggetto richiesto indicato dalla URL: \textbf{someDepartment/home.index}, invia il messaggio e in seguito \textbf{chiude} la connessione.
+	\item Il \textbf{client http}  riceve il messaggio di risposta che contiene il file html e lo visualizza.
+\end{enumerate}
+\textit{Si ricorda che la ricezione e la trasmissione di tutti i messaggi elencati poco sopra avviene tramite socket.}\newline
+Supponiamo ora che la URL contenga dei riferimenti a 10 immagini, in tal caso per ogni riferimento si devono ripetere tutti i passaggi definiti sopra. Salta immediatamente all'occhio la \textbf{scarsa efficienza} della procedura.\newline\newline
+Con \textbf{una connessione persistente} invece il server lascerebbe aperta la connessione TCP dopo aver spedito la prima risposta e vi riceverebbe quindi le richieste successive. La connessione verrebbe chiusa dal server quando specificato nell’header di un messaggio  \textbf{inviatogli dal client}, oppure alla mancata ricezione di richieste per un certo intervallo di tempo \textit{(time out)}.\newline\newline
+Un ulteriore miglioramento delle prestazioni, si otterrebbe con una tecnica di \textbf{pipelining}, consistente nell’invio da parte del client di molteplici richieste senza aspettarne la ricezione da parte del server.\newline
+Il \textbf{server} \textbf{deve} tuttavia inviare le risposte nello stesso ordine in cui sono state ricevute le richieste e il \textbf{client} \textbf{non} può inviare \textbf{in pipeline} richieste che usano metodi HTTP \textbf{non idempotenti}. Ma cos'è un \textbf{metodo idempotente}?
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{metodo idempotente} è un metodo tale che il suo effetto collaterale sulla risorsa è lo \textbf{stesso} per N o 1 richieste identiche che ne fanno uso. \textit{(e.g. GET, HEAD, PUT, DELETE, OPTIONS, TRACE)}
+\end{definition}
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{metodo safe} è un metodo che non produce effetti collaterali sulle risorse. \textit{(e.g. non le modificano: GET, HEAD, OPTIONS, TRACE...)}
+\end{definition}
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Http_vs.png}
+	\centering
+	\caption{In figura sono rappresentate le differenze viste prima.}
+\end{figure}
+\textit{Come sono strutturati i messaggi HTTP?}\newline\newline
+Riportiamo di seguito la \textbf{struttura} di un generico messaggio http:\newline
+\texttt{Request = Request-Line} \textit{o} \texttt{Response = Status-Line} \textit{per i messaggi di risposta.}\newline
+\texttt{*( general-header}\newline
+\texttt{| request-header} \textit{o} \texttt{response-header}\newline
+\texttt{| entity-header )}\newline
+\texttt{CRLF}\newline
+\texttt{[ message-body ]}\newline
+La prima riga o \textbf{start line} distingue i messaggi di request dai messaggi di response.
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/Http_req.png}
+	\centering
+	\caption{In figura un messaggio di richiesta.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/Http_res.png}
+	\centering
+	\caption{In figura un messaggio di risposta.}
+\end{figure}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Req_line.png}
+	\centering
+	\caption{La struttura della \textbf{request line}. Il campo \textbf{method} è case sensitive ed indica l'operazioe da eseguire sulla risorsa identificata dalla URI. Il metodo \textbf{POST} serve per inviare dal client al server le
+		informazioni inserite nel body del messaggio, \textbf{PUT} è usato dal client per chiedere al server di creare o modificare una risorsa, \textbf{DELETE} per cancellarla.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Stat_line.png}
+	\centering
+	\caption{La \textbf{status-Line} è la prima riga del messaggio di risposta. Lo \textbf{status code} è un numero di 3 cifre, indica il risultato del tentativo di soddisfare la richiesta del client. La \textbf{reason-phrase} dà una breve descrizione testuale dello status-code. Lo status-code è rivolto alla macchina mentre la reason-phrase all'utente umano.}
+\end{figure}
+Gli \textbf{header} sono insiemi di coppie \textbf{nome} : \textbf{valore} che specificano
+alcuni parametri del messaggio trasmesso o ricevuto.
+\begin{itemize}
+	\item \textbf{General Headers}: sono relativi alla \textbf{trasmissione} e si applicano a \textbf{tutto il messaggio}. \textit{(e.g. \textbf{Date, Connection:} usato dal mittente per specificare delle opzioni desiderate per la connessione, ad esempio \underline{close}. \textbf{Transfer-encoding}: specifica se e quali trasformazioni sono state applicate al corpo del messaggio ad esempio gzip, chunked ecc. \textbf{Cache control}: indica quale tipologia di cache può memorizzare il messaggio, può essere \textbf{public}, \textbf{private} o \textbf{no-cache}.)}
+	\item \textbf{Entity Headers}: sono \textbf{metadati} relativi all'\textbf{entità trasmessa}. Ogni entity è costituita da un \textbf{entity body} e da una
+	      serie di \textbf{entity headers} che ne definiscono contenuto e
+	      proprietà. \textit{(e.g. Content Lenght)}
+	\item \textbf{Request Headers}: sono relativi alla \textbf{richiesta}. Supportano il \textbf{content negotiation}, il processo tramite cui il server sceglie la forma "giusta" del contenuto richiesto dal client. \textit{(Specificano da chi è fatta la richiesta, a chi viene fatta, che tipo di risposte il client è in grado di accettare, l'autorizzazione, ecc.)}
+	\item \textbf{Response Headers}: sono relativi al \textbf{messaggio di risposta}.
+\end{itemize}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/General_h.png}
+	\centering
+	\caption{L'elenco dei general headers.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Req_h.png}
+	\centering
+	\caption{L'elenco dei request headers. \textbf{Accept} specifica quali tipi di media sono accettati in risposta dal client, \textbf{Accept-Charset}, quali caratteri e \textbf{Accept-Encoding} quali formati.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Stat_code.png}
+	\centering
+	\caption{In figura l'elenco degli status-codes e il loro significato.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Resp_h.png}
+	\centering
+	\caption{I campi del \textbf{response-header} consentono al server di inviare informazioni aggiuntive che non possono essere poste nella status-line. Ad esempio: \textbf{Age}: indica quanto tempo è trascorso, in secondi, tra l'invio della risposta da parte del mittente e la generazione della stessa all'origine. \textbf{Location} é usato per reindirizzare il client verso un altra URI per completare la sua richiesta o per fornire una nuova risorsa. Il campo \textbf{Server} contiene informazioni sul software usato dal server di origine per portare a compimento la richiesta del client.}
+\end{figure}
+\newpage
+Fin'ora abbiamo mostrato come il client accede alle risorse del web inviando richieste al server. Cosa succederebbe se, ad esempio, un client richiedesse continuamente la \textbf{stessa} risorsa? Potremmo evitare di inoltrare richieste tutte uguali al server?\newline
+\textbf{Sì}, ci viene in aiuto il \textbf{web caching}. L'obbiettivo del web caching è di soddisfare le richieste del client \textbf{senza} contattare il server. Funziona memorizzando \textbf{copie temporanee} di risorse web, servendole poi al client così da \textbf{ridurre} l’uso di \textbf{banda}, limitare il \textbf{workload} sul server e di conseguenza \textbf{diminuire tempo di risposta} verso gli altri clients.\newline
+Consideriamo due modelli possibili di web caching:
+\begin{itemize}
+	\item \textbf{User Agent Cache}: lo \textbf{user agent} (il browser) mantiene una \textbf{copia} delle risorse visitate dall’utente.
+	\item \textbf{Proxy Cache}: il \textbf{proxy intercetta il traffico} e mette in cache le risposte. Successive richieste alla stessa URI possono essere servite direttamente dal proxy senza inoltrare la richiesta al server. Sta poi all' utente configurare il browser per consentire gli accessi Web via proxy.
+\end{itemize}
+
+\textit{Cos'è un proxy?}
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{proxy} è un \textbf{programma intermediario} che agisce sia da \textbf{server} che da \textbf{client}, \textbf{inviando} e \textbf{servendo} \textbf{richieste} per altri clients. Le richieste sono gestite internamente oppure sono girate a server terzi.
+\end{definition}
+Resta ora da chiarire come è possibile che, sebbene abbiamo definito il protocollo HTTP come \textbf{stateless}, alcuni siti, \textit{riconoscano} gli utenti.\newline
+Sebbene infatti il protocollo HTTP sia a tutti gli effetti stateless, le applicazioni web \textbf{non} lo sono. Come fare quindi a conciliare queste due realtà?\newline\newline
+\textit{Con i coockies!}
+\begin{definition}
+	I \textbf{coockies} sono stringhe di testo contenenti informazioni relative all'utente.
+\end{definition}
+I \textbf{coockies} funzionano nel seguente modo:
+\begin{enumerate}
+	\item Un client invia al server una richiesta HTTP.
+	\item Il server invia al client la risposta HTTP e in più una linea \textbf{set-cookie: 1678453}. \textit{(esempio fittizio)}
+	\item Il client \textbf{memorizza} il cookie in un file e lo associa al server.
+	      Lo aggiungerà con la seguente linea: \textbf{cookie: 1678453} a tutte le sue successive richieste.
+	\item Alla successiva richiesta da parte del client, il server \textbf{risalirà} tramite il cookie alle informazioni ad esso \textbf{associate}.
+\end{enumerate}
 \end{document}
-
-
-
 
 
 
