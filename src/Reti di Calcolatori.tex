@@ -109,7 +109,7 @@ Acronimo di \textbf{W}ide \textbf{A}rea \textbf{N}etwork, è una rete di area ge
 	\includegraphics[scale=0.6]{Immagini/WAN_Switch.png}
 	\centering
 	\caption{Un esempio di WAN a cavo condiviso e a commutazione.\newline
-		Queste WAN permettono l'esistenza di \textbf{percorsi alternativi} e la \textbf{divisione del traffico}. Una \textbf{WAN punto punto} ha \textbf{solo} 2 punti di terminazione.}
+		Queste WAN permettono l'esistenza di \textbf{percorsi alternativi} e la \textbf{divisione del traffico}. Una \textbf{WAN punto punto} invece ha \textbf{solo} 2 punti di terminazione.}
 \end{figure}
 
 
@@ -122,7 +122,6 @@ e dispositivi come gli \textbf{switch} e i \textbf{routers} che si trovano nel p
 	\centering
 	\caption{Una internetwork.}
 \end{figure}\newline
-\newpage
 \textit{Problema: come mandare informazioni da un host a un altro?}
 
 
@@ -457,7 +456,7 @@ Per i dati ricevuti invece si segue il cammino inverso. Si tratta infatti di un 
 \end{figure}
 \newpage
 
-\subsection{Stack protocollare TCP/IP}
+\section{Stack protocollare TCP/IP}
 \textbf{TCP/IP} è una \textbf{famiglia di protocolli} attualmente
 in uso su Internet.\newline Si tratta di una \textbf{gerarchia di
 	protocolli} costituita da \textbf{moduli interagenti}, ciascuno dei
@@ -492,7 +491,7 @@ intesa come \textbf{composta} \textbf{di cinque livelli}.
 	\caption{I vari collegamenti logici di comunicazione, in \textbf{rosso} invece, \textbf{il collegamento fisico}. La modularità del sistema fa in modo che gli strati paritari dei due host abbiano l'\textbf{illusione} di comunicare direttamente tra di loro. Si ricorda che queste entità situate a livelli corrispondenti su macchine (host) diverse sono dette \textbf{peer}.}
 \end{figure}
 
-\subsubsection{Lo strato applicativo}
+\subsection{Lo strato applicativo}
 Dello \textbf{strato applicativo} fanno parte le \textbf{applicazioni di rete}. Le applicazioni di rete sono composte da \textbf{processi distribuiti} e \textbf{comunicanti}, ovvero programmi eseguiti dai dispositivi terminali (host o end system) di una rete. Nella comunicazione \textbf{a livello applicativo} fra due dispositivi terminali interconnessi, due o più processi sono in esecuzione su ciascuno degli host comunicanti e si scambiano messaggi.
 Il protocollo dello strato applicativo definisce: (\textit{repetita iuvant})
 \begin{itemize}
@@ -727,6 +726,169 @@ I \textbf{coockies} funzionano nel seguente modo:
 	      Lo aggiungerà con la seguente linea: \textbf{cookie: 1678453} a tutte le sue successive richieste.
 	\item Alla successiva richiesta da parte del client, il server \textbf{risalirà} tramite il cookie alle informazioni ad esso \textbf{associate}.
 \end{enumerate}
+\newpage
+
+\subsection{TELNET}
+\textbf{TELNET}, acronimo per \textbf{TE}rmina\textbf{L} \textbf{NET}work, è un \textbf{protocollo} \textbf{client-server} che fornisce una comunicazione \textbf{interattiva ed orientata al testo} tra due macchine, è basato sul trasporto \textbf{connection-oriented} ed usa il protocollo \textbf{TCP}.
+Consente all'utente di effettuare una sessione di \textbf{login} in una macchina remota e quindi di utilizzarne il terminale. L'utente che si autentica tramite login remoto ha accesso infatti a tutti i \textbf{comandi} e ai \textbf{programmi} disponibili su di essa. \textbf{I comandi vengono eseguiti come se l'utente li digitasse dalla tastiera stessa della macchina.} \textit{Per estensione,} \texttt{\textbf{telnet}} \textit{è anche il nome di un programma usato per avviare una sessione TELNET verso un host remoto.}
+\textbf{TELNET} infatti include due programmi: un programma \textbf{TELNET client} e un programma \textbf{TELNET server}. \textbf{TELNET client} (\texttt{\textbf{telnet}}) interagisce con l'utente sulla macchina locale e scambia messaggi con \textbf{TELNET server}. Riportiamo di seguito una semplificazione del funzionamento:
+\begin{enumerate}
+	\item L'utente, dalla \textbf{propria} macchina \textbf{locale} (\textbf{\textbf{TELNET client}}), stabilisce una connessione \textbf{TCP}, persistente per tutta la durata della sessione, con una \textbf{macchina remota (\textbf{TELNET server})} alla \textbf{porta 23} e vi si \textbf{autentifica}.
+	\item  Tutte le \textbf{battute} dei \textbf{tasti} della macchina locale vengono \textbf{trasmesse} dal client
+	      alla \textbf{macchina remota}.
+	\item La \textbf{macchina remota} accetta la connessione TCP e il \textbf{TELNET server} trasmette i dati al sistema operativo locale.
+	\item L'\textbf{output} della \textbf{macchina remota} viene quindi \textbf{ricevuto} e \textbf{trasmesso} sul terminale dell'utente.
+\end{enumerate}
+\begin{figure}[!h]
+	\includegraphics[scale=0.8]{Immagini/TELNET.png}
+	\centering
+	\caption{In figura il funzionamento di TELNET.}
+\end{figure}
+\underline{N.B. TELNET è un protocollo STATEFUL.}
+\newpage
+\textit{Problema: come operare con sistemi operativi diversi?}\newline\newline
+I terminali infatti non sono tutti uguali, possono differire gli uni dagli altri per il \textbf{set} e la \textbf{codifica} dei caratteri, per la \textbf{lunghezza} della \textbf{linea} e della \textbf{pagina} e per i \textbf{tasti funzione} individuati da diverse sequenze di caratteri. \newline\newline
+Una \textbf{soluzione} è stata trovata mediante la definizione di un \textbf{Network Virtual  Terminal (NVT) che definisce un \textbf{set di caratteri universali}}.
+L’NVT è quindi un dispositivo “immaginario” che fornisce una
+rappresentazione astratta di un terminale. Gli host, sia client
+che server, \textbf{traducono} le loro caratteristiche \textbf{locali} \textbf{tramite il set universale} così da apparire \textbf{in rete} come un NVT e assumono che l’host remoto sia anch'esso un NVT. Questa operazione di traduzione è ovviamente \textbf{reversibile}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/NVT.png}
+	\centering
+\end{figure}
+\newline
+Il funzionamento di TELNET, con l'aggiunta della trasformazioni intermedie sopra descritte diventa:
+\begin{enumerate}
+	\item ...
+	\item  Tutte le \textbf{battute} dei \textbf{tasti} della macchina locale vengono \textbf{trasformate in NVT e successivamente} \textbf{trasmesse dal TELNET client}
+	      alla \textbf{macchina remota}.
+	\item La \textbf{macchina remota} accetta la connessione TCP, il \textbf{TELNET server} \textbf{traduce} da NVT allo standard del sistema operativo remoto e infine gli trasmette i dati ricevuti.
+	\item ...
+\end{enumerate}
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/NVT2.png}
+	\centering
+\end{figure}
+\underline{\textit{N.B. NVT invia i caratteri di controllo prioritariamente con TCP URGENT.}}
+\newpage
+Concludiamo con qualche tecnicismo: \newline\newline
+I terminali NVT si scambiano dati in formato \textbf{7-bit US-ASCII} e adottano inoltre un approccio \textbf{in-band signaling}, ovvero dati e comandi viaggiano sullo \textbf{stesso canale}. Per distinguere i due tipi di informazione si usa la seguente convenzione: ogni carattere è inviato come un \textbf{ottetto di bit} con \textbf{il primo bit settato a zero}. I caratteri, in notazione decimale, vanno dal numero 0 al 127. I comandi invece sono identificati tramite  ottetti speciali di 1, in n. d. vanno dal numero 240 al numero 254, per distinguerli dai dati sono sempre preceduti da un carattere speciale: \textbf{IAC o Interpret As Command} identificato, sempre in n. d., dal numero 255. Essenzialmente quindi si usa un canale di 8 bit per scambiare dati di tipo 7 bit ASCII. I messaggi scambiati durante la fase iniziale della comunicazione, ovvero prima del login, sono \textbf{messaggi di controllo} e costituiscono la \textbf{Telnet Option Negotiation}, in sostanza sono usati per scambiare \textbf{informazioni} sulle \textbf{caratteristiche} degli \textbf{host}.
+\begin{table}[h!]
+	\begin{center}
+		\label{tab:table1}
+		\begin{tabular}{l|c|r}
+			\textbf{Comando} & \textbf{Codifica decimale} & \textbf{Significato} \\
+			\hline
+			IAC              & 255                        & Interpret as command \\
+			EL               & 248                        & Erase line           \\
+			EC               & 247                        & Erase character      \\
+			IP               & 244                        & Interrupt process    \\
+			EOR              & 239                        & End of record        \\
+		\end{tabular}
+	\end{center}
+\end{table}\newline
+\textit{Ma quindi NVT conviene?}\newline\newline
+Rispondiamo alla domanda mostrando dei semplici calcoli:\newline\newline
+Supponiamo che N sia il numero di sistemi distinti che si vogliono far
+interoperare:
+\begin{itemize}
+	\item \textbf{Senza} l'uso di NVT, si necessita la scrittura di \textbf{N-1} client per ogni sistema (N-1 TELNET-clients che traducano negli N-1 standards dei sistemi), e 1 TELNET-server per ogni sistema: \newline
+	      In totale si avranno $N\times(N-1) + N$ applicativi.
+	\item \textbf{Usando} NVT, bisogna scrivere 1 TELNET-server per ogni sistema e N TELNET-client (1 per ogni sistema che traduca dallo standard di sistema allo standard di NVT): \newline Avremo quindi $N + N = 2N$ applicativi.
+\end{itemize}
+Quindi per $N > 2$ \textbf{conviene} usare NVT!
+\newpage
+\subsection{SSH}
+TELNET non possiede \textbf{alcuna} misura di sicurezza poichè è stato progettato per l'uso su \textbf{reti private}, trasmette tutto in chiaro, anche le \textbf{password}! Con l'avvento delle reti pubbliche però si è reso necessario prendere delle contromisure. \newline
+\textbf{SSH} o \textbf{S}ecure \textbf{SH}ell è un'applicazione nata per sostituire TELNET.
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/SSH.png}
+	\centering
+	\caption{Le componenti di SSH}
+\end{figure}\newline
+Il \textbf{protocollo} di livello applicazione \textbf{SSH} è composto da \textbf{tre} diverse componenti: \textbf{SSH-TRANS, SSH-AUTH e SSH-CON}. La componente \textbf{SSH-TRANS} o \textbf{SSH-Transport Layer Protocol} costruisce un canale di comunicazione sicuro, tramite tecniche crittografiche, sfruttando la connessione offerta da TCP. Il \textbf{protocollo TCP} trasmette tutte le informazioni in chiaro, \textbf{non} è quindi in grado \textbf{da solo} di garantire \textbf{privacy} e \textbf{confidenza}. \textit{SSH-TRANS è anche in grado di riconoscere se il server a cui ci stiamo connettendo è quello autentico o meno.} La componente \textbf{SSH-AUTH} si occupa di autenticare il client. \textit{Sono disponibili altre tecniche di autenticazione oltre alla classica con username e password tra le quali l'accesso basato su coppie di chiavi crittografiche.} Infine la componente \textbf{SSH-CONN} sfruttando i servizi offerti dalle altre due componenti offre i servizi di \textbf{terminale}, \textbf{trasferimento file}, \textbf{creazione di tunnel} ecc...\newline \textbf{SSH offre} quindi \textbf{molti più servizi di TELNET}.
+\subsubsection{TCP Port Forwarding}
+\textbf{TCP Port Forwarding} è un meccanismo che permette di \textbf{creare} un \textbf{canale di comunicazione sicuro} attraverso il quale \textbf{veicolare} \textbf{qualsiasi} tipo di \textbf{connessione TCP}. Opera creando un canale di comunicazione \textbf{cifrato} tra la \textbf{porta} all’\textbf{indirizzo remoto} a cui ci si vuole collegare e una \textbf{porta locale} libera.  le applicazioni punteranno il collegamento alla porta locale e la connessione verrà inoltrata automaticamente all’host remoto
+tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \textbf{local port forwarding} e \textbf{remote port forwarding}.
+\newpage
+\begin{itemize}
+	\item \textbf{Local}: \texttt{ssh -L} specifica che il traffico sulla porta indicata della macchina locale deve essere reindirizzato verso la porta indicata della macchina remota. \newline
+	      e.g. \texttt{ssh -L sourcePort:forwardToHost:onPort connectToHost} significa: connettiti via ssh a \textbf{connectToHost}, e inoltra tutti i tentativi di connessione che arrivano alla porta locale \textbf{sourcePort} verso la porta \textbf{onPort} della macchina chiamata \textbf{forwardToHost}, che si raggiunge tramite la macchina chiamata a sua volta \textbf{connectToHost}.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.8]{Immagini/Local_ssh.png}
+		      \centering
+	      \end{figure}
+	      \newpage
+	\item \textbf{Remote}: \texttt{ssh -R} specifica che il traffico sulla porta indicata della macchina remota deve essere reindirizzato verso la porta indicata della macchina locale.\newline
+	      e.g. \texttt{ssh -R sourcePort:forwardToHost:onPort connectToHost} significa: connettiti via ssh a \textbf{connectToHost}, e inoltra tutti i tentativi di connessione che arrivanao alla porta remota \textbf{sourcePort} verso la porta \textbf{onPort} della macchina \textbf{forwardToHost}, che si raggiunge tramite la tua macchina locale.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.9]{Immagini/Remote_ssh.png}
+		      \centering
+	      \end{figure}
+\end{itemize}
+\underline{N.B. SSH è un protocollo STATEFUL.}
+\newpage
+\subsection{FTP}
+\textbf{FTP} acronimo per \textbf{F}ile \textbf{T}ransfer \textbf{P}rotocol, è un \textbf{protocollo} per il \textbf{trasferimento} di \textbf{dati} tra due host di una rete, è lo \textbf{standard} per il \textbf{trasferimento} di file \textbf{offerto da TCP/IP}. Adotta il modello \textbf{client-server}: il \textbf{client} richiede il trasferimento di un file che può consistere sia nell'\textbf{acquisizione} di una copia locale modificabile sia nell'eventuale \textbf{trasferimento} della copia modificata sull'host remoto (\textbf{server}).
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/FTP.png}
+	\centering
+\end{figure}\newline
+Il \textbf{client} ha \textbf{tre} componenti: \textbf{interfaccia utente}, \textbf{processo di controllo} e \textbf{processo di trasferimento dati} mentre il \textbf{server} remoto ne ha solo \textbf{due}: \textbf{processo di controllo} e \textbf{processo di trasferimento dati}. La \textbf{separazione} del trasferimento dei dati da quello dei comandi rende il protocollo FTP \textbf{efficiente}. Infatti la \textbf{connessione di controllo} usa \textbf{regole semplici} così da ridurre lo scambio delle informazioni a \textbf{una riga di comando} e \textbf{una di risposta per ogni interazione}. Mentre la \textbf{connessione dati usa regole più complicate} a causa della varietà delle informazioni che vi transitano.
+\textbf{FTP} offre funzionalità \textbf{aggiuntive} oltre al semplice trasferimento di dati, infatti \textbf{mette a disposizione}:
+\begin{itemize}
+	\item \textbf{Accesso interattivo}: l’utente può \textbf{navigare}, \textbf{cambiare} e \textbf{modificare} l’albero di directory nel file system dell'host remoto.
+	\item \textbf{Specificazione del formato dei dati da trasferire} (e.g. file di testo o file binari)
+	\item \textbf{Autenticazione}: il client può \textbf{autenticarsi} con username e password.
+\end{itemize}
+Poco sopra abbiamo accennato al fatto che \textbf{FTP} prevede l'instaurazione di \textbf{due tipi di connessione tra il client e il server} ovvero:
+\begin{enumerate}
+	\item \textbf{Control connection}: prevede uno scambio di comandi e risposte
+	      tra client e server. Segue il protocollo TELNET e \textbf{rimane aperta per l'intera durata della sessione interattiva}. Si usa la \textbf{porta 21} del \textbf{server} e la codifica standard \textbf{NVT ASCII}.
+	\item \textbf{Data connection}: prevede il trasferimento di dati mediante procedure e la \textbf{specifica dei tipi}. I dati trasferiti possono essere parte di un file, un file o un set di file. \textbf{Viene aperta e chiusa per ogni singolo scambio}. Per lo scambio di dati il \textbf{server} usa la \textbf{porta 20}.
+\end{enumerate}
+\newpage
+La \textbf{Data Connection} \textbf{non segue il protocollo TELNET} e la sua apertura avviene secondo uno schema completamente diverso, ovvero:
+\begin{enumerate}
+	\item Il \textbf{client}, non il server, effettua un'\textbf{apertura} \textbf{passiva} usando una \textbf{porta effimera} e resta in attesa di connessione, viene fatto dal client poichè è tale processo che invierà i comandi, tramite la connessione di controllo, per il trasferimento dei file.
+	\item Il client \textbf{invia} questo \textbf{numero} di \textbf{porta} al \textbf{server} per mezzo del comando PORT.
+	\item Il \textbf{server}, ricevuto il numero di porta, \textbf{effettua} un'\textbf{apertura} \textbf{attiva}, ovvero apre la connessione, usando la propria \textbf{porta} nota \textbf{20} e quella effimera offerta dal client.
+\end{enumerate}
+Per effettuare il trasferimento dei file inoltre, il client deve \textbf{definire} il \textbf{tipo}
+di file, la \textbf{struttura dati} e la \textbf{modalità di trasmissione} al fine di
+risolvere i problemi di eterogeneità tra client e server, va infatti ricordato che programma client e programma server sono su macchine \textbf{diverse}. Questo scambio di informazioni avviene mediante la \textbf{connessione di controllo}.\newline\newline
+FTP è quindi un protocollo \textbf{STATEFUL} poichè il \textbf{server deve tener traccia dello stato dell’utente}: bisogna tenere conto infatti, tra le altre cose, della directory del file system remoto in cui si trova l'utente!\newline\newline
+Concludiamo menzionando il fatto che esistono server che supportano connessioni FTP \textbf{senza autenticazione} (\textbf{Anonymous FTP}).  Tipicamente consentono di accedere \textbf{solo} ad una parte del file system e permettono \textbf{solo} un subset di operazioni (e.g. la PUT \textbf{non} è permessa). Di solito \textbf{si usa} un \textbf{username comune} (solitamente "ftp" or "anonymous") e una \textbf{password qualsiasi} (e.g. l'indirizzo email dell'utente).\textit{ Erano usate per distribuire a un pubblico dei file senza dover generare numerosi username e password.}
+\begin{table}[h!]
+	\begin{center}
+		\label{tab:table1}
+		\begin{tabular}{l|c|r}
+			\textbf{Comandi di controllo} & \textbf{Significato}             \\
+			\hline
+			USER                          & username                         \\
+			PASS                          & password                         \\
+			LIST                          & elenca i file della
+			directory corrente                                               \\
+			NLST                          & richiede elenco file e
+			directory (ls)                                                   \\
+			RETR filename                 & recupera (get)
+			un file dalla directory
+			corrente                                                         \\
+			STOR filename                 & memorizza
+			(put) un file nell’host remoto                                   \\
+			ABOR                          & interrompe l’ultimo
+			comando ed i trasferimenti in
+			corso                                                            \\
+			PORT                          & indirizzo e numero di porta
+			del client                                                       \\
+			SYST                          & il server restituisce il tipo di
+			sistema                                                          \\
+			QUIT                          & (quit) chiude la
+			connessione                                                      \\
+		\end{tabular}
+	\end{center}
+\end{table}
+
 \end{document}
 
 
