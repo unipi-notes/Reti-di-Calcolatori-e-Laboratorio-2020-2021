@@ -728,7 +728,7 @@ I \textbf{coockies} funzionano nel seguente modo:
 \end{enumerate}
 \newpage
 
-\subsection{TELNET}
+\subsubsection{TELNET}
 \textbf{TELNET}, acronimo per \textbf{TE}rmina\textbf{L} \textbf{NET}work, è un \textbf{protocollo} \textbf{client-server} che fornisce una comunicazione \textbf{interattiva ed orientata al testo} tra due macchine, è basato sul trasporto \textbf{connection-oriented} ed usa il protocollo \textbf{TCP}.
 Consente all'utente di effettuare una sessione di \textbf{login} in una macchina remota e quindi di utilizzarne il terminale. L'utente che si autentica tramite login remoto ha accesso infatti a tutti i \textbf{comandi} e ai \textbf{programmi} disponibili su di essa. \textbf{I comandi vengono eseguiti come se l'utente li digitasse dalla tastiera stessa della macchina.} \textit{Per estensione,} \texttt{\textbf{telnet}} \textit{è anche il nome di un programma usato per avviare una sessione TELNET verso un host remoto.}
 \textbf{TELNET} infatti include due programmi: un programma \textbf{TELNET client} e un programma \textbf{TELNET server}. \textbf{TELNET client} (\texttt{\textbf{telnet}}) interagisce con l'utente sulla macchina locale e scambia messaggi con \textbf{TELNET server}. Riportiamo di seguito una semplificazione del funzionamento:
@@ -798,7 +798,7 @@ interoperare:
 \end{itemize}
 Quindi per $N > 2$ \textbf{conviene} usare NVT!
 \newpage
-\subsection{SSH}
+\subsubsection{SSH}
 TELNET non possiede \textbf{alcuna} misura di sicurezza poichè è stato progettato per l'uso su \textbf{reti private}, trasmette tutto in chiaro, anche le \textbf{password}! Con l'avvento delle reti pubbliche però si è reso necessario prendere delle contromisure. \newline
 \textbf{SSH} o \textbf{S}ecure \textbf{SH}ell è un'applicazione nata per sostituire TELNET.
 \begin{figure}[!h]
@@ -806,8 +806,8 @@ TELNET non possiede \textbf{alcuna} misura di sicurezza poichè è stato progett
 	\centering
 	\caption{Le componenti di SSH}
 \end{figure}\newline
-Il \textbf{protocollo} di livello applicazione \textbf{SSH} è composto da \textbf{tre} diverse componenti: \textbf{SSH-TRANS, SSH-AUTH e SSH-CON}. La componente \textbf{SSH-TRANS} o \textbf{SSH-Transport Layer Protocol} costruisce un canale di comunicazione sicuro, tramite tecniche crittografiche, sfruttando la connessione offerta da TCP. Il \textbf{protocollo TCP} trasmette tutte le informazioni in chiaro, \textbf{non} è quindi in grado \textbf{da solo} di garantire \textbf{privacy} e \textbf{confidenza}. \textit{SSH-TRANS è anche in grado di riconoscere se il server a cui ci stiamo connettendo è quello autentico o meno.} La componente \textbf{SSH-AUTH} si occupa di autenticare il client. \textit{Sono disponibili altre tecniche di autenticazione oltre alla classica con username e password tra le quali l'accesso basato su coppie di chiavi crittografiche.} Infine la componente \textbf{SSH-CONN} sfruttando i servizi offerti dalle altre due componenti offre i servizi di \textbf{terminale}, \textbf{trasferimento file}, \textbf{creazione di tunnel} ecc...\newline \textbf{SSH offre} quindi \textbf{molti più servizi di TELNET}.
-\subsubsection{TCP Port Forwarding}
+Il \textbf{protocollo} di livello applicazione \textbf{SSH} è composto da \textbf{tre} diverse componenti: \textbf{SSH-TRANS, SSH-AUTH e SSH-CON}. La componente \textbf{SSH-TRANS} o \textbf{SSH-Transport Layer Protocol} costruisce un canale di comunicazione sicuro, tramite tecniche crittografiche, sfruttando la connessione offerta da TCP. Il \textbf{protocollo TCP} trasmette tutte le informazioni in chiaro, \textbf{non} è quindi in grado \textbf{da solo} di garantire \textbf{privacy} e \textbf{confidenza}. \textit{SSH-TRANS è anche in grado di riconoscere se il server a cui ci stiamo connettendo è quello autentico o meno.} La componente \textbf{SSH-AUTH} si occupa di autenticare il client. \textit{Sono disponibili altre tecniche di autenticazione oltre alla classica con username e password tra le quali l'accesso basato su coppie di chiavi crittografiche.} Infine la componente \textbf{SSH-CONN} sfruttando i servizi offerti dalle altre due componenti offre i servizi di \textbf{terminale}, \textbf{trasferimento file}, \textbf{creazione di tunnel} ecc...\newline \textbf{SSH offre} quindi \textbf{molti più servizi di TELNET}.\newline\newline
+\textbf{TCP Port Forwarding:}\newline\newline
 \textbf{TCP Port Forwarding} è un meccanismo che permette di \textbf{creare} un \textbf{canale di comunicazione sicuro} attraverso il quale \textbf{veicolare} \textbf{qualsiasi} tipo di \textbf{connessione TCP}. Opera creando un canale di comunicazione \textbf{cifrato} tra la \textbf{porta} all’\textbf{indirizzo remoto} a cui ci si vuole collegare e una \textbf{porta locale} libera.  le applicazioni punteranno il collegamento alla porta locale e la connessione verrà inoltrata automaticamente all’host remoto
 tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \textbf{local port forwarding} e \textbf{remote port forwarding}.
 \newpage
@@ -828,7 +828,7 @@ tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \t
 \end{itemize}
 \underline{N.B. SSH è un protocollo STATEFUL.}
 \newpage
-\subsection{FTP}
+\subsubsection{FTP}
 \textbf{FTP} acronimo per \textbf{F}ile \textbf{T}ransfer \textbf{P}rotocol, è un \textbf{protocollo} per il \textbf{trasferimento} di \textbf{dati} tra due host di una rete, è lo \textbf{standard} per il \textbf{trasferimento} di file \textbf{offerto da TCP/IP}. Adotta il modello \textbf{client-server}: il \textbf{client} richiede il trasferimento di un file che può consistere sia nell'\textbf{acquisizione} di una copia locale modificabile sia nell'eventuale \textbf{trasferimento} della copia modificata sull'host remoto (\textbf{server}).
 \begin{figure}[!h]
 	\includegraphics[scale=0.4]{Immagini/FTP.png}
@@ -888,7 +888,153 @@ Concludiamo menzionando il fatto che esistono server che supportano connessioni 
 		\end{tabular}
 	\end{center}
 \end{table}
+\newpage
+\subsubsection{DNS}
+Sappiamo oramai che i dispositivi connessi in rete vengono individuati dai protocolli TCP/IP mediante i loro \textbf{indirizzi IP}, gli utenti, d'altro canto, preferiscono usare dei \textbf{nomi} invece che degli indirizzi numerici. Un \textbf{nome} identifica un \textbf{oggetto} mentre un \textbf{indirizzo} specifica \textbf{dove} l'oggetto è situato.\newline\newline
+\textit{Come fare per associare i nomi agli indirizzi?}\newline\newline
+Agli albori di Internet l’associazione tra nomi logici e indirizzi IP era statica!
+Tutti i nomi \textit{logici} e i relativi indirizzi IP erano contenuti in un file chiamato \textbf{host file} e periodicamente tutti gli host ne prelevavano una versione aggiornata, chiamata a sua volta \textbf{master host file}, da un server ufficiale.\newline
+A noi utenti moderni però dovrebbe immediatamente saltare all'occhio la seguente \textbf{problematica}: le \textbf{dimensioni attuali di Internet} rendono questo approccio \textbf{impraticabile}. Non sarebbe infatti possibile che ogni host possegga una \textbf{copia aggiornata} di un elenco del genere, in più la dimensione di questo  sarebbe sterminata, per non parlare del \textbf{volume di traffico} sul server ufficiale, il pericolo dovuto alla presenza di un \textbf{unico punto di fallimento} e l'\textbf{impossibilità di scalare} di questo sistema.\newline
+Fu così che all'inizio degli anni '80 venne ideato il \textbf{DNS} o \textbf{Domain Name System}. L'\textbf{idea centrale} è di \textbf{suddividere} la sconfinata mole di associazioni nome-indirizzo e \textbf{distribuirne} le varie parti su \textbf{calcolatori sparsi per il mondo}. \textit{Come funziona? Così:}
+\begin{figure}[!h]
+	\includegraphics[scale=0.8]{Immagini/DNS.png}
+	\centering
+\end{figure}\newline
+Supponiamo che un utente utilizzi un client di trasferimento file per accedere a un file su un server. L'utente conoscerà solo il \textbf{nome} del server e.g. \textit{cheneso.com}, lo \textbf{stack TCP/IP} invece ha bisogno dell'\textbf{indirizzo IP} del server per stabilire una connessione. Alla pagina seguente troviamo i sei passi necessari per \textbf{associare} l'\textbf{indirizzo} IP al \textbf{nome} del server.
+\newpage
+\begin{enumerate}
+	\item L'\textbf{utente} comunica il nome del server al client di trasferimento file.
+	\item \textbf{Il client di trasferimento file} trasmette il nome del server al \textbf{client DNS}.
+	\item \textbf{Qualsiasi computer una volta avviato conosce l'indirizzo IP di un server DNS}, il \textbf{client DNS} invia dunque al \textbf{server DNS} la richiesta di traduzione del nome simbolico del server.
+	\item Il \textbf{server DNS} risponde con l'indirizzo IP del server desiderato.
+	\item Il \textbf{client DNS} comunica al \textbf{client di trasferimento file} l'indirizzo IP del server.
+	\item Il \textbf{client di trasferimento file} \textbf{utilizza} così l'\textbf{indirizzo IP ricevuto} per accedere al server.
+\end{enumerate}
+Per far sì che questo meccanismo funzioni bisogna \textbf{eliminare le ambiguità sui nomi} e per far ciò si è definito uno \textbf{spazio dei nomi}. Lo \textbf{spazio dei nomi} ha una \textbf{struttura gerarchica} per una ragione principale: se tutti i nomi fossero composti da una sola stringa alfanumerica servirebbe un'\textbf{autorità centrale} che controllasse l'unicità di ogni singolo nome. Una \textbf{struttura gerarchica} consente invece di avere nomi composti da diverse parti e di \textbf{delegare il controllo} su ciascuna parte a enti o società diverse, \textbf{decentralizzando} in tal modo il processo di controllo.
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/DNSpace.png}
+	\centering
+	\caption{In figura lo spazio dei nomi di dominio.}
+\end{figure}\newline
+Nello \textbf{spazio dei nomi di dominio} i nomi hanno una struttura ad \textbf{albero} con la radice in cima e un numero di livelli compreso tra 0 e 127. Ogni nodo è individuato da un'\textbf{etichetta} costituita da \textbf{massimo 63 caratteri} (\textit{la radice ha l'etichetta vuota}), tutti i nodi collegati a uno stesso nodo da rami diversi hanno etichette \textbf{diverse}, ciò garantisce l'\textbf{univocità} dei nomi. Ogni nodo dell'albero ha inoltre un \textbf{nome di dominio}, che, se letto da sinistra verso destra, è costituito da tutte le etichette, separate da punti, di tutti i nodi a partire dal nodo stesso fino alla radice, la cui etichetta è la stringa \textbf{nulla}. Immediatamente sotto la radice si trovano i \textbf{domini top-level}.
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/Etichette_dns.png}
+	\centering
+	\caption{In figura le etichette e i nomi di dominio.}
+\end{figure}
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{dominio} è un \textbf{sottoalbero} dello spazio dei nomi che viene identificato dal \textbf{nome di dominio} della sua radice.
+\end{definition}
+\textit{Ma dove sono contenute le informazioni relative allo spazio dei nomi di dominio?}
 
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/Dnserver.png}
+	\centering
+	\caption{In figura la gerarchia dei name server.}
+\end{figure}
+All'interno dei \textbf{DNS-Servers} o \textbf{name servers}. L'intero spazio dei nomi è stato \textbf{diviso} in diversi domini, differenziati al \textbf{top-level}, e i domini così ottenuti sono stati divisi a loro volta ottenendo dei sotto domini. Ogni \textbf{name server} è responsabile di un dominio o di un sottodominio. Vi è quindi una \textbf{gerarchia di server}. Una \textbf{zona} \textbf{è tutto ciò di cui è responsabile un server}, se un server è responsabile di un dominio e non effettua suddivisioni in sottodomini, allora la sua zona e il suo dominio \textbf{coincidono}. Se invece il server suddivide il proprio dominio in sottodomini la sua zona e il suo dominio \textbf{differiscono}. Ogni name-server ha un database chiamato \textbf{file di zona} contenente le informazioni su tutti i nodi che ricadono nella \textbf{sua} \textbf{zona} di competenza. \newpage Un \textbf{root server} è un server che ha per zona l'\textbf{intero albero dello spazio dei nomi}.\newline Solitamente i \textbf{root server} si limitano a immagazzinare riferimenti relativi ad altri server e \textbf{delegano} loro tutte le responsabilità.\newline
+Esempio di top-level domains:
+\begin{table}[h!]
+	\begin{center}
+		\label{tab:table1}
+		\begin{tabular}{l|c|r}
+			\textbf{Dominio}     & \textbf{Uso}                            \\
+			\hline
+			com                  & organizzazioni commerciali              \\
+			edu                  & istituti di istruzione                  \\
+			mil                  & gruppi militari                         \\
+			gov                  & istituzioni governative americane       \\
+			net                  & principali centri di supporto alla rete \\
+			org                  & organizzazioni diverse dalle precedenti \\
+			it, uk, us, fr, ecc. & codice geografico per nazioni
+			\\
+		\end{tabular}
+	\end{center}
+\end{table}\newline
+I \textbf{server DNS} possono essere \textbf{primari} o \textbf{secondari}.
+\begin{itemize}
+	\item Un server \textbf{primario} possiede sul disco e aggiorna il \textbf{file di zona} relativo alla zona sotto la sua responsabilità.
+	\item Un server \textbf{secondario} riceve le informazioni relative a una zona da un \textbf{server primario}.
+\end{itemize}
+I \textbf{server} \textbf{primari} e \textbf{secondari} hanno la medesima autorità sulla loro zona di competenza, è bene specificare che \textbf{un server può essere primario per una zona  e secondario per un altra}, \textbf{primario} e \textbf{secondario} sono quindi aggettivi \textbf{relativi alla zona}. Si noti inoltre come l'introduzione di un server secondario in una zona porti a una duplicazione del \textbf{file di zona} che può risultare utile per eventuali guasti al \textbf{server primario}.\newline\newline
+\textit{Come si associa l'indirizzo IP da un nome?}\newline\newline
+Il processo con cui si associa l'indirizzo IP da un nome è detto \textbf{processo di risoluzione}. Il \textbf{protocollo DNS} è progettato come protocollo \textbf{client-server}. Un host che voglia ricavare un indirizzo IP da un nome si rivolge al \textbf{programma client} detto anche \textbf{resolver} che invierà un'opportuna richiesta al \textbf{server DNS più vicino} il quale, se dispone della risposta, invierà l'indirizzo o il nome (\textit{è infatti possibile fare il processo al contrario}), oppure inoltrerà la richiesta a un altro server o comunicherà al resolver l'indirizzo di un altro server a cui fare riferimento. Il \textbf{resolver}, ricevuta la risposta, la esaminerà per verificarne la presenza di errori e la trasmetterà al processo che l'ha effettuata. La \textbf{risoluzione} può essere \textbf{ricorsiva} o \textbf{iterativa}.
+\newpage
+
+\begin{itemize}
+	\item Con la \textbf{risoluzione ricorsiva}, la \textbf{query DNS} viaggia dall'host su cui è in esecuzione il processo applicativo che ne ha fatto richiesta fino a un host che conosce l'indirizzo IP richiesto, eventualmente scalando, poi discendendo e infine percorrendo a all'indietro \textbf{l'intera gerarchia dei server DNS}. \textbf{All'host che ha richiesto la query viene inviato \textbf{solo} l'indirizzo IP risultante}. Il server locale ha richiesto quindi una \textbf{conversione completa}.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.7]{Immagini/DNSrec.png}
+		      \centering
+		      \caption{In figura un esempio di risoluzione ricorsiva.}
+	      \end{figure}
+	\item Con la  \textbf{risoluzione iterativa} ogni \textbf{server-DNS} che non è in grado di risolvere la \textbf{query-DNS} dell'host risponde, \textbf{direttamente al client-DNS}, con \textbf{l'indirizzo di un altro server in grado di risolverla}.
+	      \textbf{	All'host che ha richiesto la query non viene quindi inviato solo l'indirizzo IP risultante}. La \textbf{risoluzione iterativa} è supportata da \textbf{tutti} i \textbf{name server}, l'host può richiedere che venga usata la \textbf{risoluzione ricorsiva} ma potrebbe non essere disponibile.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.7]{Immagini/DNSite.png}
+		      \centering
+		      \caption{In figura un esempio di risoluzione iterativa.}
+	      \end{figure}
+\end{itemize}
+Ogni volta che a un \textbf{server} arriva una richiesta di risoluzione di un nome, che non fa parte del suo dominio, deve cercare, all'interno del suo database, un altro server a cui inoltrare la richiesta. Ridurre questo tempo di ricerca significa ridurre il tempo di attesa della risposta e aumentare l'efficienza. Ancora una vola ci viene in aiuto il \textbf{caching}: una volta che un \textbf{server} ha appreso un' \textbf{associazione}, la inserisce in \textbf{cache}. Il server marca le risposte prese dalla propria cache come \textbf{unauthoritative} o non autorevole.
+\newpage
+Dopo un certo lasso di tempo chiamato \textbf{TTL} o \textbf{time to live} il server cancella dalla cache l'associazione per evitare l'invio di risposte obsolete.\newline\newline
+\textit{Ma come è fatto quindi il database di un server?}\newline\newline
+Il \textbf{database del server} non è altro che una collezione di \textbf{records} strutturati nel seguente modo:\newline\newline
+\centerline{\textbf{(Nome di dominio, Tipo, Classe, TTL, Valore)}}\newline\newline
+A ogni \textbf{nome di dominio}, quindi a ogni \textbf{nodo dell'albero dello spazio dei nomi di dominio}, è associato un record composto da 5 campi.
+\begin{itemize}
+	\item \textbf{Nome di dominio} identifica il record della risorsa.
+	\item \textbf{Tipo} definisce come interpretare il campo \textbf{Valore}.
+	\item \textbf{Classe} definisce il tipo di rete, IN sta per Internet.
+	\item \textbf{TTL} indica il numero di secondi per cui l'informazione deve essere ritenuta valida
+	\item \textbf{Valore} contiene l'informazione memorizzata relativa al \textbf{nome di dominio}.
+\end{itemize}
+Di seguito i \textbf{tipi} dei \textbf{record}:
+\begin{table}[h!]
+	\begin{center}
+		\label{tab:table1}
+		\begin{tabular}{l|c|r}
+			\textbf{Tipo} & \textbf{Interpretazione}                           \\
+			\hline
+			A             & indirizzo Ipv4 a 32 bit                            \\
+			NS            & identifica i server autoritativi di una zona       \\
+			CNAME         & il nome di dominio è un alias per quello ufficiale \\
+			SOA           & informazioni autoritative riguardanti una zona     \\
+			MX            & server di posta del dominio
+			corrente                                                           \\
+			AAAA          & indirizzo Ipv6                                     \\
+		\end{tabular}
+	\end{center}
+\end{table}\newline
+\textit{Che protocollo di livello trasporto è usato?}\newline\newline
+Il sistema DNS può usare \textbf{sia} il \textbf{il protocollo TCP} che l'\textbf{UDP}.
+Il \textbf{protocollo UDP} viene usato \textbf{quando} la dimensione del messaggio di risposta è \textbf{inferiore} a\textbf{ 512 byte}, molto spesso infatti i \textbf{datagrammi utente UDP} non possono superare i 512 byte come dimensione massima. In caso contrario si usa il \textbf{protocollo TCP}.\newline\newline
+\textit{Come si aggiungono nuovi domini al DNS?}\newline\newline Pagando i \textbf{registrar}, ovvero aziende commerciali accreditate dall'ICANN.\newpage
+\textit{Come sono fatti i messaggi DNS?}\newline\newline
+I \textbf{messaggi DNS} posso essere di \textbf{due tipi}: di \textbf{interrogazione} o di \textbf{risposta} e i due tipi hanno lo \textbf{stesso} formato.
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/DNSmessage.png}
+	\centering
+	\caption{La struttura dei messaggi DNS, il messaggio interrogazione contiene solo la sezione richiesta mentre il messaggio di risposta contiene la sezione richiesta, la sezione risposta ed eventualmente le altre due.}
+\end{figure}\newline
+Descriviamo ora brevemente i vari campi situati prima dell'\textbf{intestazione} lunga \textbf{12 bytes}:
+\begin{itemize}
+	\item \textbf{Identificazione} è il campo usato dal \textbf{client} per associare la risposta all'interrogazione.
+	\item Il campo \textbf{Flag} indica se si tratta di un messaggio di richiesta o di risposta e segnala inoltre la presenza di eventuali errori.
+	\item I \textbf{quattro} campi successivi dell'\textbf{intestazione} specificano il numero di ciascun tipo di record presente nel messaggio.
+\end{itemize}
+Poi del \textbf{messaggio}:
+\begin{itemize}
+	\item La \textbf{sezione di richiesta} che è inclusa nell'interrogazione e poi ripetuta anche nel messaggio di risposta è \textbf{formata} da\textbf{ uno o più record di richiesta}.
+	\item La \textbf{sezione di risposta} è presente \textbf{esclusivamente} nei messaggi di risposta consiste \textbf{in uno o più record di risorsa}
+	\item La \textbf{sezione autoritativa} fornisce le informazioni di uno o più server autorevoli per l'interrogazione.
+	\item La \textbf{sezione supplementare} contiene \textbf{informazioni aggiuntive} che potrebbero essere \textbf{utili} al \textbf{client DNS}.
+\end{itemize}
+\textit{In UNIX si può utilizzare il comando} \texttt{nslookup} \textit{per ottenere associazioni nome simbolico : indirizzo numerico.}
 \end{document}
 
 
