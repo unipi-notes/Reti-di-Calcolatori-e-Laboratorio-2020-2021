@@ -4,6 +4,7 @@
 \usepackage{amsthm}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{enumitem}
 
 
 \theoremstyle{definition}
@@ -1035,8 +1036,174 @@ Poi del \textbf{messaggio}:
 	\item La \textbf{sezione supplementare} contiene \textbf{informazioni aggiuntive} che potrebbero essere \textbf{utili} al \textbf{client DNS}.
 \end{itemize}
 \textit{In UNIX si può utilizzare il comando} \texttt{nslookup} \textit{per ottenere associazioni nome simbolico : indirizzo numerico.}
+\newpage
+\subsubsection{EMAIL - SMTP}
+La \textbf{posta elettronica} è uno dei primi servizi applicativi di Internet, la sua nascita risale infatti al 1971, quando un tale Ray Tomlinson installò su ARPANET un sistema in grado di scambiare messaggi fra le varie università. La \textbf{posta elettronica} consente agli utenti di scambiarsi \textbf{messaggi}, sebbene si siano trattate \textbf{altre applicazioni} fornenti questo servizio e.g. \textbf{HTTP} e \textbf{TCP}, il funzionamento della posta elettronica è tale da distinguersi da queste due applicazioni citate poco prima. Infatti in applicazioni come \textbf{FTP} e \textbf{HTTP} il programma \textbf{server} è \textbf{sempre attivo} e in attesa di richieste, che quando arrivano, vengono processate.
+Vi è quindi una richiesta e una risposta. Nella \textbf{posta elettronica} il \textbf{funzionamento} è \textbf{differente}: infatti l'invio di un messaggio è considerato una \textbf{transazione unidirezionale}, la risposta può anche non arrivare e se arriva è considerata un'altra transazione unidirezionale. Secondariamente \textbf{non avrebbe} molto \textbf{senso tenere in esecuzione continuata un programma server} in attesa che qualcuno ci invii un messaggio, potremmo ragionevolmente voler spegnere il computer nell'attesa. Ciò implica che l'idea di modello client-server debba essere realizzata in un altro modo, magari utilizzando dei \textbf{server intermedi} e \textbf{disaccoppiando} le funzionalità di \textbf{ricezione} da quelle di \textbf{invio}. Di seguito illustriamo concisamente l'architettura della posta elettronica.
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/MAIL.png}
+	\centering
+	\caption{Un esempio di architettura di posta elettronica.}
+\end{figure}\newline
+Tipicamente due utenti, mittente e destinatario, sono connessi a due \textbf{server di posta}. Ogni utente possiede una \textbf{mailbox} sul server, ovvero una porzione sulla memoria del server a cui solo lui può accedere e ogni server ha una \textbf{coda di invio}, o \textbf{spool}, dove memorizza i messaggi in attesa di essere inviati. Più:
+\begin{itemize}
+	\item \textbf{UA} o  \textbf{user agent}, prepara il messaggio e lo invia al server.
+	\item \textbf{MTA} o \textbf{message trasfer agent}, è un'applicazione \textbf{push} .
+	\item \textbf{MAA} o \textbf{message access agent}, è un'applicazione \textbf{pull}.
+\end{itemize}
+\newpage
+Illustriamo ora \textbf{come avviene l'invio di un messaggio} da parte di \textit{Gaia} a \textit{Gabriele}.
+\begin{enumerate}
+	\item Gaia, utilizzando un programma \textbf{UA}, prepara il messaggio e lo invia al proprio server di posta.
+	\item Il \textbf{server di posta memorizza} il messaggio in una coda, e lo \textbf{invia} tramite un \textbf{programma MTA} al server di posta di Gabriele.\textbf{ N.B. sono necessari due programmi MTA per ogni server di posta, un MTA server sempre attivo, in attesa di messaggi, e un MTA client, \underline{attivo all'evenienza}, che contatta il server di posta a cui deve essere inviato un messaggio  ed effettua l'invio}.
+	\item Il server di posta \textbf{riceverà} il messaggio e lo \textbf{memorizzerà} nella \textbf{casella postale di Gabriele} che, a sua volta usando un programma \textbf{MAA client}, contatterà il programma \textbf{MAA server} del \textbf{server} e riceverà infine il messaggio.
+\end{enumerate}
+Lo \textbf{user agent} è il primo componente di un sistema di posta elettronica, \textbf{facilita all'utente l'invio e la ricezione dei messaggi}. Può avere o un'interfaccia a \textbf{riga di comando}, ma è abbastanza desueto, o di tipo \textbf{grafico}. Se l'utente decide di leggere i messaggi nella sua casella di posta elettronica lo \textbf{user agent} mostra un elenco dei messaggi ricevuti. Ogni riga dell'elenco offre un breve resoconto del messaggio, solitamente: \textbf{indirizzo del mittente}, \textbf{ora} e \textbf{oggetto del messaggio}.\newline\newline
+\textit{Come sono fatti gli indirizzi di posta elettronica?}\newline\newline
+Gli indirizzi di posta elettronica individuano gi utenti in modo \textbf{univoco}. Su \textbf{Internet} consistono di \textbf{due parti}:
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Mail_address.png}
+	\centering
+\end{figure}\newline
+La \textbf{parte locale} identifica la \textbf{casella di posta del destinatario} sul server e il nome di dominio identifica il \textbf{server}.\newline\newline
+\textit{Come viaggiano i messaggi di posta elettronica?}\newline\newline
+Con il protocollo \textbf{SMTP} o \textbf{simple mail transfer protocol}. Il protocollo \textbf{SMTP} definisce in maniera formale l'\textbf{interazione tra il client MTA e il server MTA}. Nell'operazione di invio di un messaggio SMTP è utilizzato \textbf{due} volte: tra il \textbf{mittente} e il \textbf{suo server di post}a e tra il \textbf{server di posta del mittente} e \textbf{quello del destinatario}. Di seguito un'immagine per schiarire le idee.
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/SMTP.png}
+	\centering
+\end{figure}
+Il \textbf{protocollo SMTP} definisce come deve avvenire l'interazione, per mezzo di \textbf{comandi} e \textbf{risposte}, tra \textbf{client e server MTA}. I comandi sono \textbf{inviati} dal \textbf{client MTA} al \textbf{server MTA} e viceversa le risposte.
+I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textbf{coppia} di \textbf{caratteri}: \textbf{ritorno a capo e fine linea}.\newline
+\textbf{La connessione tra client MTA e server MTA è una sola ed è bidirezionale}.\newline
+\begin{itemize}
+	\item I \textbf{comandi} sono composti da una \textbf{keyword} e da \textbf{uno} o \textbf{più argomenti}.
+	\begin{table}[h!]
+		\begin{center}
+			\label{tab:table1}
+			\begin{tabular}{l|c|c}
+				\textbf{Nome} & \textbf{Argomenti} & \textbf{Significato}                        \\
+				\hline
+				HELO             & nome host mittente & host mittente si identifica                          \\
+				MAIL FROM           & mittente del messaggio & identifica mittente  messaggio       \\
+				RCPT TO         & destinatario & identifica destinatario messaggio \\
+				DATA           & corpo del messaggio &  il messaggio     \\
+				QUIT            & & termina sessione SMTP
+				corrente                                                           \\
+				RSET          & & interrompe la transazione in atto                                 \\
+				VRFY & nome destinatario & verifica validità nome destinatario \\
+			\end{tabular}
+		\end{center}
+	\end{table}
+	\item Le \textbf{risposte} sono costituite da un \textbf{codice a tre cifre} seguite eventualmente da testo.
+	\begin{table}[h!]
+		\begin{center}
+			\label{tab:table1}
+			\begin{tabular}{l|c|c}
+				\textbf{Codice} & \textbf{Descrizione}                     \\
+				\hline
+				220             & servizio pronto                          \\
+				221           & servizio in chiusura canale trasmissione \\
+				250         & comando richiesto completato \\
+				354           & corpo del messaggio     \\
+				421        & servizio non disponibile                                              \\
+				450          & mailbox non disponibile\\
+				502 & comando non disponibile \\
+			\end{tabular}
+		\end{center}
+	\end{table}
+\end{itemize}
+\newpage
+\underline{N.B.} Il protocollo \textbf{SMTP} \textbf{usa} il protocollo di trasporto \textbf{FTP} per consegnare in maniera \textbf{\underline{affidabile}} i messaggi.\newline\newline
+La consegna di un messaggio tramite SMTP prevede \textbf{tre fasi}:
+\begin{enumerate}
+	\item \textbf{Apertura della connessione} o \textbf{handshaking} con cui il client SMTP stabilisce una connessione FTP alla porta nota 25 con il server SMTP. Consiste di altre \textbf{tre sotto fasi}:
+	\begin{enumerate}[label*=\arabic*.]
+		\item Il \textbf{server} invia al \textbf{client} il codice \textbf{220} per indicare che è \textbf{pronto alla ricezione di messaggi} o il codice \textbf{421} in caso \textbf{contrario}.
+		\item Il \textbf{client} si \textbf{identifica} con il comando \textbf{HELO} seguito dal suo \textbf{nome di dominio} in modo tale da informare il server del proprio nome di dominio.
+		\item Il \textbf{server} invia il codice \textbf{250} o altri codici a seconda della situazione particolare.
+	\end{enumerate}
+	\item \textbf{invio del messaggio}: se l'apertura della connessione tra il client SMTP e il server SMTP è avvenuta con \textbf{successo}, il client può inviare \textbf{un singolo messaggio} a uno o più destinatari. Riportiamo di seguito gli \textbf{otto} passi necessari per portare a termine questa operazione: 
+	\begin{enumerate}[label*=\arabic*.]
+		\item Il \textbf{client} invia al server il comando MAIL FROM con argomento l'indirizzo mail del mittente, in modo tale che, nel caso in cui si verifichino degli  errori, il server \textbf{sappia a chi inviare i messaggi di errore}.
+		\item Il \textbf{server} risponde con il codice 250.
+		\item Il \textbf{client} invia al server il comando RCPT TO con argomento l'indirizzo mail del destinatario
+		\item Il server risponde con il codice 250.
+		\item Il \textbf{client} invia il comando data per iniziare il trasferimento del messaggio.
+		\item Il \textbf{server} risponde con il codice 354.
+		\item Il \textbf{client} invia il messaggio come sequenza di righe, ognuna terminante con la coppia di caratteri ritorno a capo e fine linea. Il messaggio termina con una riga \textbf{contenente solo un punto}.
+		\item Il server risponde con il codice 250.
+	\end{enumerate}
+	Se ci sono \textbf{più destinatari} i passi 2.3 e 2.4 sono \textbf{ripetuti}.
+	\item \textbf{Chiusura della connessione}: Il \textbf{client}, trasferito il messaggio, \textbf{chiude la connessione}. Questa operazione avviene in \textbf{due} fasi:
+	\begin{enumerate}[label*=\arabic*]
+		\item Il \textbf{client} invia al server il comando QUIT.
+		\item Il \textbf{server} risponde con il codice 221.
+	\end{enumerate}
+\end{enumerate}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.8]{Immagini/SMTPes.png}
+	\centering
+	\caption{In figura un esempio di scambio di messaggi tramite SMTP. L'RFC 2822 definisce lo standard per il formato del messaggio. To: , From: , Subject: . \textbf{I campi sono diversi dai comandi SMTP. Il corpo del messaggio o body contiene solamente caratteri ASCII a 7 bit}.}
+\end{figure}
+\textit{Come vengono ricevuti i messaggi?}\newline\newline
+Poco sopra abbiamo descritto l'invio di un messaggio di posta elettronica come la \textbf{composizione di tre fasi}: una di \textbf{preparazione} del messaggio, una di \textbf{invio} e una di \textbf{ricezione}. Le prime due utilizzano i \textbf{protocollo SMTP}, che è un protocollo \textbf{push}, il messaggio viene \textit{spinto} dal client mittente verso il server. L'ultima fase, quella di ricezione, usa invece un protocollo \textbf{pull}, il client destinatario \textit{tira} i messaggi dal server. Attualmente sono in uso \textbf{due} protocolli di tipo \textbf{pull}: \textbf{POP3} o \textbf{Post Office Protocol v.3} e \textbf{IMAP4} o \textbf{Internet Mail Access Protocol v.4}.
+\textbf{POP3} è molto semplice ma ha funzionalità limitate. Il software \textbf{client POP3 } è installato sul computer del destinatario mentre il software \textbf{server POP3 }sul suo server di posta. Il \textbf{client POP3} apre una connessione TCP sulla porta \textbf{110} del \textbf{server POP3} e invia il proprio nome utente e la propria password per accedere alla casella postale. L'utente richiede poi la lista dei messaggi presenti e li preleva uno alla volta.
+\newpage
+ Il \textbf{protocollo POP3} prevede due modalità: \textbf{delete} e \textbf{keep}, con la modalità \textbf{delete} i messaggi vengono automaticamente eliminati dalla mailbox dopo il prelievo, con la modalità \textbf{keep} vengono tenuti per uso futuro.
+ \begin{figure}[!h]
+ 	\includegraphics[scale=0.6]{Immagini/POP3.png}
+ 	\centering
+ 	\caption{In figura il protocollo POP3.}
+ \end{figure}\newline
+Il \textbf{protocollo IMAP4} è simile al POP3 ma è più \textbf{potente} e \textbf{complesso}. POP3 \textbf{non} consente di \textbf{gestire più caselle }di posta sul server, di \textbf{organizzare} la posta e di \textbf{controllare una parte del messaggio prima di prelevarlo} nella sua interezza. \textbf{IMP4} invece fornisce varie funzionalità aggiuntive, tra le quali:
+\begin{itemize}
+	\item \textbf{Controllare le intestazioni} dei messaggi prima di \textbf{prelevarli}.
+	\item \textbf{Ricercare una stringa} specifica \textbf{nei messaggi prima di prelevarli}.
+	\item \textbf{Prelevare i messaggi in modo parziale}. Utile per quando ci sono limitazioni di larghezza di banda.
+	\item \textbf{Creare}, \textbf{cancellare} e \textbf{rinominare} le \textbf{mailbox} sul server di posta.
+	\item \textbf{Creare una gerarchia di cartelle} all'interno della mailbox a scopo di archiviazione.
+\end{itemize}
+Abbiamo visto fin'ora come la posta elettronica abbia una struttura molto \textbf{elementare}, questa semplicità comporta però che i protocolli visti fin'ora supportino \textbf{soltanto} messaggi nel formato standard\textbf{ NVT ASCII a 7 bit}. \newline\newline
+\textit{Come fare quindi a scambiarsi messaggi con caratteri non supportati dal formato NVT ASCII a 7 bit, come ad esempio il \textbf{formato binario}?}
+\newpage
+Il \textbf{MIME} o \textbf{Multipurpose External Mail Extension} è un protocollo \textbf{supplementare} che permette l'invio di messaggi in formato \textbf{diverso} dall'\textbf{ASCII}. Il \textbf{MIME} agisce \textbf{sia} dal lato \textbf{mittente} \textbf{che} dal lato \textbf{destinatario}. Traduce tutti i dati in formato \textbf{non ASCII} in ASCII \textbf{prima} di inviare il messaggio alla MTA e opera poi a ritroso quest'operazione di traduzione \textbf{presso} il destinatario dopo che ha ricevuto il messaggio tramite la MAA.
+ \begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/MIME.png}
+	\centering
+	\caption{In figura il il funzionamento del protocollo MIME.}
+\end{figure}\newline
+Il \textbf{protocollo MIME} definisce \textbf{cinque} tipi di intestazioni specifiche che si aggiungono a quelle originali previste dal protocollo di posta elettronica:
+\begin{itemize}
+	\item \textbf{MIME - version}: vi è dichiarata la versione di MIME usata.
+	\item \textbf{Content Type}: vi sono dichiarati i tipi di dato contenuti nel corpo del messaggio. Il tipo del contenuto e il sottotipo sono separati da una barra. Il protocollo MIME usa sette tipi di dato diversi:
+	\begin{itemize}
+		\item \textbf{Text}: \textbf{plain} o \textbf{html}, formato del testo.
+		\item \textbf{Multipart}: \textbf{mixed}, \textbf{parallel} o \textbf{alternative}, da informazioni circa le parti da cui è composto il messaggio.
+		\item \textbf{Message}: \textbf{RFC 882}, \textbf{partial}, \textbf{external-body}. Da informazioni circa il messaggio, rispettivamente: se è un messaggio incapsulato, se è una parte di un altro messaggio o se è un riferimento ad un altro messaggio.
+		\item \textbf{Image}: \textbf{jpeg} o \textbf{gif}.
+		\item \textbf{Video}: \textbf{mpeg}.
+		\item \textbf{Audio}: \textbf{basic}.
+		\item \textbf{Application}: \textbf{PostScript} o \textbf{octet-stream}.
+	\end{itemize}
+	\item \textbf{Content-Transfer-Encoding}: definisce la codifica utilizzata in trasporto per il messaggio.
+	\item \textbf{Content-ID}: individua univocamente una parte del messaggio nei messaggi che sono composti da più parti.
+	\item \textbf{Content-Description}: indica se il corpo del messaggio contiene un'immagine, un file audio o video.
+\end{itemize}
+\newpage
+Concludiamo questa sezione offrendo una breve panoramica del servizio chiamato \textbf{web mail}. Data la larga diffusione della posta elettronica molti siti web ne offrono il servizio. I \textbf{webmail servers} a seconda del \textbf{client} interessato, che può essere \textbf{SMTP} o \textbf{HTTP}, ricevono ed evadono i messaggi tramite o il \textbf{protocollo HTTP} o il \textbf{protocollo SMTP} come illustrato nelle seguenti figure:
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/Web_mail.png}
+	\centering
+	\caption{In figura uno scenario in cui \textbf{solo} il ricevente utilizza \textbf{HTTP}.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/Web_mail.png}
+	\centering
+	\caption{In figura uno scenario in cui \textbf{sia} che il ricevente che il destinatario utilizzano \textbf{HTTP}.}
+\end{figure}
 \end{document}
-
 
 
 
