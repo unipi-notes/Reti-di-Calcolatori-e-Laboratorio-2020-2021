@@ -1078,68 +1078,68 @@ I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textb
 \textbf{La connessione tra client MTA e server MTA è una sola ed è bidirezionale}.\newline
 \begin{itemize}
 	\item I \textbf{comandi} sono composti da una \textbf{keyword} e da \textbf{uno} o \textbf{più argomenti}.
-	\begin{table}[h!]
-		\begin{center}
-			\label{tab:table1}
-			\begin{tabular}{l|c|c}
-				\textbf{Nome} & \textbf{Argomenti} & \textbf{Significato}                        \\
-				\hline
-				HELO             & nome host mittente & host mittente si identifica                          \\
-				MAIL FROM           & mittente del messaggio & identifica mittente  messaggio       \\
-				RCPT TO         & destinatario & identifica destinatario messaggio \\
-				DATA           & corpo del messaggio &  il messaggio     \\
-				QUIT            & & termina sessione SMTP
-				corrente                                                           \\
-				RSET          & & interrompe la transazione in atto                                 \\
-				VRFY & nome destinatario & verifica validità nome destinatario \\
-			\end{tabular}
-		\end{center}
-	\end{table}
+	      \begin{table}[h!]
+		      \begin{center}
+			      \label{tab:table1}
+			      \begin{tabular}{l|c|c}
+				      \textbf{Nome} & \textbf{Argomenti}     & \textbf{Significato}                \\
+				      \hline
+				      HELO          & nome host mittente     & host mittente si identifica         \\
+				      MAIL FROM     & mittente del messaggio & identifica mittente  messaggio      \\
+				      RCPT TO       & destinatario           & identifica destinatario messaggio   \\
+				      DATA          & corpo del messaggio    & il messaggio                        \\
+				      QUIT          &                        & termina sessione SMTP
+				      corrente                                                                     \\
+				      RSET          &                        & interrompe la transazione in atto   \\
+				      VRFY          & nome destinatario      & verifica validità nome destinatario \\
+			      \end{tabular}
+		      \end{center}
+	      \end{table}
 	\item Le \textbf{risposte} sono costituite da un \textbf{codice a tre cifre} seguite eventualmente da testo.
-	\begin{table}[h!]
-		\begin{center}
-			\label{tab:table1}
-			\begin{tabular}{l|c|c}
-				\textbf{Codice} & \textbf{Descrizione}                     \\
-				\hline
-				220             & servizio pronto                          \\
-				221           & servizio in chiusura canale trasmissione \\
-				250         & comando richiesto completato \\
-				354           & corpo del messaggio     \\
-				421        & servizio non disponibile                                              \\
-				450          & mailbox non disponibile\\
-				502 & comando non disponibile \\
-			\end{tabular}
-		\end{center}
-	\end{table}
+	      \begin{table}[h!]
+		      \begin{center}
+			      \label{tab:table1}
+			      \begin{tabular}{l|c|c}
+				      \textbf{Codice} & \textbf{Descrizione}                     \\
+				      \hline
+				      220             & servizio pronto                          \\
+				      221             & servizio in chiusura canale trasmissione \\
+				      250             & comando richiesto completato             \\
+				      354             & corpo del messaggio                      \\
+				      421             & servizio non disponibile                 \\
+				      450             & mailbox non disponibile                  \\
+				      502             & comando non disponibile                  \\
+			      \end{tabular}
+		      \end{center}
+	      \end{table}
 \end{itemize}
 \newpage
 \underline{N.B.} Il protocollo \textbf{SMTP} \textbf{usa} il protocollo di trasporto \textbf{FTP} per consegnare in maniera \textbf{\underline{affidabile}} i messaggi.\newline\newline
 La consegna di un messaggio tramite SMTP prevede \textbf{tre fasi}:
 \begin{enumerate}
 	\item \textbf{Apertura della connessione} o \textbf{handshaking} con cui il client SMTP stabilisce una connessione FTP alla porta nota 25 con il server SMTP. Consiste di altre \textbf{tre sotto fasi}:
-	\begin{enumerate}[label*=\arabic*.]
-		\item Il \textbf{server} invia al \textbf{client} il codice \textbf{220} per indicare che è \textbf{pronto alla ricezione di messaggi} o il codice \textbf{421} in caso \textbf{contrario}.
-		\item Il \textbf{client} si \textbf{identifica} con il comando \textbf{HELO} seguito dal suo \textbf{nome di dominio} in modo tale da informare il server del proprio nome di dominio.
-		\item Il \textbf{server} invia il codice \textbf{250} o altri codici a seconda della situazione particolare.
-	\end{enumerate}
-	\item \textbf{invio del messaggio}: se l'apertura della connessione tra il client SMTP e il server SMTP è avvenuta con \textbf{successo}, il client può inviare \textbf{un singolo messaggio} a uno o più destinatari. Riportiamo di seguito gli \textbf{otto} passi necessari per portare a termine questa operazione: 
-	\begin{enumerate}[label*=\arabic*.]
-		\item Il \textbf{client} invia al server il comando MAIL FROM con argomento l'indirizzo mail del mittente, in modo tale che, nel caso in cui si verifichino degli  errori, il server \textbf{sappia a chi inviare i messaggi di errore}.
-		\item Il \textbf{server} risponde con il codice 250.
-		\item Il \textbf{client} invia al server il comando RCPT TO con argomento l'indirizzo mail del destinatario
-		\item Il server risponde con il codice 250.
-		\item Il \textbf{client} invia il comando data per iniziare il trasferimento del messaggio.
-		\item Il \textbf{server} risponde con il codice 354.
-		\item Il \textbf{client} invia il messaggio come sequenza di righe, ognuna terminante con la coppia di caratteri ritorno a capo e fine linea. Il messaggio termina con una riga \textbf{contenente solo un punto}.
-		\item Il server risponde con il codice 250.
-	\end{enumerate}
-	Se ci sono \textbf{più destinatari} i passi 2.3 e 2.4 sono \textbf{ripetuti}.
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Il \textbf{server} invia al \textbf{client} il codice \textbf{220} per indicare che è \textbf{pronto alla ricezione di messaggi} o il codice \textbf{421} in caso \textbf{contrario}.
+		      \item Il \textbf{client} si \textbf{identifica} con il comando \textbf{HELO} seguito dal suo \textbf{nome di dominio} in modo tale da informare il server del proprio nome di dominio.
+		      \item Il \textbf{server} invia il codice \textbf{250} o altri codici a seconda della situazione particolare.
+	      \end{enumerate}
+	\item \textbf{invio del messaggio}: se l'apertura della connessione tra il client SMTP e il server SMTP è avvenuta con \textbf{successo}, il client può inviare \textbf{un singolo messaggio} a uno o più destinatari. Riportiamo di seguito gli \textbf{otto} passi necessari per portare a termine questa operazione:
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Il \textbf{client} invia al server il comando MAIL FROM con argomento l'indirizzo mail del mittente, in modo tale che, nel caso in cui si verifichino degli  errori, il server \textbf{sappia a chi inviare i messaggi di errore}.
+		      \item Il \textbf{server} risponde con il codice 250.
+		      \item Il \textbf{client} invia al server il comando RCPT TO con argomento l'indirizzo mail del destinatario
+		      \item Il server risponde con il codice 250.
+		      \item Il \textbf{client} invia il comando data per iniziare il trasferimento del messaggio.
+		      \item Il \textbf{server} risponde con il codice 354.
+		      \item Il \textbf{client} invia il messaggio come sequenza di righe, ognuna terminante con la coppia di caratteri ritorno a capo e fine linea. Il messaggio termina con una riga \textbf{contenente solo un punto}.
+		      \item Il server risponde con il codice 250.
+	      \end{enumerate}
+	      Se ci sono \textbf{più destinatari} i passi 2.3 e 2.4 sono \textbf{ripetuti}.
 	\item \textbf{Chiusura della connessione}: Il \textbf{client}, trasferito il messaggio, \textbf{chiude la connessione}. Questa operazione avviene in \textbf{due} fasi:
-	\begin{enumerate}[label*=\arabic*]
-		\item Il \textbf{client} invia al server il comando QUIT.
-		\item Il \textbf{server} risponde con il codice 221.
-	\end{enumerate}
+	      \begin{enumerate}[label*=\arabic*]
+		      \item Il \textbf{client} invia al server il comando QUIT.
+		      \item Il \textbf{server} risponde con il codice 221.
+	      \end{enumerate}
 \end{enumerate}
 \newpage
 \begin{figure}[!h]
@@ -1151,12 +1151,12 @@ La consegna di un messaggio tramite SMTP prevede \textbf{tre fasi}:
 Poco sopra abbiamo descritto l'invio di un messaggio di posta elettronica come la \textbf{composizione di tre fasi}: una di \textbf{preparazione} del messaggio, una di \textbf{invio} e una di \textbf{ricezione}. Le prime due utilizzano i \textbf{protocollo SMTP}, che è un protocollo \textbf{push}, il messaggio viene \textit{spinto} dal client mittente verso il server. L'ultima fase, quella di ricezione, usa invece un protocollo \textbf{pull}, il client destinatario \textit{tira} i messaggi dal server. Attualmente sono in uso \textbf{due} protocolli di tipo \textbf{pull}: \textbf{POP3} o \textbf{Post Office Protocol v.3} e \textbf{IMAP4} o \textbf{Internet Mail Access Protocol v.4}.
 \textbf{POP3} è molto semplice ma ha funzionalità limitate. Il software \textbf{client POP3 } è installato sul computer del destinatario mentre il software \textbf{server POP3 }sul suo server di posta. Il \textbf{client POP3} apre una connessione TCP sulla porta \textbf{110} del \textbf{server POP3} e invia il proprio nome utente e la propria password per accedere alla casella postale. L'utente richiede poi la lista dei messaggi presenti e li preleva uno alla volta.
 \newpage
- Il \textbf{protocollo POP3} prevede due modalità: \textbf{delete} e \textbf{keep}, con la modalità \textbf{delete} i messaggi vengono automaticamente eliminati dalla mailbox dopo il prelievo, con la modalità \textbf{keep} vengono tenuti per uso futuro.
- \begin{figure}[!h]
- 	\includegraphics[scale=0.6]{Immagini/POP3.png}
- 	\centering
- 	\caption{In figura il protocollo POP3.}
- \end{figure}\newline
+Il \textbf{protocollo POP3} prevede due modalità: \textbf{delete} e \textbf{keep}, con la modalità \textbf{delete} i messaggi vengono automaticamente eliminati dalla mailbox dopo il prelievo, con la modalità \textbf{keep} vengono tenuti per uso futuro.
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/POP3.png}
+	\centering
+	\caption{In figura il protocollo POP3.}
+\end{figure}\newline
 Il \textbf{protocollo IMAP4} è simile al POP3 ma è più \textbf{potente} e \textbf{complesso}. POP3 \textbf{non} consente di \textbf{gestire più caselle }di posta sul server, di \textbf{organizzare} la posta e di \textbf{controllare una parte del messaggio prima di prelevarlo} nella sua interezza. \textbf{IMP4} invece fornisce varie funzionalità aggiuntive, tra le quali:
 \begin{itemize}
 	\item \textbf{Controllare le intestazioni} dei messaggi prima di \textbf{prelevarli}.
@@ -1169,7 +1169,7 @@ Abbiamo visto fin'ora come la posta elettronica abbia una struttura molto \textb
 \textit{Come fare quindi a scambiarsi messaggi con caratteri non supportati dal formato NVT ASCII a 7 bit, come ad esempio il \textbf{formato binario}?}
 \newpage
 Il \textbf{MIME} o \textbf{Multipurpose External Mail Extension} è un protocollo \textbf{supplementare} che permette l'invio di messaggi in formato \textbf{diverso} dall'\textbf{ASCII}. Il \textbf{MIME} agisce \textbf{sia} dal lato \textbf{mittente} \textbf{che} dal lato \textbf{destinatario}. Traduce tutti i dati in formato \textbf{non ASCII} in ASCII \textbf{prima} di inviare il messaggio alla MTA e opera poi a ritroso quest'operazione di traduzione \textbf{presso} il destinatario dopo che ha ricevuto il messaggio tramite la MAA.
- \begin{figure}[!h]
+\begin{figure}[!h]
 	\includegraphics[scale=0.6]{Immagini/MIME.png}
 	\centering
 	\caption{In figura il il funzionamento del protocollo MIME.}
@@ -1178,15 +1178,15 @@ Il \textbf{protocollo MIME} definisce \textbf{cinque} tipi di intestazioni speci
 \begin{itemize}
 	\item \textbf{MIME - version}: vi è dichiarata la versione di MIME usata.
 	\item \textbf{Content Type}: vi sono dichiarati i tipi di dato contenuti nel corpo del messaggio. Il tipo del contenuto e il sottotipo sono separati da una barra. Il protocollo MIME usa sette tipi di dato diversi:
-	\begin{itemize}
-		\item \textbf{Text}: \textbf{plain} o \textbf{html}, formato del testo.
-		\item \textbf{Multipart}: \textbf{mixed}, \textbf{parallel} o \textbf{alternative}, da informazioni circa le parti da cui è composto il messaggio.
-		\item \textbf{Message}: \textbf{RFC 882}, \textbf{partial}, \textbf{external-body}. Da informazioni circa il messaggio, rispettivamente: se è un messaggio incapsulato, se è una parte di un altro messaggio o se è un riferimento ad un altro messaggio.
-		\item \textbf{Image}: \textbf{jpeg} o \textbf{gif}.
-		\item \textbf{Video}: \textbf{mpeg}.
-		\item \textbf{Audio}: \textbf{basic}.
-		\item \textbf{Application}: \textbf{PostScript} o \textbf{octet-stream}.
-	\end{itemize}
+	      \begin{itemize}
+		      \item \textbf{Text}: \textbf{plain} o \textbf{html}, formato del testo.
+		      \item \textbf{Multipart}: \textbf{mixed}, \textbf{parallel} o \textbf{alternative}, da informazioni circa le parti da cui è composto il messaggio.
+		      \item \textbf{Message}: \textbf{RFC 882}, \textbf{partial}, \textbf{external-body}. Da informazioni circa il messaggio, rispettivamente: se è un messaggio incapsulato, se è una parte di un altro messaggio o se è un riferimento ad un altro messaggio.
+		      \item \textbf{Image}: \textbf{jpeg} o \textbf{gif}.
+		      \item \textbf{Video}: \textbf{mpeg}.
+		      \item \textbf{Audio}: \textbf{basic}.
+		      \item \textbf{Application}: \textbf{PostScript} o \textbf{octet-stream}.
+	      \end{itemize}
 	\item \textbf{Content-Transfer-Encoding}: definisce la codifica utilizzata in trasporto per il messaggio.
 	\item \textbf{Content-ID}: individua univocamente una parte del messaggio nei messaggi che sono composti da più parti.
 	\item \textbf{Content-Description}: indica se il corpo del messaggio contiene un'immagine, un file audio o video.
