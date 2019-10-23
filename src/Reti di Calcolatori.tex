@@ -267,7 +267,7 @@ ISP (\textit{internet service provider}).
 \begin{definition}
 	La \textbf{latenza} o \textbf{latency} è il tempo che passa dal momento in cui il primo bit parte dalla sorgente al momento in cui l'intero messaggio arriva a destinazione. \newline
 
-	\fbox{\centering{$L = r_{propagazione} + r_{trasmissione} + r_{accomodamento} + r_{elaborazione}$}}
+	\fbox{\centering{$L = r_{propagazione} + r_{trasmissione} + r_{accodamento} + r_{elaborazione}$}}
 \end{definition}
 \newpage
 
@@ -1203,7 +1203,321 @@ Concludiamo questa sezione offrendo una breve panoramica del servizio chiamato \
 	\centering
 	\caption{In figura uno scenario in cui \textbf{sia} che il ricevente che il destinatario utilizzano \textbf{HTTP}.}
 \end{figure}
+\subsection{Lo strato di trasporto}
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/TCP_IP.png}
+	\centering
+	\caption{Livelli dello stack protocollare TCP/IP.}
+\end{figure}
+Nello \textbf{stack protocollare TCP/IP} il \textbf{livello di trasporto} è posizionato tra il livello applicazione e il livello rete, \textbf{fornisce} servizi al \textbf{livello applicazione} e ne \textbf{riceve} dal \textbf{livello rete}. Realizza una connessione \textbf{logica} fra \textbf{processi applicativi} in esecuzione su host system \textbf{diversi}.
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/Trasporto.png}
+	\centering
+	\caption{In figura una rappresentazione della connessione logica tra i livelli trasporto di due host.}
+\end{figure}
+Come anticipato poco prima, uno dei \textbf{servizi offerti} dal \textbf{livello di trasporto} è di \textbf{supportare} la \textbf{comunicazione} tra \textbf{processi applicativi}. Tuttavia le \textbf{informazioni}, \textbf{una volta inviate}, \textbf{prima} di arrivare ai singoli processi devono arrivare all'\textbf{host} su cui essi sono in esecuzione.
+\begin{figure}[!h]
+	\includegraphics[scale=0.9]{Immagini/Trasporto_host.png}
+	\centering
+	\caption{In figura un esempio di comunicazione tra dispositivi. Si notino i ruoli dei protocolli di rete e dei protocolli di trasporto.}
+\end{figure}\newline
+I \textbf{protocolli di rete} si occupano di trasferire informazioni tra \textbf{macchine} e i \textbf{protocolli di trasporto} di indirizzarle ai \textbf{processi}.
+\newpage
+\textit{Come indirizzare le informazioni verso i processi?}\newline\newline
+Come osservato nella sezione precedente, uno dei principali modelli di comunicazione interprocessuale è il \textbf{client-server}. Per garantire quindi la \textbf{comunicazione} tra il \textbf{processo client} e il \textbf{processo server} c'è bisogno di:
+\begin{enumerate}
+	\item \textbf{Identificare l'host locale e l'host remoto}. Spesso infatti, se non quasi sempre, il processo client e il processo server sono in esecuzione su host \textbf{diversi}. Gli host, in \textbf{rete}, vengono identificati mediante il loro \textbf{indirizzo IP}.
+	\item \textbf{Identificare il processo}. I sistemi operativi moderni sono \textbf{multiutente} e \textbf{multiprocesso}. I processi necessitano quindi di un  identificatore detto \textbf{numero di porta}. I protocolli TCP/IP usano numeri di porta compresi tra \textbf{0} e \textbf{65535}, l'intervallo è codificabile con \textbf{16 bit}.
+\end{enumerate}
+Al \textbf{client} viene \textbf{assegnato} un \textbf{numero di porta} detto \textbf{effimero}, ovvero di breve durata, dato il \textbf{breve} tempo di vita di un processo client. I numeri di porta \textbf{effimeri} sono superiori al \textbf{1023}.\newline
+Anche al \textbf{server} verrà \textbf{associato} un \textbf{numero di porta} che dovrà però essere \textbf{noto} al \textbf{client}. Nei \textbf{protocolli TCP/IP},  per i server, si usano \textbf{numeri di porta universali} detti anche \textbf{numeri di porta noti}. Ogni \textbf{client applicativo conosce} il numero di porta noto del \textbf{server applicativo} corrispondente.\newline\newline
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Port_numb.png}
+	\centering
+	\caption{In figura i numeri di porta di un processo client e del corrispondente processo server.}
+\end{figure}\newline
+\textbf{Ricapitolando}: l'\textbf{indirizzo IP individua un host} tra i miliardi di host dell'intera rete mondiale ed è un numero di 32 bit. Il \textbf{numero di porta individua un processo} in esecuzione su tale host.
+\newpage
+L'\textbf{ICANN}, ovvero \textbf{Internet Corporation for Assigned Names and Numbers} ha suddiviso i numeri di porta il \textbf{tre} categorie:
+\begin{enumerate}
+	\item \textbf{Numeri di porta noti}: sono compresi tra \textbf{0} e \textbf{1023} e sono \textbf{assegnati} dall'authority \textbf{ICANN}.
+	\item \textbf{Numeri di porta registrati}: sono compresi tra \textbf{1024} e \textbf{49151}, \textbf{non} sono \textbf{controllati} \textbf{né} \textbf{assegnati} dall'autorithy ICANN ma è \textbf{possibile} \textbf{registrarli} per evitare duplicazioni.
+	\item \textbf{Numeri di porta dinamici}: vanno da \textbf{49152} a \textbf{65535}, \textbf{non} sono \textbf{controllati} \textbf{né} \textbf{registrati} e possono essere usati come numeri di porta \textbf{privati} o \textbf{temporanei}.
+\end{enumerate}
+\textit{In ambiente UNIX nel file} \texttt{/etc/services} \textit{sono memorizzate le associazioni nome server : porta nota}.
+\theoremstyle{definition}
+\begin{definition}
+	La \textbf{combinazione} di \textbf{indirizzo IP} e \textbf{numero di porta} è detta \textbf{socket address}.
+\end{definition}
+Quando un processo applicativo deve inviare un messaggio a un altro processo applicativo, lo passa al livello trasporto insieme a una \textbf{coppia} di \textbf{socket address}, uno che identifica il \textbf{processo stesso} e uno che identifica il \textbf{processo destinatario}. Il \textbf{protocollo di trasporto} riceve questi dati e vi aggiunge la propria \textbf{intestazione}, \textbf{incapsulando} il tutto in un \textbf{pacchetto}. Questi pacchetti sono chiamati \textbf{segmenti} nel \textbf{protocollo TCP} e \textbf{datagrammi utente} nel \textbf{protocollo UDP}. L'\textbf{incapsulamento} avviene dal lato del \textbf{mittente} e il \textbf{decapsulamento} avviene dal lato del \textbf{ricevente}.
+\newline\newline
+Il metodo con cui un entità riceve informazioni da più di una sorgente è chiamato \textbf{multiplexing}, viceversa con \textbf{demultiplexing} si fa riferimento a un'entità che trasmette informazioni a più di un destinatario. Il \textbf{livello di trasporto} effettua \textbf{multiplexing} sul versante \textbf{mittente}, raccogliendo i messaggi da varie socket e incapsulandoli, e \textbf{demultiplexing} su quello del \textbf{destinatario}, consegnando i vari pacchetti in ingresso al socket appropriato.\newline\newline
+\textit{Come garantire un controllo del flusso?}\newline\newline
+\textbf{Il livello di trasporto} supporta la comunicazione tra \textbf{processi applicativi}.  Il \textbf{processo mittente} \textbf{produce informazioni} e le passa poi allo \textbf{strato di trasporto mittente} che le \textbf{consuma} e \textbf{produce pacchetti}. Lo \textbf{strato di trasporto destinatario} a sua volta \textbf{consuma pacchetti} e \textbf{produce informazioni} che verranno in seguito inviate al \textbf{processo destinatario}. Se i pacchetti vengono consumati con una velocità \textbf{inferiore} o \textbf{superiore} a quella con cui si è in grado di crearli o viceversa si va in contro a situazioni di \textbf{grave inefficienza} o addirittura di \textbf{perdita di dati}. Il controllo di flusso si occupa di \textbf{quest'ultima problematica}.
+\newpage
+Una soluzione tipica per evitare la \textbf{perdita di dati} consiste nell'utilizzare \textbf{due} buffer. Uno dal \textbf{lato trasporto  del destinatario} e\textbf{ uno dal lato trasporto del mittente}. Se il \textbf{destinatario} ha il buffer \textbf{saturo} lo segnalerà al \textbf{mittente} che a sua volta \textbf{tratterrà} i messaggi nel \textbf{proprio} buffer e li rinvierà quando il \textbf{destinatario} segnalerà che il suo buffer non è più saturo.
+\begin{figure}[!h]
+	\includegraphics[scale=0.8]{Immagini/Plexing.png}
+	\centering
+	\caption{In figura multiplexing e demultiplexing.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/Flusso_ctr.png}
+	\centering
+	\caption{In figura il controllo di flusso.}
+\end{figure}
+\newpage
+\textit{Come garantire l'affidabilità?}\newline\newline
+Aggiungendo i \textbf{servizi di controllo degli errori} al livello di trasporto.
+Il \textbf{livello di rete} infatti, come si vedrà più avanti, è \textbf{fallace}, ciò comporta che si debba \textbf{garantire l'affidabilità}, \textbf{se richiesta dalle applicazioni}, \textbf{al livello di trasporto}. Nel \textbf{controllo degli errori} sono coinvolti \textbf{solo} i \textbf{livelli trasporto del mittente e del destinatario}, in particolare, \textbf{è quest ultimo che gestisce il controllo degli errori}:
+\begin{itemize}
+	\item \textbf{Rileva e scarta i pacchetti corrotti}, notificando il problema al livello trasporto del mittente.
+	\item \textbf{Tiene traccia dei pacchetti persi e scartati e ne gestisce la rispedizione}.
+	\item \textbf{Riconosce i pacchetti duplicati e li elimina}.
+	\item \textbf{Bufferizza i pacchetti fuori sequenza finché non arrivano quelli mancanti}.
+\end{itemize}
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Error_ctr.png}
+	\centering
+	\caption{Il controllo degli errori.}
+\end{figure}
+Gli ultimi \textbf{tre} punti implicano che \textbf{il livello di trasporto del destinatario} \textbf{sappia riconoscere} i pacchetti \textbf{persi}, \textbf{duplicati} o \textbf{fuori sequenza}. Ciò è possibile grazie alla presenza di un campo, detto \textbf{numero di sequenza}, posto all'\textbf{interno} dei pacchetti. La \textbf{rispedizione} è gestita identificando il pacchetto mancante o corrotto mediante il suo numero di sequenza. I \textbf{pacchetti duplicati} o \textbf{mancanti} sono riconosciuti ordinando la sequenza di pacchetti entranti e verificando tutti i numeri di sequenza.\newline
+\underline{\textbf{N.B.}} i numeri di sequenza vanno da 0 a $2^n - 1$, dove \textbf{n} è il numero di bit allocati per i numeri di sequenza specificato nell'intestazione del pacchetto. Se la sequenza di pacchetti è più lunga di $2^n$ pacchetti si ricomincia ad enumerarli da 0, di fatto i \textbf{numeri di sequenza} sono in \textbf{modulo} $2^n - 1$.
+\begin{center}
+	\textbf{e.g.} per n = 3 si ha la sequenza: 0 1 2 3 4 5 6 7 0 1 2 3 4 ...
+\end{center}
+Per \textbf{notificare} al mittente la corretta ricezione di uno o più pacchetti viene utilizzato il \textbf{numero di riscontro} o \textbf{ACK}. Il mittente identifica i pacchetti persi utilizzando un \textbf{timer} e \textbf{attivandolo dopo ogni invio}, se non riceve un \textbf{ACK prima della scadenza} allora rispedisce il pacchetto.
+\newpage
+\textit{È possibile combinare controllo degli errori e controllo del flusso?}\newline\newline
+Sì, è \textbf{possibile}. Per farlo si usa una coppia di \textbf{buffer numerati}, combinando l'esigenza di avere due buffer a quella di numerare i pacchetti.
+Dal \textbf{lato mittente}, quando si \textbf{costruisce un pacchetto} per la spedizione, si usa come \textbf{numero di sequenza} la successiva posizione libera all'interno del buffer e lo si tiene in memoria finché non arriva l'\textbf{ACK} corrispondente. Dal \textbf{lato destinatario} invece, si tiene in memoria nel buffer il pacchetto ricevuto finché l'applicazione non è pronta a riceverlo, \textbf{solo} a quel punto viene inviato l'\textbf{ACK} e il pacchetto viene \textbf{eliminato}. L'intervallo dei numeri di sequenza: da 0 a $2^n - 1$ fa si che possano essere rappresentati come un \textbf{cerchio} e il buffer, a seconda della sua \textbf{dimensione}, come una \textbf{sezione} di esso, chiamata anche \textbf{sliding window}. Quando all'intero del \textbf{buffer} (\textbf{sliding window}) si libera una sezione \textbf{contigua} di posizioni \textbf{a partire dall'inizio}, la \textbf{sliding window} scorre.
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/Sliding_w.png}
+	\centering
+	\caption{La sliding window. Si ricorda che è solo un'astrazione per far capire il concetto di fondo, in realtà si usano delle variabili per tenere traccia delle posizioni.}
+\end{figure}\newline
+\textit{Esiste un controllo della congestione?}\newline\newline
+Sì. \textbf{esiste}, sebbene sia un \textbf{problema} del \textbf{livello rete}, il \textbf{protocollo TCP} implementa un \textbf{proprio} meccanismo di controllo della congestione.
+\newpage
+\textit{Che differenza c'è tra un servizio privo di connessione e un servizio orientato alla connessione?}\newline\newline
+Un \textbf{protocollo di livello trasporto}, cosi come un protocollo di livello rete, può fornire \textbf{due differenti tipi di servizi}: \textbf{connection-oriented} o \textbf{connection-less}. A livello di \textbf{rete} un servizio \textbf{connection-less} può comportare che datagrammi facenti parte dello stesso messaggio transitino su percorsi fisici \textbf{diversi}. A \textbf{livello di trasporto} invece, il percorso dei pacchetti \textbf{non è rilevante}, la \textbf{presenza} o l'\textbf{assenza di connessione} implicano rispettivamente \textbf{la dipendenza o l'indipendenza fra i pacchetti}.
+\begin{itemize}
+	\item \textbf{In un servizio privo di connessione} il \textbf{processo applicativo mittente  deve suddividere i suoi messaggi in porzioni accettabili dal protocollo di livello trasporto} \textbf{connection-less}, che li tratterà come se fossero unità indipendenti e scorrelate. Le varie porzioni sono \textbf{consegnate} al livello trasporto \textbf{in ordine}, ma \textbf{non} verrano \textbf{riconsegnate} al processo applicativo destinatario \textbf{in tal modo}. Inoltre i pacchetti \textbf{non sono numerati}. \textbf{Non è possibile implementare efficacemente il controllo di flusso, il controllo degli errori e il controllo della congestione.}
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Connection_less.png}
+		      \centering
+		      \caption{Un servizio privo di connessione.}
+	      \end{figure}
+	\item \textbf{In un servizio orientato alla connessione} i due processi comunicanti devono per prima cosa stabilire \textbf{una connessione logica} e poi possono iniziare a scambiarsi dati. Una volta \textbf{terminato lo scambio} la connessione viene \textbf{chiusa}. Come menzionato in precedenza ancora una volta l'approccio \textbf{connection-oriented} è \textbf{diverso} tra il livello di trasporto e il livello di rete. Nel livello di rete si presuppone una coordinazione totale fra gli host finali e tutti i router della rete, al livello di trasporto solo tra i due host finali. Ciò significa che \textbf{è possibile utilizzare un protocollo di trasporto conncetion-oriented indipendentemente dal protocollo di rete utilizzato}.
+\end{itemize}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Connection_oriented.png}
+	\centering
+	\caption{Un servizio orientato alla connessione.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.8]{Immagini/Asf_diff.png}
+	\centering
+	\caption{Differenze tra i due approcci descritti sopra rappresentati come automi a stati finiti. La rappresentazione dell'approccio connection-oriented in esempio prevede l'apertura di una connessione bidirezionale.}
+\end{figure}
+\newpage
+\subsubsection{UDP}
+Il \textbf{protocollo UDP} o \textbf{User Datagram Protocol} è un protocollo di livello trasporto \textbf{inaffidabile} e \textbf{privo di connessione}. \textbf{Non aggiunge} \textbf{niente} ai \textbf{servizi IP} se non la comunicazione tra processi che avviene mediante l'utilizzo di \textbf{due code}, una in \textbf{ingresso} e una in \textbf{uscita}. Essendo \textbf{molto semplice} ha un \textbf{overhead minimo} ed è per ciò usato da processi che vogliono inviare \textbf{messaggi contenuti} senza preoccuparsi troppo dell'affidabilità che può comunque essere aggiunta al livello applicazione. \textbf{Al livello trasporto non è effettuato nessun controllo di flusso né di congestione}.\newline
+I \textbf{pacchetti UDP} sono chiamati \textbf{datagrammi utente} e data l'\textbf{assenza di una connessione} vengono \textbf{trasmessi in modo indipendente} gli uni dagli altri. La loro \textbf{intestazione} è costituita da \textbf{4 campi di 2 byte}, per un totale di 8 byte.\newline
+\textbf{\underline{N.B.}} \textbf{Solo} i processi che inviano messaggi di dimensione \textbf{inferiore a 65507}, i.e. $65535 - 8$ byte di intestazione UDP $ - 20$ di intestazione, IP di \textbf{possono usare il protcollo UDP}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/UDP.png}
+	\centering
+	\caption{La struttura di un datagramma utente. La prima parte in figura è uno \textbf{pseudo header} e \textbf{non} viene trasmesso. Il campo proto serve a distinguere i pacchetti UDP (17) da quelli TCP.}
+\end{figure}\newline
+I \textbf{primi} \textbf{due campi} definiscono i numeri di porta rispettivamente del \textbf{mittente} e del \textbf{destinatario}. Il \textbf{terzo campo} definisce la \textbf{lunghezza totale del datagramma} compresa l'intestazione.\textit{ I 16 bit possono definire una lunghezza totale da 0 a 65535 ma in realtà la dimensione è \textbf{inferiore}, il datagramma utente viene infatti inserito in un datagramma IP di lunghezza totale di 65535.} Lo \textbf{pseudoheader} è una parte dell'intestazione del pacchetto IP in cui viene incapsulato il datagramma utente. \textbf{L'ultimo campo} dell'intestazione può contenere la \textbf{checksum}, se il campo è settato con tutti 0, il mittente ha deciso di non calcolarla. La \textbf{checksum} è \textbf{l'unico} controllo degli errori che UDP mette  a disposizione, usa tutti i campi del datagramma \textbf{compreso lo pseudoheader}, se quest ultimo non fosse incluso infatti, si rischierebbe che il datagramma, seppur privo di errori in invio, finisca a un host sbagliato per via di errori nel pacchetto IP che lo trasporta.
+\newpage
+\textit{Come viene calcolata la checksum?}\newline\newline
+La \textbf{checksum} viene calcolata nel seguente modo:
+\begin{itemize}
+	\item \textbf{Mittente}
+	      \begin{enumerate}
+		      \item Il messaggio viene diviso in parole da 16 bit.
+		      \item Il valore della checksum viene inizialmente impostato a 0.
+		      \item Tutte le parole del messaggio vengono sommate usando l'addizione complemento a 1.
+		      \item Viene fatto il complemento a 1 della somma e il risultato è la \textbf{checksum}.
+		      \item La checksum viene inviata insieme ai dati.
+	      \end{enumerate}
+	\item \textbf{Destinatario}
+	      \begin{enumerate}
+		      \item Il messaggio che comprende la checksum viene ricevuto.
+		      \item Vengono ripetuti i passaggi 3 e 4 descritti in precedenza.
+		      \item Se il valore della checksum è 0 allora il messaggio viene accettato altrimenti viene scartato.
+	      \end{enumerate}
+\end{itemize}
+\begin{figure}[!h]
+	\includegraphics[scale=0.2]{Immagini/Checksum.png}
+	\centering
+\end{figure}
+\textit{Come mai il DNS usa UDP?}\newline\newline
+Il \textbf{DNS usa UDP} \textbf{poiché} le richieste che il \textbf{client DNS} invia al \textbf{server DNS} sono \textbf{brevi} e possono essere \textbf{contenute in un singolo datagramma UDP}. Inoltre le \textbf{risposte} devono arrivare \textbf{velocemente} e soprattutto viaggia un \textbf{solo messaggio} per volta: uno di richiesta e uno di risposta, quindi \textbf{non c'è un problema di ordine di sequenza}.\newline\newline
+\textit{Quali sono quindi i possibili campi di applicazione del protocollo UDP?}
+\begin{itemize}
+	\item \textbf{Processi che richiedono uno scambio di dati di volume limitato, con scarso interesse verso il controllo del flusso e degli errori}. \textbf{Non} è quindi adatto ad applicazioni come \textbf{SMTP} e \textbf{FTP}.
+	\item \textbf{Processi con meccanismi interni di controllo di flusso e di errore.}
+	\item \textbf{Processi di trasmissione multicast.}
+	\item \textbf{Applicazioni interattive e in tempo reale che non tollerano latenza.}
+\end{itemize}
+\newpage
+\subsubsection{TCP}
+Il \textbf{protocollo TCP} è un protocollo \textbf{orientato alla connessione e affidabile}, è il protocollo di livello trasporto \textbf{più utilizzato} su Internet.
+Quando un processo sull'host A decide di inviare e ricevere dati da un processo sull'host B avvengono le seguenti \textbf{tre} cose:
+\begin{enumerate}
+	\item I due processi stabiliscono una connessione \textbf{logica}.
+	\item Vengono scambiati dati in \textbf{entrambe} le direzioni.
+	\item La connessione viene terminata.
+\end{enumerate}
+Oltre a essere \textbf{orientato alla connessione}, il protocollo TCP è anche \textbf{orientato al flusso dati}. Al contrario di UDP quindi due processi che comunicano via TCP hanno l'\textit{illusione} di essere connessi con un \textit{\textbf{tubo}}. Diremo che il processo in trasmissione \textbf{produce} il flusso
+mentre il processo in ricezione lo \textbf{consuma}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/TCP_flow.png}
+	\centering
+	\caption{Rappresentazione del flusso dati.}
+\end{figure}\newline
+Poichè il processo produttore e il processo consumatore non scrivono e leggono dati necessariamente alla stessa velocità è necessario un \textbf{controllo del flusso} che consiste in \textbf{due} buffer \textbf{uno di trasmissione}, in cui si memorizzano i segmenti \textbf{inviati}, e \textbf{uno di ricezione} in cui si memorizzano quelli \textbf{ricevuti}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/TCP_buffers.png}
+	\centering
+	\caption{I due buffer.}
+\end{figure}\newline
+Tipicamente viene usato un \textbf{buffer circolare}, poiché consente più agilmente di mettere a disposizione per la scrittura le celle che contengono byte inviati e la cui ricezione è stata confermata.
+\newpage
+Sebbene la \textbf{bufferizzazione} gestisca il \textbf{controllo del flusso}, per inviare dati in uno \textbf{stream} bisogna ovviare a un altro problema. Il \textbf{livello IP infatti} invia i dati in \textbf{pacchetti} e non in un flusso di byte. Per far fronte a ciò \textbf{TCP raggruppa un certo numero di byte in unità chiamate segmenti},  \textbf{indipendenti} dal programma applicativo, a cui vi aggiunge un'intestazione prima di affidarli al livello rete.
+I \textbf{segmenti} vengono poi incapsulati in datagrammi IP e trasmessi. La \textbf{bufferizzazione} consente una \textbf{riduzione del traffico} sulla rete
+ottimizzando in un certo modo il numero di segmenti da trasmettere\newline
+\textbf{\underline{N.B.}} non è detto che tutti i segmenti abbiano la \textbf{stessa dimensione}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/TCP_segm.png}
+	\centering
+	\caption{Il flusso di dati viene partizionato in segmenti, ognuno con il suo header.}
+\end{figure}\newline
+Il \textbf{protocollo TCP} inoltre fornisce un servizio \textbf{full duplex}, nel quale, instaurata la connessione, le due entità possono \textbf{scambiarsi} e \textbf{ricevere} i dati \textbf{contemporaneamente}. \textbf{Ciascuna entità TCP} ha infatti i propri buffer di \textbf{invio} e \textbf{ricezione}.
+\begin{flushleft}
+	\textit{Come fa TCP a garantire l'affidabilità?}
+\end{flushleft}
+Con un \textbf{meccanismo di numerazione} che prevede due campi: \textbf{il numero di sequenza} e \textbf{il numero di riscontro o ACK}. Questi due campi sono contenuti nell'\textbf{intestazione} dei segmenti TCP e fanno riferimento al \textbf{numero dei byte}, non al numero di segmento. \textbf{TCP} infatti \textbf{numera i byte che vengono trasmessi nella connessione}. Questa \textbf{numerazione} avviene all'interno del \textbf{buffer di trasmissione}, dopo che i byte sono stati generati dal processo applicativo mittente. I numeri di sequenza e di riscontro sono \textbf{diversi} nelle due \textbf{direzioni} della comunicazione. Il numero di sequenza del primo byte non necessariamente è 0 ma è \textbf{generato arbitrariamente} nell'intervallo tra 0 e $2^{32} - 1$.\newline
+Dopo aver numerato i byte, \textbf{TCP assegna a ogni segmento un numero di sequenza corrispondente al numero del primo byte del segmento}.
+Il \textbf{primo numero di sequenza} o \textbf{ISN} è un numero casuale tra 0 e $2^{32} -1$. \textbf{Tutti gli altri numeri } sono il numero di sequenza del segmento precedente a cui viene sommato il numero di byte, \textbf{reali o fittizi}, da lui contenuti.
+\newpage
+Oltre al \textbf{numero di sequenza } nell'intestazione di un \textbf{segmento TCP} è contenuto anche un \textbf{numero di riscontro}, più brevemente detto \textbf{ACK}. L' \textbf{ACK} è utilizzato dalle due entità comunicanti per \textbf{confermare i byte ricevuti}, indica infatti il \textbf{numero} del \textbf{prossimo byte }che l'entità si aspetta di ricevere.\textit{ e.g. se un'entità utilizza 5643 come ACK significa che ha ricevuto tutti i byte fino al 5642. \underline{\textbf{N.B.}}: non necessariamente vuol dire che l'entità ha ricevuto 5642 byte.}\newline
+Riportiamo di seguito la \textbf{struttura} di un \textbf{segmento TCP}:
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/TCP_segment.png}
+	\centering
+	\caption{La struttura di un segmento TCP.}
+\end{figure}\newline
+Il \textbf{segmento consiste} di un'\textbf{intestazione} di dimensione compresa tra 20 byte, in assenza di opzioni, e 60 byte altrimenti, seguita dai \textbf{dati} proveniente dal processo applicativo.
+\begin{itemize}
+	\item \textbf{Numero di porta sorgente}: contiene il numero di porta del processo mittente sull'host che invia il segmento.
+	\item \textbf{Numero di porta destinazione}: contiene il numero di porta del processo destinatario sull'host che riceve il segmento.
+	\item \textbf{Numero di sequenza}: contiene il numero di sequenza associato al primo byte di dati contenuto nel segmento.
+	\item \textbf{Numero di riscontro}: contiene il numero di sequenza del byte che l'entità si aspetta di ricevere.
+	\item \textbf{HLEN o lunghezza dell'intestazione}: indica il numero di parole di 4 byte presenti nell'intestazione, varia da 5 ($\frac{20}{4}$) a 15 ($\frac{60}{4}$).
+	\item \textbf{Flags di controllo}: contiene i 6 bit di controllo, più di un bit può essere attivo contemporaneamente. Questi bit intervengono nel \textbf{controllo del flusso}, \textbf{nell'apertura e nella chiusura della connessione e nella determinazione della modalità di trasferimento dei dati}.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/TCP_flags.png}
+		      \centering
+		      \caption{I flags di controllo e il loro significato.}
+	      \end{figure}
+	\item \textbf{Dimensione della finestra}: contiene la dimensione della finestra di ricezione di cui di cui dispone l'entità, la dimensione massima è di 65535 byte, legata ai 16 bit che compongono il campo. È solitamente indicato con RWND o receiving window ed è determinato dal ricevente, il mittente deve rispettare le sue indicazioni.
+	\item \textbf{Checksum}: contiene il \textbf{checksum}, è calcolato da TCP con le stesse modalità descritte per UDP, tuttavia è \textbf{obbligatoriamente richiesto} per i datagrammi TCP. Lo pseudoheader ha lo stesso scopo descritto per UDP, però il \textbf{campo proto vale 6}.
+	\item \textbf{Puntatore urgente}: è rilevante se il flag \textbf{URG} è attivato. Contiene la cifra da sommare al numero di sequenza del segmento per ottenere il numero dell'ultimo bit urgente della sezione dati.
+	\item \textbf{Opzioni}: contiene da 0 a 40 byte di informazioni opzionali.
+\end{itemize}
+\begin{flushleft}
+	\textit{Come funziona la connessione TCP?}
+\end{flushleft}
+Il \textbf{protocollo TCP} è \textbf{connection-oriented} il che vuol dire che stabilisce una connessione logica tra il processo mittente e il processo destinatario e tutti i segmenti TCP vengono spediti lungo questo percorso. L'utilizzo di una connessione virtuale \textbf{semplifica} i \textbf{processi di conferma}, di \textbf{controllo degli errori} e \textbf{di rispedizione}. La trasmissione orientata alla connessione del protocollo TCP richiede \textbf{tre fasi}: \textbf{apertura della connessione}, \textbf{trasmissione dei dati} e \textbf{chiusura della connessione}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.44]{Immagini/Three_way.png}
+	\centering
+	\caption{L'apertura della connessione TCP.}
+\end{figure}
+\newpage
+\begin{enumerate}
+	\item \textbf{Apertura della connessione}: nel TCP, essendo un protocollo \textbf{full duplex}, le due entità comunicanti devono inizializzare la connessione e ciascuna deve ottenerne l'\textit{approvazione} da parte dell'altra. L'apertura della connessione TCP è detta \textbf{three-way handshake} e avviene nel seguente modo:
+	      \begin{enumerate}[label*=\arabic*.]
+		      \item Il \textbf{client} invia il primo segmento: si tratta di un \textbf{segmento SYN}, \textbf{senza dati utente} e \textbf{contenente solo il flag SYN} che specifica l' \textbf{ISN} della connessione client-server.
+		      \item Il \textbf{server} invia il secondo segmento, senza dati utente, con i flag \textbf{ACK} e \textbf{SIN}, l'ACK viene usato dal server per comunicare al client la corretta ricezione del primo segmento e il SYN per specificare l'ISN della connessione server-client. Dato che il segmento contiene un \textbf{riscontro}, conterrà anche la dimensione della finestra di ricezione a cui il client dovrà attenersi.
+		      \item A questo punto il \textbf{client} invia il terzo segmento e con il flag \textbf{ACK} comunica al server la corretta ricezione del secondo segmento. Il terzo segmento \textbf{può} contenere dati utente e \textbf{se} li contiene possiede anche un \textbf{numero di sequenza}.
+	      \end{enumerate}
+\end{enumerate}
+Dopo aver instaurato la connessione è possibile trasferire i dati. Come detto sopra, il \textbf{protocollo TCP mittente memorizza i dati} generati dal processo mittente in un \textbf{buffer}, la quantità di dati che verranno poi inseriti nel segmento e inviati è a discrezione del TCP stesso. \textbf{Anche} il protocollo \textbf{TCP destinatario memorizza i dati in un buffer} e li invia al processo destinatario quando questo è pronto alla ricezione o quando il TCP destinatario lo ritiene opportuno. \begin{flushleft}
+	\textit{Cosa succede se non possono essere tollerati ritardi nella consegna e nella ricezione dei dati?}
+\end{flushleft}
+Il protocollo TCP gestisce quest'eventualità con la \textbf{funzione push} che può essere \textbf{richiesta dal processo mittente}. In questo caso il \textbf{TCP mittente invia immediatamente i dati al TCP destinatario} e tramite il \textbf{flag PSH} specifica \textbf{che i dati devono essere immediatamente consegnati al processo destinatario}.
+\begin{flushleft}
+	\textit{Cosa succede se un processo necessita che il TCP elabori dei dati per primi indipendentemente dalla loro posizione nel segmento?}
+\end{flushleft}
+Il processo invierà i dati urgenti in un segmento con il \textbf{flag URG} attivato, li posizionerà all'\textbf{inizio} del segmento stesso e indicherà poi al TCP mittente, mediante il \textbf{puntatore urgente}, il \textbf{numero dell'ultimo byte di dati urgenti} contenuti nel segmento. e.g. se il numero di sequenza del segmento vale 15000 e il puntatore urgente vale 200, l'ultimo byte urgente sarà il 15200.
+\newpage
+\begin{flushleft}
+	\textit{Come avviene la chiusura della connessione TCP?}
+\end{flushleft}
+Entrambe le entità coinvolte possono chiudere la connessione, solitamente però la chiusura della connessione è iniziata dal processo client. Sono offerte due vie per la chiusura della connessione: \textbf{handshake a tre vie} e \textbf{handshake a quattro vie con half close}.
+\begin{itemize}
+	\item \textbf{Handshake a tre vie}: inizia con l'invio da parte del TCP client
+	      di un \textbf{segmento FIN} all'interno del quale viene settato il \textbf{flag FIN}. Questo segmento può contenere o meno dati utente, se non li contiene consuma solo un numero di sequenza.
+	      Il \textbf{server TCP}, dopo aver ricevuto il segmento FIN, notifica il client TCP della ricezione e annuncia la chiusura della connessione server-client inviando un \textbf{segmento FIN $+$ ACK}. Questo segmento può contenere o meno dati da parte del server, se non li contiene consuma solo un numero di sequenza.
+	      Il \textbf{client TCP} finalizza la chiusura della connessione inviando un segmento ACK per notificare il server della ricezione del segmento precedente. Questo segmento \textbf{non contiene dati utente e non consuma numeri di sequenza}.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Three_wayc.png}
+		      \centering
+		      \caption{Chiusura della connessione tramite handshake a tre vie.}
+	      \end{figure}
+	\item Nella \textbf{chiusura handshake a quattro vie con halfclose} un \textbf{processo smette di inviare dati mentre ne sta ancora ricevendo dall'altro}.\textit{ e.g. l'ordinamento di una grossa quantità di dati inviati da un client a un server}. Il \textbf{client TCP} richiede la halfclose inviando un \textbf{segmento FIN}, il server accetta la richiesta di chiusura inviando un \textbf{segmento ACK}. Il trasferimento dei dati client-server \textbf{termina} ma il \textbf{server può ancora inviare dati al client}. Quando a sua volta il \textbf{server termina} l'invio dei dati, invia un \textbf{segmento FIN} al client che risponde con un \textbf{segmento ACK}.
+\end{itemize}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Halfway.png}
+	\centering
+	\caption{Chiusura della connessione tramite handshake a quattro vie con halfclose.}
+\end{figure}
+Una visione generale con un \textbf{diagramma delle transizioni di stato del protocollo TCP}:
+\begin{figure}[!h]
+	\includegraphics[scale=0.7]{Immagini/ASFTCP.png}
+	\centering
+	\caption{Il diagramma delle transizioni di stato.}
+\end{figure}\newline
+\textbf{TIME\_WAIT} è lo stato finale in cui un'entità che esegue la
+chiusura attiva si trova prima della chiusura definitiva della connessione. Vi resta per due volte la MSL (Maximum Segment Lifetime). \textbf{Garantisce una terminazione affidabile della connessione in caso di perdita dell'ultimo ACK e consente l'eliminazione dalla rete dei segmenti duplicati}.
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/ASF_halfclose.png}
+	\centering
+	\caption{Il diagramma delle transizioni di stato con chiusura four-way halfclose.}
+\end{figure}
+Riportiamo di seguito i \textbf{significati degli stati}.
+\begin{table}[h!]
+	\begin{center}
+		\label{tab:table1}
+		\begin{tabular}{l|c|c}
+			\textbf{Stato} & \textbf{Significato}                            \\
+			\hline
+			LISTEN         & server in attesa di SYN                         \\
+			SYN-SENT       & SYN inviato e attesa ACK                        \\
+			SYN-RECEIVED   & SYN e ACK inviati e attesa di ACK               \\
+			ESTABLISHED    & connessione aperta                              \\
+			FIN-WAIT-1     & primo FIN inviato attesa di ACK                 \\
+			FIN-WAIT-2     & ricevuto ACK primo FIN attesa di secondo FIN    \\
+			CLOSE-WAIT     & ricevuto primo FIN e ACK inviato                \\
+			TIME-WAIT      & ricevuto secondo FIN e ACK inviato, attesa 2MSL \\
+			CLOSING        & attesa di ACK chiusura                          \\
+			LAST-ACK       & secondo FIN inviato attesa di ACK               \\
+			CLOSED         & assenza di connessione                          \\
+		\end{tabular}
+	\end{center}
+\end{table}
 \end{document}
+
+
 
 
 
