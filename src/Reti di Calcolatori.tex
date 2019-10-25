@@ -1515,8 +1515,218 @@ Riportiamo di seguito i \textbf{significati degli stati}.
 		\end{tabular}
 	\end{center}
 \end{table}
+\begin{flushleft}
+	\textit{Come fa TCP a garantire il controllo del flusso?}
+\end{flushleft}
+Descriviamo il \textbf{ciclo di vita dei dati} scambiati all'interno della comunicazione TCP. I dati sono:
+\begin{enumerate}
+	\item \textbf{Generati} dal processo applicativo mittente.
+	\item Consegnati al \textbf{TCP mittente}.
+	\item Consegnati al \textbf{TCP destinatario}.
+	\item \textbf{Consumati} dal processo applicativo destinatario.
+\end{enumerate}
+Il \textbf{controllo del flusso} è gestito con il seguente meccanismo: il \textbf{TCP destinatario} invia un feedback al \textbf{TCP mittente} che a sua volta invia un feedback al \textbf{processo applicativo mittente}. Quando la finestra del TCP mittente è \textbf{piena} i dati, provenienti dal processo, vengono \textbf{rifiutati}.
+\newpage
+\begin{flushleft}
+	\textit{Come funzionano le finestre TCP?}
+\end{flushleft}
+Il \textbf{protocollo TCP} prevede due finestre, una di \textbf{ricezione} e una di \textbf{trasmissione}, per ogni direzione di comunicazione, in totale sono quindi presenti \textbf{4 finestre}. Ricordiamo infatti che la connessione TCP è \textbf{bidirezionale}. La \textbf{dimensione della finestra di trasmissione} è \textit{\textbf{inizialmente}} determinata all'apertura delle connessione. Si \textbf{apre} quando la dimensione della finestra di ricezione segnalata dal TCP destinatario lo consente e si \textbf{chiude} quando viene confermata la ricezione dei byte inviati. \textbf{Apertura, chiusura e ridimensionamento sono controllate dal TCP destinatario}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.55]{Immagini/TCP_Window.png}
+	\centering
+	\caption{La finestra di trasmissione o di invio TCP.}
+\end{figure}\newline
+Invece la \textbf{finestra di ricezione} si \textbf{chiude} quando giungono altri byte dal \textbf{TCP mittente} e si \textbf{apre} quando il processo applicativo destinatario richiede altri byte.
+\begin{figure}[!h]
+	\includegraphics[scale=0.54]{Immagini/Rc_window.png}
+	\centering
+	\caption{La finestra di ricezione TCP. Ipotizzeremo che non si riduca mai.}
+\end{figure}
+\newpage
+Alleghiamo di seguito un'immagine in grado di spiegare efficacemente ciò che succede in uno scenario \textbf{dinamico}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.65]{Immagini/Dyn_win.png}
+	\centering
+	\caption{Il controllo di flusso in una ipotetica connessione TCP unidirezionale.}
+\end{figure}\newline
+\centerline{\fbox{\textbf{rwindow = rwindowInit - (LastByteReceived - LastByteRead)}}}\newline\newline
+Il \textbf{mittente} si assicura che:\newline\newline
+\centerline{\fbox{\textbf{LastByteSent - LastByteAcked $<$ rindow}}}\newline\newline
+Ovvero che la quantità di dati trasmessi e non ancora riscontrati sia \textbf{minore} della \textbf{finestra di ricezione}.\newline
+\textbf{\underline{N.B.}} \textbf{rwindow può essere uguale a 0}, qualora ad esempio il TCP destinatario non volesse ricevere dai dati per un certo periodo di tempo. Il mittente in questo caso \textbf{non} riduce realmente la dimensione della sua finestra ma continua a mandare \textbf{segmenti sonda} di 1 byte per ricevere l’\textbf{aggiornamento} sulla dimensione di \textbf{rwindow}. Questa tecnica si definisce \textbf{probing} ed è usata per \textbf{prevenire lo stallo}.
+\newpage
+\begin{flushleft}
+	\textit{Come fa TCP a garantire il controllo degli errori?}
+\end{flushleft}
+Come è ormai più che noto \textbf{TCP è un protocollo di trasporto affidabile} e garantisce al processo applicativo che i dati vengano consegnati in \textbf{sequenza}, \textbf{senza errori}, \textbf{smarrimenti o duplicazioni}.\newline
+Gli strumenti utilizzati da TCP per individuare gli errori di trasmissione sono \textbf{tre}:
+\begin{enumerate}
+	\item \textbf{La checksum}: ciascun \textbf{segmento TCP} contiene un campo \textbf{checksum} di 16 bit
+	      \textbf{obbligatorio} e utilizzato per identificare i \textbf{segmenti corrotti}. Se un segmento viene rilevato essere tale viene \textbf{scartato} e \textbf{considerato smarrito}.
+	\item \textbf{I messaggi di riscontro o ACK}: TCP usa gli ACK per riscontrare la \textbf{ricezione dei segmenti} che contengono un \textbf{numero di sequenza}, possono essere segmenti \textbf{dati} o di \textbf{controllo}. I segmenti ACK \textbf{non} usano numeri di sequenza e perciò \textbf{non} vengono \textbf{riscontrati}. Nella sua \textbf{implementazione originale} TCP è stato progettato per riscontrare i segmenti in modo \textbf{cumulativo}, ovvero notificando il numero del byte che si attende e ignorando i segmenti duplicati e fuori sequenza. Nelle \textbf{versioni} più \textbf{recenti} è implementato il \textbf{selective ack o SACK} il quale prevede che i \textbf{pacchetti} ricevuti \textbf{fuori sequenza} vengano ugualmente \textbf{memorizzati} e inoltre sia presente un riscontro per i pacchetti fuori sequenza e quelli duplicati contenuto nel campo OPTIONS. \textbf{Un'entità TCP genera riscontri quando}:
+	      \begin{itemize}
+		      \item \textbf{Invia un segmento dati} a un'altra entità e \textbf{contemporaneamente invia l'ACK} contenente numero del prossimo byte che si aspetta di ricevere, così da \textbf{ridurre il traffico}. Se destinatario \textbf{non} ha dati da inviare e riceve un segmento in ordine ritarda l'invio dell'ACK di \textbf{500ms} a meno che non riceva un nuovo segmento sempre per una ragione di riduzione del traffico.
+		      \item Vengono ricevuti \textbf{due segmenti nel giusto ordine e nessuno dei due è ancora stato riscontrato}. Viene inviato immediatamente un segmento ACK, dal destinatario al mittente, per \textbf{evitare la ritrasmissione inutile dei segmenti}.
+		      \item Arriva un \textbf{segmento fuori sequenza} il destinatario invia immediatamente un ACK per \textbf{consentire la ritrasmissione rapida dei segmenti}.
+		      \item \textbf{Arriva un segmento mancante o un segmento duplicato}.
+	      \end{itemize}
+	\item \textbf{I timeout}: il \textbf{TCP mittente} inizializza un \textbf{timer di ritrasmissione}, o \textbf{RTO} per ogni segmento inviato. Il \textbf{primo} segmento inviato e in attesa di riscontro, che ricordiamo essere memorizzato nel buffer del TCP mittente, allo scadere del timer, \textbf{è ritrasmesso}.
+\end{enumerate}
+\newpage
+\textbf{\underline{N.B.}} Un segmento viene ritrasmesso o alla \textbf{scadenza del timer} o quando vengono ricevuti \textbf{tre ACK duplicati} per quello precedente, questa funzione è chiamata \textbf{ritrasmissione veloce}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Fast_retrsm.png}
+	\centering
+	\caption{Un'esempio di scambio di dati tra due entità con un esempio di ritrasmissione veloce. Si supponga in uso una versione moderna di TCP dove i pacchetti fuori sequenza vengono memorizzati e non scartati.}
+\end{figure}\newline
+L'\textbf{RTO} ha un \textbf{valore} \textbf{dinamico} calcolato in base al tempo di andata e di ritorno dei segmenti trasmessi detto anche \textbf{RTT} o \textbf{Round} \textbf{Trip} \textbf{Time}.\newline\newline
+Presentiamo ora una collezione di vari scenari di operatività del protocollo TCP.
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Norm_op.png}
+	\centering
+	\caption{Uno scenario di operatività normale. Notare, come descritto in precedenza, il ritardo nella trasmissione dell'ACK dovuto alla ricezione di un solo segmento.}
+\end{figure}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Loss_op.png}
+	\centering
+	\caption{Uno scenario di perdita di un segmento. Notare, come descritto in precedenza, che alla ricezione del secondo segmento in ordine, alla ricezione del terzo segmento in \textit{disordine} e alla ricezione del quarto segmento mancante viene immediatamente inviato un ACK.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/ACK_lost.png}
+	\centering
+	\caption{Uno scenario di perdita di un ACK. Notare come lo scenario venga ripristinato automaticamente in una condizione di normalità dalla spedizione dell'ACK successivo.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/ACK_retr.png}
+	\centering
+	\caption{Uno scenario di perdita di un ACK. Stavolta si torna alla normalità tramite la ricezione di un segmento duplicato e il conseguente ed immediato invio dell'ACK da parte del server..}
+\end{figure}
+\textbf{\underline{N.B.}} Lo \textbf{smarrimento di un riscontro può provocare lo stallo} ed è nel caso in cui, a seguito della ricezione da parte del TCP mittente di un segmento ACK con  il campo \textbf{rwnd settato a 0}, si perda il successivo ACK con il campo rwnd non nullo. Il \textbf{TCP destinatario} supporrà che il TCP mittente lo abbia ricevuto e \textbf{resterà in attesa} dei dati.
+\newpage
+Riassumiamo gli argomenti fin qui trattati presentando degli \textbf{ASF} per il \textbf{TCP mittente} e il \textbf{TCP destinatario}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.47]{Immagini/ASF_tcpm.png}
+	\centering
+	\caption{ASF del TCP mittente.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.47]{Immagini/ASF_tcpd.png}
+	\centering
+	\caption{ASF del TCP destinatario.}
+\end{figure}
+\newpage
+\begin{flushleft}
+	\textit{Come si calcola l'RTO o Retrasmission Time-Out?}
+\end{flushleft}
+\textbf{TCP} fa partire un \textbf{timer} quando invia un segmento all'\textbf{inizio} della coda di invio, quando il \textbf{timer scade} TCP \textbf{rispedisce} il \textbf{primo} segmento all'inizio della coda e fa ripartire il timer. Per definire l'\textbf{RTO} bisogna prima definire l'\textbf{RTT} o \textbf{Round Trip Timer}. Infatti \textbf{l'RTO deve essere maggiore del'RTT}. Ricordiamo che l'RTT è il \textbf{tempo trascorso da quando si invia un segmento a quando ne si riceve il riscontro}. Calcolare l'RTT è un procedimento abbastanza complicato a causa della sua \textbf{variabilità} nel percorso.\newline
+\textbf{Inizialmente} l'RTT vale 0 e l'RTO è \textbf{preimpostato}. Dopo la prima misurazione, ottenuta inviando un segmento e contando il tempo che passa tra l'invio e il riscontro, avremo un $RTT_{ESTIMATED}$. \newline\newline
+\textbf{\underline{N.B.}} non si ha \textbf{nessuna} garanzia che il prossimo segmento impiegherà lo \textbf{stesso} tempo per essere inviato e riscontrato!\newline\newline
+Perciò dalla \textbf{seconda misurazione} in avanti RTT viene calcolato utilizzando l'RTT dei segmenti precedenti con la seguente formula:
+\begin{equation}
+	RTT_{ESTIMATED} = (1 – \alpha) \times RTT_{ESTIMATED} + \alpha \times RTT_{SAMPLE}
+\end{equation}
+L' $RTT_{SAMPLE}$ è riferito all'\textbf{ultimo} segmento inviato.\textbf{ $RTT_{ESTIMATED}$ è quindi la combinazione dei suoi precedenti valori e il nuovo valore $RTT_{SAMPLE}$}. Il valore di $\alpha$ viene posto a 1/8 in modo da rendere via via \textbf{meno importanti gli RTT dei pacchetti più vecchi}. Si ha quindi:
+\begin{equation}
+	RTT_{ESTIMATED} = 0,875 \times RTT_{ESTIMATED} + 0,125 \times RTT_{SAMPLE}
+\end{equation}
+Oltre al valore RTT stimato \textbf{è necessaria anche una stima della} sua \textbf{variabilità} data dalla \textbf{seguente formula}:
+\begin{equation}
+	RTT_{DEV} = (1 - b) \times RTT_{DEV} + b \times \mid RTT_{SAMPLE} - RTT_{ESTIMATED} \mid
+\end{equation}
+Rappresenta una \textbf{stima di quanto $RTT_{SAMPLE}$ si discosta da $RTT_{ESTIMATED}$}. Il valore di b viene posto a 1/4. Una volta ottenuti questi valori, \textbf{il timeout viene normalmente calcolato come}:
+\begin{equation}
+	RTO = RTT_{ESTIMATED} + 4 \times RTT_{DEV}
+\end{equation}
+In altre parole si prende il valore più recente di $RTT_{ESTIMATED}$ e gli si somma \textbf{quattro volte} $RTT_{DEV}$, solitamente piccolo, per \textbf{equilibrarlo}.
+\newpage
+\begin{flushleft}
+	\textit{Come fa TCP a gestire la congestione?}
+\end{flushleft}
+Ricordiamo che il fenomeno della \textbf{congestione} è originato dal tentativo delle
+sorgenti di \textbf{richiedere più banda di quella disponibile} sul percorso fino alle destinazione.\newline
+Il \textbf{traffico eccessivo} nella rete \textbf{può provocare}:
+\begin{itemize}
+	\item \textbf{Lunghi ritardi} causati dall'accodamento dei pacchetti nei buffer dei router.
+	\item \textbf{Perdita di pacchetti} causata dall'overflow nei buffer dei router.
+\end{itemize}
+Il \textbf{protocollo TCP} utilizza la \textbf{finestra di congestione} come principale strategia per evitare la congestione.\newline\newline
+\textbf{TCP} usa le \textbf{finestre di ricezione} e le \textbf{finestre di trasmissione} per far sì che i due rispettivi buffer non vengano sovraccaricati. Fondamentalmente però la congestione è un \textbf{problema del livello di rete} e sebbene il protocollo IP non lo gestisca, la soluzione delle due finestre assicura l'assenza di congestione \textbf{agli estremi} della comunicazione ma \textbf{non nel mezzo}. La politica di rispedizione dei segmenti persi di TCP in combinazione con la congestione di rete potrebbe portare al \textbf{collasso dell'intera rete}.
+\textbf{TCP} non può quindi ignorare la congestione della rete ma non può nemmeno essere troppo conservativo più di quello che è già nell'inoltrare i segmenti. Si utilizza perciò una \textbf{seconda variabile} chiamata \textbf{cwnd} o \textbf{congestion window} il cui valore dipende dal \textbf{livello di congestione della rete}. Con l'aggiunta di questa seconda variabile il valore della finestra d'invio è determinato anche dalla congestione presente in rete.
+\begin{center}
+	\textbf{Dimensione della finestra = min(rwnd,cwnd)}
+\end{center}
+\begin{flushleft}
+	\textit{Ma come si determina il valore di cwnd?}
+\end{flushleft}
+Prima di rispondere a questa domanda è bene spiegare \textbf{come fa il protocollo TCP ad accorgersi della presenza di congestione sulla rete}.
+Il \textbf{TCP mittente} interpreta come sinonimi di congestione:
+\begin{enumerate}
+	\item Il \textbf{timeout}.
+	\item La ricezione di \textbf{tre riscontri duplicati}.
+\end{enumerate}
+Il secondo caso è \textbf{probabilmente meno critico del primo} poiché significa che un segmento è stato smarrito ma tre sono stati ricevuti. Può indicare o che la \textbf{rete è al limite della congestione o vi che è appena uscita}. L'\textbf{assenza} di una ricezione rapida e regolare dei riscontri è invece \textbf{evidenziata} dalla scadenza del \textbf{timeout}.
+\newpage
+La strategia principale usata da TCP per controllare la congestione prevede \textbf{tre fasi}:
+\begin{enumerate}
+	\item \textbf{Slow Start}.
+	\item \textbf{Congestion Avoidance}.
+	\item \textbf{Fast Recovery}.
+\end{enumerate}
+A ogni fase corrisponde un algoritmo diverso.
+\begin{itemize}
+	\item \textbf{Slow Start}: si basa sull'inizializzare la dimensione della finestra di congestione rendendola pari a quella della \textbf{MSS} o \textbf{Maximum Segment Size}. Aumentandola poi di MSS ogni volta che \textbf{un} segmento viene riscontrato. La MSS è stabilita all'inizio della connessione. Così facendo l'algoritmo parte lentamente ma procede con velocità via via crescente. La dimensione di cwnd nella fase di \textbf{slow start} può essere espressa come $2^{n}$ dove n sono i \textbf{riscontri ricevuti}.\textbf{ Se due segmenti vengono confermati con lo stesso riscontro cwnd aumenta solo di 1}. La crescita è comunque \textbf{esponenziale} nell'unità di tempo RTT, ma di esponente diverso. La fase continua \textbf{fino} al raggiungimento da parte di cwnd di una soglia chiamata \textbf{ssthresh} o \textbf{slow start threshold}. Al raggiungimento di questa soglia si entra nella fase di \textbf{congestion avoidance}.
+	\item \textbf{Congestion Avoidance}: una volta che \textbf{cwnd} ha raggiunto una dimensione \textbf{relativamente} grande, per evitare che la crescita esponenziale finisca per causare problemi di congestione, \textbf{il protocollo TCP} usa un altro algoritmo che incrementa in modo \textbf{lineare} anziché \textbf{esponenziale} il valore di cwnd. La fase di \textbf{congestion avoidance} prevede che ogni volta che \textbf{l'intera finestra di ricezione viene riscontrata} la sua dimensione aumenti \textbf{di un'unità}.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.38]{Immagini/CA_tcp.png}
+		      \centering
+		      \caption{In figura la crescita della cwnd nella fase di congestion avoidance.}
+	      \end{figure}\newline
+	\item La terza fase chiamata \textbf{Fast Recovery} è \textbf{opzionale} in TCP. La \textbf{versione originale non ne faceva uso}. Inizia quando arrivano \textbf{tre riscontri duplicati} interpretati come inizio di leggera congestione della rete. Aumenta la dimensione di cwnd in modo \textbf{lineare}, incrementandola di un'unità ogni volta che riceve \textbf{due riscontri duplicati}.
+\end{itemize}
+Analizziamo ora come, attraverso l'affermarsi di modelli sempre più recenti del protocollo TCP siano \textbf{cambiate le modalità di transizione da una fase all'altra}.
+La \textbf{prima versione di TCP} chiamata \textbf{TCP Taho} utilizzava \textbf{solo le prime due fasi}. Se durante la fase di \textbf{slow start} rileva la presenza di congestione \textbf{resetta} la dimensione di \textbf{cwnd} a 1 e \textbf{assegna} a \textbf{ssthresh} il vecchio valore di \textbf{cwnd dimezzato}. Se non la rileva entro il raggiungimento di ssthresh passa alla fase di \textbf{congestion avoidance}. In questa fase \textbf{non vi è un limite sulla dimensione di rwnd} e se non è rilevata congestione \textbf{aumenta linearmente fino alla chiusura della connessione}, se invece viene rilevata si riparte dalla fase di slow start con cwnd pari a 1 e ssthresh pari al vecchio valore di \textbf{cwnd dimezzato}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Taho.png}
+	\centering
+	\caption{TCP Taho rappresentato come ASF.}
+\end{figure}\newline
+\begin{figure}[!h]
+	\includegraphics[scale=0.34]{Immagini/Taho2.png}
+	\centering
+	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Taho.}
+\end{figure}
+\newpage
+In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{slow recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuvo valore di sshtresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Taho.
+\begin{figure}[!h]
+	\includegraphics[scale=0.33]{Immagini/Reno.png}
+	\centering
+	\caption{TCP Reno rappresentato come ASF.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.31]{Immagini/Reno2.png}
+	\centering
+	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Reno.}
+\end{figure}
+\newpage
+\begin{flushleft}
+	\textit{Come calcolare il throughput di TCP?}
+\end{flushleft}
+Il \textbf{throughput di TCP dipende dal comportamento della finestra di congestione} e non è quindi costante, se riportato su un grafico avrebbe un profilo simile a quello dei denti di una sega detto anche \textbf{AIMD} o \textbf{addictive increase multiplicative decrease}. Ciò è dovuto a come è determinata, dopo la prima fase di \textbf{slow start}, la dimensione della finestra di congestione. Se i denti fossero tutti uguali il throughput sarebbe uguale a:\[\frac{\frac{\mid max + min \mid }{2}}{RTT}\]
+Sapendo che ogni rilevazione di congestion cwnd è impostato alla metà del suo valore precedente, \textbf{il throughput può essere calcolato come:}
+\[\frac{ 0.75 \times W_{max}}{RTT}\]
+\textbf{Dove $W_{MAX}$ è la dimensione media di cwnd in presenza di congestione}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/Cwnd_ex.png}
+	\centering
+	\caption{In figura il profilo AIMD.}
+\end{figure}\newline
+Proviamo a \textbf{calcolare} il \textbf{throughput} avendo come dati il \textbf{grafico}, l' \textbf{MSS} pari a 10 KB (kilobyte) e un \textbf{RTT} di 100 ms. Otteniamo
+\[W_{MAX} = \frac{10 + 12 + 10 + 8 + 8}{5}\]
+da cui
+\[throughput =  \frac{0,75 \times W_{MAX}}{RTT}  = \frac{0,75 \times 960 KB}{100 ms} = 7,2 MB/s\]
+\newpage
 \end{document}
-
 
 
 
