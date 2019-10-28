@@ -965,14 +965,14 @@ Il processo con cui si associa l'indirizzo IP da un nome è detto \textbf{proces
 \newpage
 
 \begin{itemize}
-	\item Con la \textbf{risoluzione ricorsiva}, la \textbf{query DNS} viaggia dall'host su cui è in esecuzione il processo applicativo che ne ha fatto richiesta fino a un host che conosce l'indirizzo IP richiesto, eventualmente scalando, poi discendendo e infine percorrendo a all'indietro \textbf{l'intera gerarchia dei server DNS}. \textbf{All'host che ha richiesto la query viene inviato \textbf{solo} l'indirizzo IP risultante}. Il server locale ha richiesto quindi una \textbf{conversione completa}.
+	\item Con la \textbf{risoluzione ricorsiva}, la \textbf{query DNS} viaggia dall'host su cui è in esecuzione il processo applicativo che ne ha fatto richiesta fino a un host che conosce l'indirizzo IP richiesto, eventualmente scalando, poi discendendo e infine percorrendo a all'indietro \textbf{l'intera gerarchia dei server DNS}. \textbf{Al server locale che ha richiesto la query viene inviato \textbf{solo} l'indirizzo IP risultante}, ha richiesto quindi una \textbf{conversione completa}.
 	      \begin{figure}[!h]
 		      \includegraphics[scale=0.7]{Immagini/DNSrec.png}
 		      \centering
 		      \caption{In figura un esempio di risoluzione ricorsiva.}
 	      \end{figure}
 	\item Con la  \textbf{risoluzione iterativa} ogni \textbf{server-DNS} che non è in grado di risolvere la \textbf{query-DNS} dell'host risponde, \textbf{direttamente al client-DNS}, con \textbf{l'indirizzo di un altro server in grado di risolverla}.
-	      \textbf{	All'host che ha richiesto la query non viene quindi inviato solo l'indirizzo IP risultante}. La \textbf{risoluzione iterativa} è supportata da \textbf{tutti} i \textbf{name server}, l'host può richiedere che venga usata la \textbf{risoluzione ricorsiva} ma potrebbe non essere disponibile.
+	      \textbf{	Al server locale che ha richiesto la query non viene quindi inviato solo l'indirizzo IP risultante}. La \textbf{risoluzione iterativa} è supportata da \textbf{tutti} i \textbf{name server}, l'host può richiedere che venga usata la \textbf{risoluzione ricorsiva} ma potrebbe non essere disponibile.
 
 	      \begin{figure}[!h]
 		      \includegraphics[scale=0.7]{Immagini/DNSite.png}
@@ -1199,7 +1199,7 @@ Concludiamo questa sezione offrendo una breve panoramica del servizio chiamato \
 	\caption{In figura uno scenario in cui \textbf{solo} il ricevente utilizza \textbf{HTTP}.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.6]{Immagini/Web_mail.png}
+	\includegraphics[scale=0.6]{Immagini/Web_mail1.png}
 	\centering
 	\caption{In figura uno scenario in cui \textbf{sia} che il ricevente che il destinatario utilizzano \textbf{HTTP}.}
 \end{figure}
@@ -1697,7 +1697,7 @@ La \textbf{prima versione di TCP} chiamata \textbf{TCP Taho} utilizzava \textbf{
 	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Taho.}
 \end{figure}
 \newpage
-In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{slow recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuvo valore di sshtresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Taho.
+In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{slow recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuovo valore di sshtresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Taho.
 \begin{figure}[!h]
 	\includegraphics[scale=0.33]{Immagini/Reno.png}
 	\centering
