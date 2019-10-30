@@ -1052,6 +1052,7 @@ Poi del \textbf{messaggio}:
 \textit{In UNIX si può utilizzare il comando} \texttt{nslookup} \textit{per ottenere associazioni nome simbolico : indirizzo numerico.}
 \newpage
 \subsubsection{EMAIL - SMTP}
+\label{sec:SMTP}
 La \textbf{posta elettronica} è uno dei primi servizi applicativi di Internet, la sua nascita risale infatti al 1971, quando un tale Ray Tomlinson installò su ARPANET un sistema in grado di scambiare messaggi fra le varie università. La \textbf{posta elettronica} consente agli utenti di scambiarsi \textbf{messaggi}, sebbene si siano trattate \textbf{altre applicazioni} fornenti questo servizio e.g. \textbf{HTTP} e \textbf{TCP}, il funzionamento della posta elettronica è tale da distinguersi da queste due applicazioni citate poco prima. Infatti in applicazioni come \textbf{FTP} e \textbf{HTTP} il programma \textbf{server} è \textbf{sempre attivo} e in attesa di richieste, che quando arrivano, vengono processate.
 Vi è quindi una richiesta e una risposta. Nella \textbf{posta elettronica} il \textbf{funzionamento} è \textbf{differente}: infatti l'invio di un messaggio è considerato una \textbf{transazione unidirezionale}, la risposta può anche non arrivare e se arriva è considerata un'altra transazione unidirezionale. Secondariamente \textbf{non avrebbe} molto \textbf{senso tenere in esecuzione continuata un programma server} in attesa che qualcuno ci invii un messaggio, potremmo ragionevolmente voler spegnere il computer nell'attesa. Ciò implica che l'idea di modello client-server debba essere realizzata in un altro modo, magari utilizzando dei \textbf{server intermedi} e \textbf{disaccoppiando} le funzionalità di \textbf{ricezione} da quelle di \textbf{invio}. Di seguito illustriamo concisamente l'architettura della posta elettronica.
 \begin{figure}[!h]
@@ -1743,7 +1744,11 @@ da cui
 \newpage
 \section{Esercizi}
 \begin{enumerate}
-	\item L’utente mickey@disney.com invia dal suo PC una email a donald@disney.com. Indicare la sequenza di comandi SMTP inviati e ricevuti dal PC di mickey@disney.com se:
+	\item L’utente \begin{center}
+		      \textbf{mickey@disney.com}
+	      \end{center} invia dal suo PC una email a \begin{center}
+		      \textbf{donald@disney.com}
+	      \end{center}. Indicare la sequenza di comandi SMTP inviati e ricevuti dal PC di \textbf{mickey@disney.com} se:
 	      \begin{enumerate}
 		      \item il mailserver di disney.com non è raggiungibile.
 		      \item il mailserver di disney.com è raggiungibile.
@@ -1768,6 +1773,11 @@ da cui
 		            R: 221 service closed\newline
 	      \end{enumerate}
 	      È bene ricordarsi che il corpo del messaggio termina \textbf{sempre} con ritorno a capo e fine linea.
+
+	      \begin{flushleft}
+		      Per chiarimenti è consigliato il ripasso del capitolo sull'\hyperref[sec:SMTP]{\textbf{SMTP}}.
+	      \end{flushleft}
+
 	      \newpage
 	\item Un host deve risolvere il nome simbolico:
 	      \begin{center}
@@ -1977,9 +1987,9 @@ da cui
 		#controllare inizio della chiusura della conn.
 		if (!finito) {
 			#se segmento non corrotto
-			if OK(segm) { 
+			if (OK(segm)) { 
 				#se il segmento contiene nuovi dati
-				if nuovo(segm.seqnum) { 
+				if (nuovo(segm.seqnum)) { 
 					#inserisco i dati nel buffer
 					insert(segm.dati,finestra); 
 					#nuovo valore di rwnd
@@ -2014,7 +2024,7 @@ da cui
 	      \end{itemize}
 	      e.g. \hyperref[sec:HTTP Protocol]{\textbf{HTTP}}
 	      \begin{itemize}
-		      \item Un'unica connessione dati + comandi.
+		      \item Un'unica connessione per dati e comandi.
 		      \item Interazione stateless.
 	      \end{itemize}
 \end{enumerate}
