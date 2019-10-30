@@ -5,6 +5,11 @@
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{enumitem}
+\usepackage{chngpage}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+
+\lstset{tabsize = 2}
 
 
 \theoremstyle{definition}
@@ -78,6 +83,11 @@ Verrà trattato il protocollo Ipv4 e introdotto il protocollo Ipv6.
 \subsection{Livello link}
 Si occupa di gestire il collegamento tra due nodi \textbf{adiacenti}.
 La tecnologia principale è l'\textbf{ethernet}.
+\begin{figure}[!h]
+	\includegraphics[scale=0.47]{Immagini/Modelli_Strat.png}
+	\centering
+	\caption{Modello stratificato}
+\end{figure}
 \pagebreak
 
 \section{Introduzione alle reti}
@@ -98,7 +108,7 @@ I sistemi terminali si possono dividere in due tipi: \textbf{host} e \textbf{ser
 Acronimo di \textbf{L}ocal \textbf{A}rea \textbf{N}etwork, è
 una rete di area geografica limitata collegata attraverso una tecnologia ethernet \textbf{bus} o ethernet \textbf{switch}:
 \begin{figure}[!h]
-	\includegraphics[scale=0.6]{Immagini/LAN.png}
+	\includegraphics[scale=0.85]{Immagini/LAN.png}
 	\centering
 \end{figure}
 Ciascun host ha un cavo che lo collega allo switch e a ogni porta dello switch corrisponde un host. Lo \textbf{switch} possiede una tecnologia di autoapprendimento ed è una componente del \textbf{livello link}.
@@ -187,7 +197,7 @@ Uno scorcio delle \textbf{componenti di Internet}:
 \end{itemize}
 
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Internet.png}
+	\includegraphics[scale=0.7]{Immagini/Internet.png}
 	\centering
 	\caption{Una porzione di Internet}
 \end{figure}
@@ -238,7 +248,7 @@ ISP (\textit{internet service provider}).
 \newpage
 
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Internet_Concept.png}
+	\includegraphics[scale=0.85]{Immagini/Internet_Concept.png}
 	\centering
 	\caption{Un modello concettuale di Internet}
 \end{figure}
@@ -266,8 +276,9 @@ ISP (\textit{internet service provider}).
 \theoremstyle{definition}
 \begin{definition}
 	La \textbf{latenza} o \textbf{latency} è il tempo che passa dal momento in cui il primo bit parte dalla sorgente al momento in cui l'intero messaggio arriva a destinazione. \newline
-
-	\fbox{\centering{$L = r_{propagazione} + r_{trasmissione} + r_{accodamento} + r_{elaborazione}$}}
+	\begin{center}
+		\fbox{\Large{$L = r_{propagazione} + r_{trasmissione} + r_{accodamento} + r_{elaborazione}$}}
+	\end{center}
 \end{definition}
 \newpage
 
@@ -289,24 +300,23 @@ Il ritardo di accodamento \textbf{è il tempo che un pacchetto passa nella coda 
 Il ritardo di trasmissione \textbf{è il tempo impiegato a trasmettere un pacchetto intero} sul link.\newline
 $R$ = rate di trasmissione del collegamento.\newline
 $L$ = lunghezza del pacchetto.\newline
-\centerline{$r_{trasmissione} = \frac{L}{R}$}
-
+\[\centerline{$r_{trasmissione} = \frac{L}{R}$}\]
 \subsubsection{Ritardo di propagazione}
 Il ritardo di propagazione \textbf{è il tempo impiegato da un bit per essere propagato da un nodo (router) all'altro}.\newline
 $d$ = lunghezza del collegamento fisico\newline
 $s$ = velocità di propagazione del collegamento fisico \newline
-\centerline{$r_{propagazione} = \frac{d}{s}$}
+\[\centerline{$r_{propagazione} = \frac{d}{s}$}\]
 
 \subsection{Esempio}
 Si consideri l'invio di un file di 1 MBit su un datalink di lunghezza 4800km:\newline
 $d = 4800\times10^3 m$ \newline
 $s = 3\times10^3 m/s$ \newline
 Si calcoli il ritardo di propagazione. \newline
-Soluzione:\newline
-$r_{propagazione} = \frac{d}{s} = \frac{4800\times10^3 m }{3\times10^3 m/s}  = 0.016$ secondi.\newline
-Sia il trasmission rate pari a 64 kbps, si calcoli il ritardo di trasmissione. \newline
-$r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{64\times10^3 bps}= 15.625$ secondi.\newline
-Se il trasmission rate fosse invece di 1 Gbps? \newline
+Soluzione:\newline\newline
+$r_{propagazione} = \frac{d}{s} = \frac{4800\times10^3 m }{3\times10^3 m/s}  = 0.016$ secondi.\newline\newline
+Sia il trasmission rate pari a 64 kbps, si calcoli il ritardo di trasmissione. \newline\newline
+$r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{64\times10^3 bps}= 15.625$ secondi.\newline\newline
+Se il trasmission rate fosse invece di 1 Gbps? \newline\newline
 $r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{10^9 bps} = 0.001$ secondi.
 
 \subsection{Volume di un link}
@@ -326,11 +336,11 @@ $r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{10^9 bps} = 0.001$ secondi.
 	\centering
 \end{figure}
 Si calcoli il ritardo end-to-end di un pacchetto su un percorso con due router. Sia trascurabile il ritardo di congestione e si suppongano uguali su tutti link il propagation delay, il transmission delay e il processing delay.\newline\newline
-\textbf{Soluzione}:\newline Essendoci due router intermedi bisongna attraversare tre link, quindi:\newline
+\textbf{Soluzione}:\newline Essendoci due router intermedi bisongna attraversare tre link, quindi:\newline\newline
 \centerline{$r_{totale} = 3\times r_{propagation} + 3\times r_{trasmission} + 3\times r_{processing}$}
 \newpage
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Soluzione_ritardi.png}
+	\includegraphics[scale=0.82]{Immagini/Soluzione_ritardi.png}
 	\centering
 	\caption{Quello che succede in dettaglio nell'esempio precedente.}
 \end{figure}
@@ -376,7 +386,7 @@ uno standard per l’interconnessione di sistemi aperti: l' \textbf{Open System 
 	\item \textbf{Divisione delle funzionalità}: il protocollo di telecomunicazione è diviso in strati o layers, ognuno dei quali svolge un compito piccolo e indipendente dagli altri.\newline
 	      Si cerca quindi di mantenere un minor numero di strati possibile e di far svolgere a ognuno di essi il minor numero di compiti possibile.
 	\item \textbf{Comunicazione mediante interfacce}: i livelli comunicano mediante \textbf{chiamate standard}. Ogni livello è tenuto a rispondere alle \textbf{sole} chiamate che gli competono e che verranno
-	      invocate dai due livelli ad esso adiacenti.
+	      invocate dal singolo livello o dai due livelli ad esso adiacenti.
 	\item \textbf{Information hiding}: le modalità con cui le funzioni competenti ad un livello
 	      vengono svolte non è visibile dall'esterno che ne è così
 	      svincolato.
@@ -384,7 +394,7 @@ uno standard per l’interconnessione di sistemi aperti: l' \textbf{Open System 
 
 \subsection{Protocollo}
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Protocollo.png}
+	\includegraphics[scale=0.7]{Immagini/Protocollo.png}
 	\centering
 \end{figure}
 I protocolli definiscono il \textbf{formato} e l’\textbf{ordine} dei
@@ -419,17 +429,17 @@ Un protocollo specifica quindi:
 	fornisce ad uno strato soprastante. (\textit{vedi sez. 3.4.1}).
 \end{definition}
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Protocol_stack.png}
+	\includegraphics[scale=0.85]{Immagini/Protocol_stack.png}
 	\centering
 	\caption{Esempio di stack protocollare.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.7]{Immagini/Osi_strati.png}
+	\includegraphics[scale=0.75]{Immagini/Osi_strati.png}
 	\centering
 	\caption{Gli strati di OSI.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.7]{Immagini/End_sys.png}
+	\includegraphics[scale=0.75]{Immagini/End_sys.png}
 	\centering
 	\caption{Esempio di collegamento tra end systems.}
 \end{figure}
@@ -445,7 +455,7 @@ Per i dati ricevuti invece si segue il cammino inverso. Si tratta infatti di un 
 	\centering
 \end{figure}
 \begin{itemize}
-	\item \textbf{Header}: è qualificazione del pacchetto dati per questo livello.
+	\item \textbf{Header}: è la qualificazione del pacchetto dati per questo livello.
 	\item \textbf{DATA}: è il payload proveniente dal livello superiore.
 	\item \textbf{Trailer}: è usato per rilevare e correggere gli errori.
 \end{itemize}
@@ -502,7 +512,7 @@ Il protocollo dello strato applicativo definisce: (\textit{repetita iuvant})
 	\item Le \textbf{regole} di comunicazione \textbf{interprocessuale}.
 \end{itemize}
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Application_layer.png}
+	\includegraphics[scale=0.63]{Immagini/Application_layer.png}
 	\centering
 	\caption{Esempio di comunicazione tra applicazioni di rete. Ancora una volta è bene ricordare che il protocollo crea l'\textit{illusione} che i processi siano in comunicazione diretta.}
 \end{figure}
@@ -514,7 +524,7 @@ Presentiamo ora i \textbf{paradigmi di comunicazione} dello strato applicativo:
 	\item  \textbf{Misto}.
 \end{itemize}
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Client_server.png}
+	\includegraphics[scale=0.55]{Immagini/Client_server.png}
 	\centering
 	\caption{Esempio di paradigma client-server.}
 \end{figure}
@@ -577,6 +587,7 @@ Le \textbf{sintassi} della URI:\newline\newline
 \end{itemize}
 Le URI possono essere \textbf{assolute} o \textbf{relative}, una \textbf{URI assoluta} identifica una risorsa \textbf{indipendentemente} dal contesto in cui è usata. Una \textbf{URI relativa} identifica una risorsa in relazione ad un'altra URL, \textbf{è priva di schema e di authority}, non viaggia sulla rete ed è interpretata dal browser in relazione al documento di partenza.\newline \textit{(e.g. http://www.w3.org/pub/WWW/TheProject.html oppure\newline /pub/WWW/TheProject.html \underline{sotto l'host}: www.w3.org)}.
 \subsubsection{HTTP Protocol}
+\label{sec:HTTP Protocol}
 Il protocollo \textbf{HTTP} è un protocollo di tipo \textbf{request}/\textbf{response}: il client inizia la connessione inviando un messaggio di \textbf{request} al server che a sua volta invia una \textbf{response}. Si tratta di un \textbf{protocollo generico}, poichè non dipende dal formato delle risorse, e \textbf{stateless} poichè \textbf{le coppie richiesta/risposta sono indipendenti l'una dall'altra}. In \textbf{HTTP 1.0} dopo la prima coppia di richiesta/risposta la connessione viene \textbf{terminata} mentre in \textbf{HTTP 1.1} si \textbf{procede} con un’altra coppia. \newline
 Lo \textbf{schema http} è usato per accedere alle risorse attraverso il protocollo HTTP. \newpage
 Si riporta di seguito la \textbf{sintassi} per le URL http:\newline\newline
@@ -633,7 +644,7 @@ Il \textbf{server} \textbf{deve} tuttavia inviare le risposte nello stesso ordin
 	Un \textbf{metodo safe} è un metodo che non produce effetti collaterali sulle risorse. \textit{(e.g. non le modificano: GET, HEAD, OPTIONS, TRACE...)}
 \end{definition}
 \begin{figure}[!h]
-	\includegraphics[scale=0.4]{Immagini/Http_vs.png}
+	\includegraphics[scale=0.85]{Immagini/Http_vs.png}
 	\centering
 	\caption{In figura sono rappresentate le differenze viste prima.}
 \end{figure}
@@ -647,14 +658,16 @@ Riportiamo di seguito la \textbf{struttura} di un generico messaggio http:\newli
 \texttt{[ message-body ]}\newline
 La prima riga o \textbf{start line} distingue i messaggi di request dai messaggi di response.
 \begin{figure}[!h]
-	\includegraphics[scale=0.25]{Immagini/Http_req.png}
 	\centering
-	\caption{In figura un messaggio di richiesta.}
-\end{figure}
-\begin{figure}[!h]
-	\includegraphics[scale=0.25]{Immagini/Http_res.png}
-	\centering
-	\caption{In figura un messaggio di risposta.}
+	\begin{minipage}[b]{0.4\textwidth}
+		\includegraphics[scale=0.4]{Immagini/Http_req.png}
+		\caption{In figura un messaggio di richiesta.}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[b]{0.4\textwidth}
+		\includegraphics[scale=0.4]{Immagini/Http_res.png}
+		\caption{In figura un messaggio di risposta.}
+	\end{minipage}
 \end{figure}
 \newpage
 \begin{figure}[!h]
@@ -680,7 +693,7 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 \end{itemize}
 \newpage
 \begin{figure}[!h]
-	\includegraphics[scale=0.3]{Immagini/General_h.png}
+	\includegraphics[scale=0.31]{Immagini/General_h.png}
 	\centering
 	\caption{L'elenco dei general headers.}
 \end{figure}
@@ -690,7 +703,7 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 	\caption{L'elenco dei request headers. \textbf{Accept} specifica quali tipi di media sono accettati in risposta dal client, \textbf{Accept-Charset}, quali caratteri e \textbf{Accept-Encoding} quali formati.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.3]{Immagini/Stat_code.png}
+	\includegraphics[scale=0.34]{Immagini/Stat_code.png}
 	\centering
 	\caption{In figura l'elenco degli status-codes e il loro significato.}
 \end{figure}
@@ -715,11 +728,11 @@ Consideriamo due modelli possibili di web caching:
 \end{definition}
 Resta ora da chiarire come è possibile che, sebbene abbiamo definito il protocollo HTTP come \textbf{stateless}, alcuni siti, \textit{riconoscano} gli utenti.\newline
 Sebbene infatti il protocollo HTTP sia a tutti gli effetti stateless, le applicazioni web \textbf{non} lo sono. Come fare quindi a conciliare queste due realtà?\newline\newline
-\textit{Con i coockies!}
+\textit{Con i cookies!}
 \begin{definition}
-	I \textbf{coockies} sono stringhe di testo contenenti informazioni relative all'utente.
+	I \textbf{cookies} sono stringhe di testo contenenti informazioni relative all'utente.
 \end{definition}
-I \textbf{coockies} funzionano nel seguente modo:
+I \textbf{cookies} funzionano nel seguente modo:
 \begin{enumerate}
 	\item Un client invia al server una richiesta HTTP.
 	\item Il server invia al client la risposta HTTP e in più una linea \textbf{set-cookie: 1678453}. \textit{(esempio fittizio)}
@@ -808,8 +821,8 @@ TELNET non possiede \textbf{alcuna} misura di sicurezza poichè è stato progett
 	\caption{Le componenti di SSH}
 \end{figure}\newline
 Il \textbf{protocollo} di livello applicazione \textbf{SSH} è composto da \textbf{tre} diverse componenti: \textbf{SSH-TRANS, SSH-AUTH e SSH-CON}. La componente \textbf{SSH-TRANS} o \textbf{SSH-Transport Layer Protocol} costruisce un canale di comunicazione sicuro, tramite tecniche crittografiche, sfruttando la connessione offerta da TCP. Il \textbf{protocollo TCP} trasmette tutte le informazioni in chiaro, \textbf{non} è quindi in grado \textbf{da solo} di garantire \textbf{privacy} e \textbf{confidenza}. \textit{SSH-TRANS è anche in grado di riconoscere se il server a cui ci stiamo connettendo è quello autentico o meno.} La componente \textbf{SSH-AUTH} si occupa di autenticare il client. \textit{Sono disponibili altre tecniche di autenticazione oltre alla classica con username e password tra le quali l'accesso basato su coppie di chiavi crittografiche.} Infine la componente \textbf{SSH-CONN} sfruttando i servizi offerti dalle altre due componenti offre i servizi di \textbf{terminale}, \textbf{trasferimento file}, \textbf{creazione di tunnel} ecc...\newline \textbf{SSH offre} quindi \textbf{molti più servizi di TELNET}.\newline\newline
-\textbf{TCP Port Forwarding:}\newline\newline
-\textbf{TCP Port Forwarding} è un meccanismo che permette di \textbf{creare} un \textbf{canale di comunicazione sicuro} attraverso il quale \textbf{veicolare} \textbf{qualsiasi} tipo di \textbf{connessione TCP}. Opera creando un canale di comunicazione \textbf{cifrato} tra la \textbf{porta} all’\textbf{indirizzo remoto} a cui ci si vuole collegare e una \textbf{porta locale} libera.  le applicazioni punteranno il collegamento alla porta locale e la connessione verrà inoltrata automaticamente all’host remoto
+\textit{Cos'è il TCP Port Forwarding?}\newline\newline
+Il \textbf{TCP Port Forwarding} è un meccanismo che permette di \textbf{creare} un \textbf{canale di comunicazione sicuro} attraverso il quale \textbf{veicolare} \textbf{qualsiasi} tipo di \textbf{connessione TCP}. Opera creando un canale di comunicazione \textbf{cifrato} tra la \textbf{porta} all’\textbf{indirizzo remoto} a cui ci si vuole collegare e una \textbf{porta locale} libera.  le applicazioni punteranno il collegamento alla porta locale e la connessione verrà inoltrata automaticamente all’host remoto
 tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \textbf{local port forwarding} e \textbf{remote port forwarding}.
 \newpage
 \begin{itemize}
@@ -830,6 +843,7 @@ tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \t
 \underline{N.B. SSH è un protocollo STATEFUL.}
 \newpage
 \subsubsection{FTP}
+\label{sec:FTP}
 \textbf{FTP} acronimo per \textbf{F}ile \textbf{T}ransfer \textbf{P}rotocol, è un \textbf{protocollo} per il \textbf{trasferimento} di \textbf{dati} tra due host di una rete, è lo \textbf{standard} per il \textbf{trasferimento} di file \textbf{offerto da TCP/IP}. Adotta il modello \textbf{client-server}: il \textbf{client} richiede il trasferimento di un file che può consistere sia nell'\textbf{acquisizione} di una copia locale modificabile sia nell'eventuale \textbf{trasferimento} della copia modificata sull'host remoto (\textbf{server}).
 \begin{figure}[!h]
 	\includegraphics[scale=0.4]{Immagini/FTP.png}
@@ -971,7 +985,7 @@ Il processo con cui si associa l'indirizzo IP da un nome è detto \textbf{proces
 		      \centering
 		      \caption{In figura un esempio di risoluzione ricorsiva.}
 	      \end{figure}
-	\item Con la  \textbf{risoluzione iterativa} ogni \textbf{server-DNS} che non è in grado di risolvere la \textbf{query-DNS} dell'host risponde, \textbf{direttamente al client-DNS}, con \textbf{l'indirizzo di un altro server in grado di risolverla}.
+	\item Con la  \textbf{risoluzione iterativa} ogni \textbf{server-DNS} che non è in grado di risolvere la \textbf{query-DNS} dell'host risponde, \textbf{direttamente al server locale}, con \textbf{l'indirizzo di un altro server in grado di risolverla}.
 	      \textbf{	Al server locale che ha richiesto la query non viene quindi inviato solo l'indirizzo IP risultante}. La \textbf{risoluzione iterativa} è supportata da \textbf{tutti} i \textbf{name server}, l'host può richiedere che venga usata la \textbf{risoluzione ricorsiva} ma potrebbe non essere disponibile.
 
 	      \begin{figure}[!h]
@@ -1291,9 +1305,9 @@ Per \textbf{notificare} al mittente la corretta ricezione di uno o più pacchett
 \newpage
 \textit{È possibile combinare controllo degli errori e controllo del flusso?}\newline\newline
 Sì, è \textbf{possibile}. Per farlo si usa una coppia di \textbf{buffer numerati}, combinando l'esigenza di avere due buffer a quella di numerare i pacchetti.
-Dal \textbf{lato mittente}, quando si \textbf{costruisce un pacchetto} per la spedizione, si usa come \textbf{numero di sequenza} la successiva posizione libera all'interno del buffer e lo si tiene in memoria finché non arriva l'\textbf{ACK} corrispondente. Dal \textbf{lato destinatario} invece, si tiene in memoria nel buffer il pacchetto ricevuto finché l'applicazione non è pronta a riceverlo, \textbf{solo} a quel punto viene inviato l'\textbf{ACK} e il pacchetto viene \textbf{eliminato}. L'intervallo dei numeri di sequenza: da 0 a $2^n - 1$ fa si che possano essere rappresentati come un \textbf{cerchio} e il buffer, a seconda della sua \textbf{dimensione}, come una \textbf{sezione} di esso, chiamata anche \textbf{sliding window}. Quando all'intero del \textbf{buffer} (\textbf{sliding window}) si libera una sezione \textbf{contigua} di posizioni \textbf{a partire dall'inizio}, la \textbf{sliding window} scorre.
+Dal \textbf{lato mittente}, quando si \textbf{costruisce un pacchetto} per la spedizione, si usa come \textbf{numero di sequenza} la successiva posizione libera all'interno del buffer e lo si tiene in memoria finché non arriva l'\textbf{ACK} corrispondente. Dal \textbf{lato destinatario} invece, si tiene in memoria nel buffer il pacchetto ricevuto finché l'applicazione non è pronta a riceverlo, \textbf{solo} a quel punto viene inviato l'\textbf{ACK} e il pacchetto viene \textbf{eliminato}. L'intervallo dei numeri di sequenza: da 0 a $2^n - 1$, fa si che possano essere rappresentati come un \textbf{cerchio} e il buffer, a seconda della sua \textbf{dimensione}, come una \textbf{sezione} di esso, chiamata anche \textbf{sliding window}. Quando all'interno del \textbf{buffer} (\textbf{sliding window}) si libera una sezione \textbf{contigua} di posizioni \textbf{a partire dall'inizio}, la \textbf{sliding window} scorre.
 \begin{figure}[!h]
-	\includegraphics[scale=0.7]{Immagini/Sliding_w.png}
+	\includegraphics[scale=0.75]{Immagini/Sliding_w.png}
 	\centering
 	\caption{La sliding window. Si ricorda che è solo un'astrazione per far capire il concetto di fondo, in realtà si usano delle variabili per tenere traccia delle posizioni.}
 \end{figure}\newline
@@ -1313,7 +1327,7 @@ Un \textbf{protocollo di livello trasporto}, cosi come un protocollo di livello 
 \end{itemize}
 \newpage
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Connection_oriented.png}
+	\includegraphics[scale=0.55]{Immagini/Connection_oriented.png}
 	\centering
 	\caption{Un servizio orientato alla connessione.}
 \end{figure}
@@ -1326,13 +1340,13 @@ Un \textbf{protocollo di livello trasporto}, cosi come un protocollo di livello 
 \subsubsection{UDP}
 Il \textbf{protocollo UDP} o \textbf{User Datagram Protocol} è un protocollo di livello trasporto \textbf{inaffidabile} e \textbf{privo di connessione}. \textbf{Non aggiunge} \textbf{niente} ai \textbf{servizi IP} se non la comunicazione tra processi che avviene mediante l'utilizzo di \textbf{due code}, una in \textbf{ingresso} e una in \textbf{uscita}. Essendo \textbf{molto semplice} ha un \textbf{overhead minimo} ed è per ciò usato da processi che vogliono inviare \textbf{messaggi contenuti} senza preoccuparsi troppo dell'affidabilità che può comunque essere aggiunta al livello applicazione. \textbf{Al livello trasporto non è effettuato nessun controllo di flusso né di congestione}.\newline
 I \textbf{pacchetti UDP} sono chiamati \textbf{datagrammi utente} e data l'\textbf{assenza di una connessione} vengono \textbf{trasmessi in modo indipendente} gli uni dagli altri. La loro \textbf{intestazione} è costituita da \textbf{4 campi di 2 byte}, per un totale di 8 byte.\newline
-\textbf{\underline{N.B.}} \textbf{Solo} i processi che inviano messaggi di dimensione \textbf{inferiore a 65507}, i.e. $65535 - 8$ byte di intestazione UDP $ - 20$ di intestazione, IP di \textbf{possono usare il protcollo UDP}.
+\textbf{\underline{N.B.}} \textbf{Solo} i processi che inviano messaggi di dimensione \textbf{inferiore a 65507}, i.e. $65535 - 8$ byte di intestazione UDP $= 65527 - 20$ di intestazione IP $ = 65507$, \textbf{possono usare il protcollo UDP}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{Immagini/UDP.png}
 	\centering
 	\caption{La struttura di un datagramma utente. La prima parte in figura è uno \textbf{pseudo header} e \textbf{non} viene trasmesso. Il campo proto serve a distinguere i pacchetti UDP (17) da quelli TCP.}
 \end{figure}\newline
-I \textbf{primi} \textbf{due campi} definiscono i numeri di porta rispettivamente del \textbf{mittente} e del \textbf{destinatario}. Il \textbf{terzo campo} definisce la \textbf{lunghezza totale del datagramma} compresa l'intestazione.\textit{ I 16 bit possono definire una lunghezza totale da 0 a 65535 ma in realtà la dimensione è \textbf{inferiore}, il datagramma utente viene infatti inserito in un datagramma IP di lunghezza totale di 65535.} Lo \textbf{pseudoheader} è una parte dell'intestazione del pacchetto IP in cui viene incapsulato il datagramma utente. \textbf{L'ultimo campo} dell'intestazione può contenere la \textbf{checksum}, se il campo è settato con tutti 0, il mittente ha deciso di non calcolarla. La \textbf{checksum} è \textbf{l'unico} controllo degli errori che UDP mette  a disposizione, usa tutti i campi del datagramma \textbf{compreso lo pseudoheader}, se quest ultimo non fosse incluso infatti, si rischierebbe che il datagramma, seppur privo di errori in invio, finisca a un host sbagliato per via di errori nel pacchetto IP che lo trasporta.
+I \textbf{primi} \textbf{due campi} definiscono i numeri di porta rispettivamente del \textbf{mittente} e del \textbf{destinatario}. Il \textbf{terzo campo} definisce la \textbf{lunghezza totale del datagramma} compresa l'intestazione.\textit{ I 16 bit possono definire una lunghezza totale da 0 a 65535 ma in realtà la dimensione è \textbf{inferiore}, il datagramma utente viene infatti inserito in un datagramma IP di lunghezza totale di 65535.} Lo \textbf{pseudoheader} è una parte dell'intestazione del \textbf{pacchetto IP} in cui viene incapsulato il datagramma utente. \textbf{L'ultimo campo} dell'intestazione può contenere la \textbf{checksum}, se il campo è settato con tutti 0, il mittente ha deciso di non calcolarla. La \textbf{checksum} è \textbf{l'unico} controllo degli errori che UDP mette  a disposizione, usa tutti i campi del datagramma \textbf{compreso lo pseudoheader}, se quest ultimo non fosse incluso infatti, si rischierebbe che il datagramma, seppur privo di errori in invio, finisca a un host sbagliato per via di errori nel pacchetto IP che lo trasporta.
 \newpage
 \textit{Come viene calcolata la checksum?}\newline\newline
 La \textbf{checksum} viene calcolata nel seguente modo:
@@ -1367,6 +1381,7 @@ Il \textbf{DNS usa UDP} \textbf{poiché} le richieste che il \textbf{client DNS}
 \end{itemize}
 \newpage
 \subsubsection{TCP}
+\label{sec:TCP}
 Il \textbf{protocollo TCP} è un protocollo \textbf{orientato alla connessione e affidabile}, è il protocollo di livello trasporto \textbf{più utilizzato} su Internet.
 Quando un processo sull'host A decide di inviare e ricevere dati da un processo sull'host B avvengono le seguenti \textbf{tre} cose:
 \begin{enumerate}
@@ -1413,7 +1428,7 @@ Riportiamo di seguito la \textbf{struttura} di un \textbf{segmento TCP}:
 	\centering
 	\caption{La struttura di un segmento TCP.}
 \end{figure}\newline
-Il \textbf{segmento consiste} di un'\textbf{intestazione} di dimensione compresa tra 20 byte, in assenza di opzioni, e 60 byte altrimenti, seguita dai \textbf{dati} proveniente dal processo applicativo.
+Il \textbf{segmento consiste} di un'\textbf{intestazione} di dimensione compresa tra 20 byte, in assenza di opzioni, e 60 byte altrimenti, seguita dai \textbf{dati} provenienti dal processo applicativo.
 \begin{itemize}
 	\item \textbf{Numero di porta sorgente}: contiene il numero di porta del processo mittente sull'host che invia il segmento.
 	\item \textbf{Numero di porta destinazione}: contiene il numero di porta del processo destinatario sull'host che riceve il segmento.
@@ -1530,7 +1545,7 @@ Il \textbf{controllo del flusso} è gestito con il seguente meccanismo: il \text
 \begin{flushleft}
 	\textit{Come funzionano le finestre TCP?}
 \end{flushleft}
-Il \textbf{protocollo TCP} prevede due finestre, una di \textbf{ricezione} e una di \textbf{trasmissione}, per ogni direzione di comunicazione, in totale sono quindi presenti \textbf{4 finestre}. Ricordiamo infatti che la connessione TCP è \textbf{bidirezionale}. La \textbf{dimensione della finestra di trasmissione} è \textit{\textbf{inizialmente}} determinata all'apertura delle connessione. Si \textbf{apre} quando la dimensione della finestra di ricezione segnalata dal TCP destinatario lo consente e si \textbf{chiude} quando viene confermata la ricezione dei byte inviati. \textbf{Apertura, chiusura e ridimensionamento sono controllate dal TCP destinatario}.
+Il \textbf{protocollo TCP} prevede due finestre, una di \textbf{ricezione} e una di \textbf{trasmissione}, per ognuna delle due direzioni di comunicazione, in totale sono quindi presenti \textbf{4 finestre}. Ricordiamo che TCP instaura \textbf{due connessioni}. La \textbf{dimensione della finestra di trasmissione} è \textit{\textbf{inizialmente}} determinata all'apertura della connessione. Si \textbf{apre} quando la dimensione della finestra di ricezione segnalata dal TCP destinatario lo consente e si \textbf{chiude} quando viene confermata la ricezione dei byte inviati. \textbf{Apertura, chiusura e ridimensionamento sono controllate dal TCP destinatario}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.55]{Immagini/TCP_Window.png}
 	\centering
@@ -1685,7 +1700,7 @@ A ogni fase corrisponde un algoritmo diverso.
 	\item La terza fase chiamata \textbf{Fast Recovery} è \textbf{opzionale} in TCP. La \textbf{versione originale non ne faceva uso}. Inizia quando arrivano \textbf{tre riscontri duplicati} interpretati come inizio di leggera congestione della rete. Aumenta la dimensione di cwnd in modo \textbf{lineare}, incrementandola di un'unità ogni volta che riceve \textbf{due riscontri duplicati}.
 \end{itemize}
 Analizziamo ora come, attraverso l'affermarsi di modelli sempre più recenti del protocollo TCP siano \textbf{cambiate le modalità di transizione da una fase all'altra}.
-La \textbf{prima versione di TCP} chiamata \textbf{TCP Taho} utilizzava \textbf{solo le prime due fasi}. Se durante la fase di \textbf{slow start} rileva la presenza di congestione \textbf{resetta} la dimensione di \textbf{cwnd} a 1 e \textbf{assegna} a \textbf{ssthresh} il vecchio valore di \textbf{cwnd dimezzato}. Se non la rileva entro il raggiungimento di ssthresh passa alla fase di \textbf{congestion avoidance}. In questa fase \textbf{non vi è un limite sulla dimensione di rwnd} e se non è rilevata congestione \textbf{aumenta linearmente fino alla chiusura della connessione}, se invece viene rilevata si riparte dalla fase di slow start con cwnd pari a 1 e ssthresh pari al vecchio valore di \textbf{cwnd dimezzato}.
+La \textbf{prima versione di TCP} chiamata \textbf{TCP Taho} utilizzava \textbf{solo le prime due fasi}. Se durante la fase di \textbf{slow start} rileva la presenza di congestione allora \textbf{resetta} la dimensione di \textbf{cwnd} a 1 e \textbf{assegna} a \textbf{ssthresh} il vecchio valore di \textbf{cwnd dimezzato}. Se non la rileva entro il raggiungimento di ssthresh passa alla fase di \textbf{congestion avoidance}. In questa fase \textbf{non vi è un limite sulla dimensione di rwnd} e se non è rilevata congestione \textbf{aumenta linearmente fino alla chiusura della connessione}, se invece viene rilevata si riparte dalla fase di slow start con cwnd pari a 1 e ssthresh pari al vecchio valore di \textbf{cwnd dimezzato}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.3]{Immagini/Taho.png}
 	\centering
@@ -1726,6 +1741,283 @@ Proviamo a \textbf{calcolare} il \textbf{throughput} avendo come dati il \textbf
 da cui
 \[throughput =  \frac{0,75 \times W_{MAX}}{RTT}  = \frac{0,75 \times 960 KB}{100 ms} = 7,2 MB/s\]
 \newpage
+\section{Esercizi}
+\begin{enumerate}
+	\item L’utente mickey@disney.com invia dal suo PC una email a donald@disney.com. Indicare la sequenza di comandi SMTP inviati e ricevuti dal PC di mickey@disney.com se:
+	      \begin{enumerate}
+		      \item il mailserver di disney.com non è raggiungibile.
+		      \item il mailserver di disney.com è raggiungibile.
+	      \end{enumerate}
+	      \textbf{Soluzione}:
+	      \begin{enumerate}
+		      \item Il PC di mickey@disney.com non riesce a stabilire una connessione TCP con il mailserver di disney.com, quindi nessun messaggio SMTP viene inviato o ricevuto.
+		      \item  Il PC di mickey@disney.com stabilisce una connessione TCP con il mailserver di
+		            disney.com su cui scambia i seguenti comandi SMTP:\newline
+		            R: 220 service ready \newline
+		            I: HELO …\newline
+		            R: 250 OK\newline
+		            I: MAIL FROM: mickey@disney.com\newline
+		            R: 250 OK \newline
+		            I: RCPT TO: donnald@disney.com\newline
+		            R: 250 OK \newline
+		            I: DATA\newline
+		            I: …\newline
+		            I: …\newline
+		            R: 250 OK\newline
+		            I: QUIT\newline
+		            R: 221 service closed\newline
+	      \end{enumerate}
+	      È bene ricordarsi che il corpo del messaggio termina \textbf{sempre} con ritorno a capo e fine linea.
+	      \newpage
+	\item Un host deve risolvere il nome simbolico:
+	      \begin{center}
+		      \textbf{host.engineering.vanderbilt.edu}
+	      \end{center}, il cui indirizzo IP non è noto al suo resolver (i.e. servizio DNS dell’host). Supponendo che la gerarchia dei name server abbia 4 livelli, indicare – giustificando la risposta - il numero di messaggi DNS che, nel caso peggiore, circoleranno in Internet per risolvere tale nome simbolico, se:
+	      \begin{enumerate}
+		      \item si utilizza ad ogni livello una risoluzione ricorsiva.
+		      \item si utilizza ad ogni livello una risoluzione iterativa.
+	      \end{enumerate}
+	      \textbf{Soluzione}:
+	      \begin{enumerate}
+		      \item  Bisogna	percorrere tutto l'albero dei name server, dal name server locale fino ad un root server, e poi da questo al name server autoritativo, che nel caso peggiore è il name server locale per engineering.vanderbilt.edu, per poi tornare indietro: in totale sono $4 + 4$ messaggi a cui vanno aggiunti i 2 messaggi dal resolver al name server locale del client, e viceversa: quindi \textbf{10 messaggi}.
+		            \begin{figure}[!h]
+			            \includegraphics[scale=0.25]{Immagini/Es1_1.png}
+			            \centering
+		            \end{figure}\newline
+		      \item anche ora i messaggi saranno \textbf{10}, perchè i name server coinvolti saranno 4, nel caso pessimo, più i 2 messaggi dal resolver al name server locale del client, e viceversa.
+		            \begin{figure}[!h]
+			            \includegraphics[scale=0.25]{Immagini/Es1_2.png}
+			            \centering
+		            \end{figure}\newline
+	      \end{enumerate}
+	      \newpage
+	\item Un client C chiede la pagina web
+	      \textbf{\begin{center}
+			      www.acme.com/home/products.html
+		      \end{center}} al server B di
+	      \textbf{\begin{center}
+			      www.acme.com
+		      \end{center}} con una GET che è contenuta in un segmento
+	      TCP il cui payload (campo Dati) è lungo X byte. Indicare, giustificando la risposta, i valori dei campi sequence number, ack number, e dei flags ACK ed SYN e lunghezza del
+	      campo DATA, in ciascuno dei segmenti che C e B si scambianoper aprire la connessione nell’ipotesi che l’ack finale dell’apertura della connessione sia inviato in piggybacking
+	      assieme alla GET. Si supponga che in B ed in C receivewnd sia molto grande, che
+	      non scada alcun timeout, che non ci siano errori di trasmissione, che nessun segmento vada perduto, e che il numero di sequenza iniziale di C sia 1111 e quello di B sia 2222.
+	      \begin{flushleft}
+		      \textbf{Soluzione}:
+	      \end{flushleft}
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Es2.png}
+		      \centering
+	      \end{figure}
+	      Si ricorda che per \textbf{piggybacking} si indica la tecnica mediante la quale l'invio dell'ACK è unito all'invio dei dati. La tecnica migliora l'efficienza dei protocolli bidirezionali.
+	      \newpage
+	\item Un client C ha stabilito una connessione TCP con un server web S per
+	      scaricare una pagina web che consiste di tre oggetti. Al tempo t, subito
+	      dopo avere inviato la richiesta per il terzo oggetto, l’host di C invia a S
+	      un segmento con il flag FIN a true.
+	      Indicare, giustificando la risposta,  il tempo minimo necessario al TCP
+	      di C per chiudere definitivamente la connessione supponendo che:
+	      \begin{itemize}
+		      \item la dimensione del terzo oggetto sia 1,5 MSS.
+		      \item RTT sia costantemente 700 msec e il maximum segment lifetime sia
+		            1100 msec.
+		      \item tutti i segmenti vengano ricevuti corretti ed in ordine, e che il valore
+		            di cwnd del TCP di S sia 1MSS quando esso riceve il FIN inviato
+		            dall’host di C.
+		            Trascurare i tempi di preparazione e di trasmissione dei segmenti e
+		            assumere che S abbia già a disposizione tutti i dati da inviare.
+	      \end{itemize}
+	      \textbf{Soluzione:}
+	      \begin{center}
+		      \fbox{\LARGE $3 RTT + 2 MSL = 4300$msec}
+	      \end{center}
+	      Il TCP di C riceve al tempo t + RTT il riscontro S1 del segmento FIN da lui
+	      inviato. Se S1 trasporta in piggybacking il primo MSS dei dati del terzo oggetto e il TCP di C invierà un riscontro C2 per tali dati, quindi S potrà inviare l’ultima porzione di dati e attenderne il riscontro, infine il TCP
+	      di S invierà un segmento con il flag FIN a true. Il TCP di C invierà un riscontro del FIN e considererà chiusa la connessione
+	      dopo avere atteso 2MSL, ovvero al tempo $t + 3 RTT + 2 MSL = t + 4300$ msec.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Es3.png}
+		      \centering
+	      \end{figure}
+	      \newpage
+	\item Si descriva il meccanismo di controllo di flusso in
+	      TCP.
+	      \begin{flushleft}
+		      \textbf{Una possibile soluzione}:
+	      \end{flushleft}
+	      Si intende con controllo di flusso la capacità del mittente di evitare la possibilità di saturare il buffer del ricevitore. Infatti, a livello TCP ogni host imposta un buffer di invio e uno di ricezione. Il processo applicativo
+	      destinatario legge i dati dal buffer di ricezione (non necessariamente nell'istante in cui arrivano). Il controllo di flusso ha lo scopo di regolare la frequenza di invio del mittente in base alla frequenza di lettura
+	      dell'applicazione ricevente allo scopo di non saturare il buffer del ricevente.
+	      TCP implementa questa funzione tramite una variabile detta \textbf{receive
+		      window} mantenuta nel mittente: questa variabile fornisce un'idea di
+	      quanto spazio è ancora a disposizione nel buffer del ricevitore. Tale valore
+	      è comunicato nel campo window dell'header TCP dall’host destinatario.
+	      \begin{itemize}
+		      \item Il valore di receive window RcvWindow= RcvBuffer-( LastByteReceivedLastByteRead).
+		      \item L'host destinatario comunica la dimensione di RcvWindow al mittente.
+		      \item Il mittente si assicura che LastByteSent-LastByteAcked < RcvWindow pari ovvero alla quantità di dati trasmessi e non ancora riscontrati.
+	      \end{itemize}
+	      Nelle situazioni in cui il buffer risulta pieno (RcvWindow=0), il mittente
+	      continua a mandare \textbf{segmenti sonda} di 1 byte per ricevere
+	      l’aggiornamento sulla dimensione di RcvWindow.
+	      \begin{flushleft}
+		      Per approfondire l'argomento recarsi al \hyperref[sec:TCP]{\textbf{capitolo sul TCP}}.
+	      \end{flushleft}
+	\item Due host H1 e H2 comunicano tramite un canale che attraversa tre router R1, R2 e R3 e 4 link di capacità C1, C2, C3 e C4, rispettivamente come mostrato in figura.
+	      La comunicazione avviene tramite commutazione di pacchetto con trasmissione di
+	      tipo store and forward. Assumendo che il ritardo di propagazione sia trascurabile, che i ritardi di accodamento nei router R1, R2 e R3 sia rispettivamente a1, a2 e a3, e che il ritardo di elaborazione nei tre router sia uguale a 1 ms, dire quanto tempo è necessario per la trasmissione da H1 a H2 di un pacchetto di dimensione L nel
+	      seguente caso:
+	      \begin{itemize}
+		      \item L = 10 KBytes.
+		      \item C1=C2=C3=C4 = 2 Mbps.
+		      \item a1=a2=a3 = 0,01 s.
+	      \end{itemize}
+	      \newpage
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Es4.png}
+		      \centering
+	      \end{figure}
+	      \begin{flushleft}
+		      \textbf{Soluzione}:
+		      Il ritardo introdotto da ogni router è dato dalla somma tra: ritardo di
+		      trasmissione, ritardo di propagazione, ritardo di accodamento e tempo di
+		      elaborazione. In particolare:
+		      \begin{itemize}
+			      \item il tempo di trasmissione di H1 è pari a L/C1 = 40 ms.
+			      \item il tempo di trasmissione di R1 è pari a L/C2 = 40 ms.
+			      \item il tempo di trasmissione di R2 è pari a L/C3 = 40 ms
+			      \item il tempo di trasmissione di R3 è pari a L/C4 = 40 ms
+		      \end{itemize}
+		      Quindi il ritardo introdotto dai router è:
+		      ritardo introdotto dai router R1,R2,R3 $= 40 + 10 + 1 = 51$ ms.\newline
+		      Il ritardo dovuto alla trasmissione da H1 è pari a $\frac{L}{R} = 40$ ms.
+		      Quindi il tempo complessivo per la trasmissione del pacchetto da H1 a H2
+		      è: \begin{center}
+			      \fbox{\LARGE$51 \times 3 + 40 = 193$ ms}
+		      \end{center}
+	      \end{flushleft}
+	\item Tizio manda dal suo account di email
+	      \begin{center}
+		      \textbf{tizio@libero.it}
+	      \end{center}
+	      un messaggio di posta elettronica con testo di 256 caratteri a Caio
+	      \begin{center}
+		      \textbf{caio@occupato.it}
+	      \end{center}
+	      \begin{enumerate}
+		      \item Specificare il contenuto dei primi due messaggi
+		            TCP inviati dal mailserver di libero.it, ms.libero.it,
+		            per ricevere tale messaggio.
+		      \item Specificare, per ciascun segmento, payload,
+		            numero di sequenza, ack number, flags posti ad 1,
+		            porta origine e porta destinazione.
+	      \end{enumerate}
+	      \textbf{Soluzione}:
+	      \begin{enumerate}
+		      \item Il primo segmento avrà il payload vuoto e il payload del secondo conterrà 220 service ready.
+		      \item Il pimo segmento sarà SYNACK, e quindi: come già detto, payload vuoto, flags SYN e ACK ad 1, numero sequenza Z, ack number Y, \textbf{porta mittente 25}, porta destinazione effimera. Il secondo segmento conterrà come payload 220 service ready, nessun flag ad 1, numero sequenza Z+1, ack number Y, porta	mittente 25, porta destinazione effimera.
+	      \end{enumerate}
+	      \newpage
+	\item Dire in quali delle seguenti circostanze il TCP cambia la dimensione della
+	      finestra di congestione \textbf{cwnd}, e, nel caso, come viene ricalcolata.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Es5_1.png}
+		      \centering
+	      \end{figure}
+	      \begin{flushleft}
+		      \textbf{Soluzione}:
+	      \end{flushleft}
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Es5_2.png}
+		      \centering
+	      \end{figure}
+	\item Si consideri il seguente scenario TCP in cui, per semplicità, non sono
+	      indicati i segmenti inviati o re-inviati dal sender TCP al receiver TCP, che si
+	      suppone essere quelli necessari per avere i riscontri descritti di seguito.
+	      \begin{itemize}
+		      \item Al tempo t0 il TCP di un host A ha una connessione già stabilita, per la
+		            quale ha 4 segmenti full sized in volo (inviati ma non riscontrati) e nessun
+		            nuovo dato da spedire, il primo byte dei segmenti in volo è il byte Y,
+		            ssthresh = 6.5 MSS, cwnd = 5 MSS. Inoltre, non ha ricevuto nessun riscontro
+		            duplicato.
+		      \item Tra il tempo t0 e il tempo t1 riceve 7 riscontri: i primi due non duplicati e
+		            con acknumber uguale a Y + 1 MSS per il primo, e Y + 3 MSS per il secondo. I
+		            seguenti 4 riscontri sono tutti duplicati, ed infine, al tempo t1, riceve un
+		            settimo riscontro con acknumber uguale a Y + 4 MSS.
+	      \end{itemize}
+	      Si supponga che non scatti alcun timeout tra t0 e t1. Indicare, per ciascun riscontro ricevuto, lo stato del TCP e i valori di ssthresh e cwnd, giustificando la risposta.
+	      \newpage
+	      \textbf{Soluzione}:
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Es6.png}
+		      \centering
+	      \end{figure}
+	\item Descrivere in modo dettagliato e mediante uno \textbf{pseudocodice} le azioni svolte da un \textbf{destinatario TCP} per realizzare il controllo di flusso. Si assuma che ogni segmento ricevuto dal destinatario contenga anche lo pseudoheader (lunghezza segmento TCP). Inoltre, si supponga che la chiusura della connessione venga
+	      fatta dal mittente e che i segmenti di chiusura non contengano dati in piggybacking. Non occorre realizzare la parte iniziale delle azioni svolte (quindi le inizializzazioni delle variabili e l’apertura della connessione).
+	      Infine, si supponga che si invii un riscontro appropriato per ogni segmento ricevuto, e che il destinatario non debba inviare dati al mittente. Inoltre, per semplicità, si specifichino solamente i campi dell’header del riscontro relativi al controllo del flusso e al riscontro. Non occorre realizzare le interazioni con il livello
+	      applicativo (processo che legge dal buffer), ma solamente quelle con il mittente TCP.
+	      Si hanno a disposizione le seguenti procedure:
+	      \begin{flushleft}
+		      \texttt{receive(segm)} //\textit{per ricevere il segmento segm dal livello di rete}\newline
+		      \texttt{OK(segm)} //\textit{restituisce true solo se segm è corretto}\newline
+		      \texttt{nuovo(segm.x)} //\textit{vettore di booleani che vale true se dal campo x di segm si deduce che i dati contenuti in segm non sono doppioni (specificare x nella soluzione)}\newline
+		      \texttt{insert(segm.y,finestra)} //\textit{per inserire segm.y nel buffer di ricezione nella posizione corretta}\newline
+		      \texttt{calcolacknum(segm)} //\textit{restituisce il numero di riscontro per il riscontro associato a segm}\newline
+		      \texttt{send(risp)} //\textit{per inviare risp al mittente}\newline
+	      \end{flushleft}
+	      Descrivere il contenuto o la funzionalità delle variabili e delle altre funzioni/procedure eventualmente utilizzate.
+	      \newpage
+	      \begin{flushleft}
+		      \textbf{Soluzione}:
+		      \begin{lstlisting}[gobble=2,language=C,basicstyle=\footnotesize]
+	finito=false;
+	while (!finito) { 
+	receive(segm);
+	finito = segm.FIN; 
+		#controllare inizio della chiusura della conn.
+		if (!finito) {
+			#se segmento non corrotto
+			if OK(segm) { 
+				#se il segmento contiene nuovi dati
+				if nuovo(segm.seqnum) { 
+					#inserisco i dati nel buffer
+					insert(segm.dati,finestra); 
+					#nuovo valore di rwnd
+					rwnd=rwnd-(segm.lungtotTCP-segm.HLEN); 
+					#flag ack settato a true
+					risposta.ACK = true; 
+					risposta.ACKnum = calcolacknum(segm);2
+					risposta.rwnd = rwnd;
+				}
+ 				#invia o il nuovo ack o ultimo ack inviato
+				send(risposta); 
+			}
+		}
+	}
+	\end{lstlisting}
+	      \end{flushleft}
+	\item Discutere l'affermazione “poiché FTP e HTTP sono protocolli adatti a trasferire file, possono essere usati indifferentemente”.
+	      \begin{flushleft}
+		      \textbf{Soluzione possibile:}
+	      \end{flushleft}
+	      Esempio di risposta (schema per punti):
+	      \begin{itemize}
+		      \item Descrivere brevemente obiettivo HTTP e FTP.
+		      \item Entrambi usano TCP (trasferimento affidabile dei dati),  elencare le differenze ai fini del trasferimento file.
+	      \end{itemize}
+	      e.g.  \hyperref[sec:FTP]{\textbf{FTP}}
+	      \begin{itemize}
+		      \item connessione controllo, persistente, inizializzata dal client, porta 21. comandi in formato ASCII a 7 bit
+		      \item connessione dati, inizializzata da server, porta 20, non persistente
+		      \item  FTP è Stateful
+		      \item Offre funzionalità aggiuntive rispetto a HTTP per la gestione di file e directory (list, retr, put).
+	      \end{itemize}
+	      e.g. \hyperref[sec:HTTP Protocol]{\textbf{HTTP}}
+	      \begin{itemize}
+		      \item Un'unica connessione dati + comandi.
+		      \item Interazione stateless.
+	      \end{itemize}
+\end{enumerate}
 \end{document}
 
 
