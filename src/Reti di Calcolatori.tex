@@ -1128,16 +1128,16 @@ I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textb
 	      \end{table}
 \end{itemize}
 \newpage
-\underline{N.B.} Il protocollo \textbf{SMTP} \textbf{usa} il protocollo di trasporto \textbf{FTP} per consegnare in maniera \textbf{\underline{affidabile}} i messaggi.\newline\newline
+\underline{N.B.} Il protocollo \textbf{SMTP} \textbf{usa} il protocollo di trasporto \textbf{TCP} per consegnare in maniera \textbf{\underline{affidabile}} i messaggi.\newline\newline
 La consegna di un messaggio tramite SMTP prevede \textbf{tre fasi}:
 \begin{enumerate}
-	\item \textbf{Apertura della connessione} o \textbf{handshaking} con cui il client SMTP stabilisce una connessione FTP alla porta nota 25 con il server SMTP. Consiste di altre \textbf{tre sotto fasi}:
+	\item \textbf{Apertura della connessione} o \textbf{handshaking} con cui il client SMTP stabilisce una connessione TCP alla porta nota 25 con il server SMTP. Consiste di altre \textbf{tre sotto fasi}:
 	      \begin{enumerate}[label*=\arabic*.]
 		      \item Il \textbf{server} invia al \textbf{client} il codice \textbf{220} per indicare che è \textbf{pronto alla ricezione di messaggi} o il codice \textbf{421} in caso \textbf{contrario}.
 		      \item Il \textbf{client} si \textbf{identifica} con il comando \textbf{HELO} seguito dal suo \textbf{nome di dominio} in modo tale da informare il server del proprio nome di dominio.
 		      \item Il \textbf{server} invia il codice \textbf{250} o altri codici a seconda della situazione particolare.
 	      \end{enumerate}
-	\item \textbf{invio del messaggio}: se l'apertura della connessione tra il client SMTP e il server SMTP è avvenuta con \textbf{successo}, il client può inviare \textbf{un singolo messaggio} a uno o più destinatari. Riportiamo di seguito gli \textbf{otto} passi necessari per portare a termine questa operazione:
+	\item \textbf{Invio del messaggio}: se l'apertura della connessione tra il client SMTP e il server SMTP è avvenuta con \textbf{successo}, il client può inviare \textbf{un singolo messaggio} a uno o più destinatari. Riportiamo di seguito gli \textbf{otto} passi necessari per portare a termine questa operazione:
 	      \begin{enumerate}[label*=\arabic*.]
 		      \item Il \textbf{client} invia al server il comando MAIL FROM con argomento l'indirizzo mail del mittente, in modo tale che, nel caso in cui si verifichino degli  errori, il server \textbf{sappia a chi inviare i messaggi di errore}.
 		      \item Il \textbf{server} risponde con il codice 250.
