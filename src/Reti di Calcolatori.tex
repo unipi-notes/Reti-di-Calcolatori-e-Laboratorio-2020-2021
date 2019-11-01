@@ -1737,9 +1737,9 @@ Sapendo che ogni rilevazione di congestion cwnd è impostato alla metà del suo 
 	\caption{In figura il profilo AIMD.}
 \end{figure}\newline
 Proviamo a \textbf{calcolare} il \textbf{throughput} avendo come dati il \textbf{grafico}, l' \textbf{MSS} pari a 10 KB (kilobyte) e un \textbf{RTT} di 100 ms. Otteniamo
-\[W_{MAX} = \frac{10 + 12 + 10 + 8 + 8}{5}\]
+\[W_{MAX} = \frac{10 + 12 + 10 + 8 + 8}{5} = 9.6 \ MSS\]
 da cui
-\[throughput =  \frac{0,75 \times W_{MAX}}{RTT}  = \frac{0,75 \times 960 KB}{100 ms} = 7,2 MB/s\]
+\[throughput =  \frac{0,75 \times W_{MAX}}{RTT}  = \frac{0,75 \times (96 \times 8)_{Kbit}}{100_{ms}} = 5,76 Mbit/s\]
 \newpage
 \section{Esercizi}
 \begin{enumerate}
@@ -1863,7 +1863,7 @@ da cui
 	      è comunicato nel \textbf{campo window} dell'header TCP dall’host destinatario.
 	      \begin{itemize}
 		      \item Il valore di \textbf{receive window} è pari a: \newline
-		      rwnd = RcvBuffer - ( LastByteReceived - LastByteRead)
+		            rwnd = RcvBuffer - ( LastByteReceived - LastByteRead)
 		      \item L'host destinatario comunica la dimensione di RcvWindow al mittente.
 		      \item Il mittente si assicura che $LastByteSent - LastByteAcked < rwnd$ pari ovvero alla quantità di dati trasmessi e non ancora riscontrati.
 	      \end{itemize}
