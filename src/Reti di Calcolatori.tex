@@ -23,7 +23,6 @@
 \maketitle
 
 \newpage
-
 \tableofcontents
 \newpage
 
@@ -1324,7 +1323,7 @@ Un \textbf{protocollo di livello trasporto}, cosi come un protocollo di livello 
 		      \centering
 		      \caption{Un servizio privo di connessione.}
 	      \end{figure}
-	\item \textbf{In un servizio orientato alla connessione} i due processi comunicanti devono per prima cosa stabilire \textbf{una connessione logica} e poi possono iniziare a scambiarsi dati. Una volta \textbf{terminato lo scambio} la connessione viene \textbf{chiusa}. Come menzionato in precedenza ancora una volta l'approccio \textbf{connection-oriented} è \textbf{diverso} tra il livello di trasporto e il livello di rete. Nel livello di rete si presuppone una coordinazione totale fra gli host finali e tutti i router della rete, al livello di trasporto solo tra i due host finali. Ciò significa che \textbf{è possibile utilizzare un protocollo di trasporto conncetion-oriented indipendentemente dal protocollo di rete utilizzato}.
+	\item \textbf{In un servizio orientato alla connessione} i due processi comunicanti devono per prima cosa stabilire \textbf{una connessione logica} e poi possono iniziare a scambiarsi dati. Una volta \textbf{terminato lo scambio} la connessione viene \textbf{chiusa}. Come menzionato in precedenza ancora una volta l'approccio \textbf{connection-oriented} è \textbf{diverso} tra il livello di trasporto e il livello di rete. Nel livello di rete si presuppone una coordinazione totale fra gli host finali e tutti i router della rete, al livello di trasporto solo tra i due host finali. Ciò significa che \textbf{è possibile utilizzare un protocollo di trasporto connection-oriented indipendentemente dal protocollo di rete utilizzato}.
 \end{itemize}
 \newpage
 \begin{figure}[!h]
@@ -1461,7 +1460,7 @@ Il \textbf{protocollo TCP} è \textbf{connection-oriented} il che vuol dire che 
 	\item \textbf{Apertura della connessione}: nel TCP, essendo un protocollo \textbf{full duplex}, le due entità comunicanti devono inizializzare la connessione e ciascuna deve ottenerne l'\textit{approvazione} da parte dell'altra. L'apertura della connessione TCP è detta \textbf{three-way handshake} e avviene nel seguente modo:
 	      \begin{enumerate}[label*=\arabic*.]
 		      \item Il \textbf{client} invia il primo segmento: si tratta di un \textbf{segmento SYN}, \textbf{senza dati utente} e \textbf{contenente solo il flag SYN} che specifica l' \textbf{ISN} della connessione client-server.
-		      \item Il \textbf{server} invia il secondo segmento, senza dati utente, con i flag \textbf{ACK} e \textbf{SIN}, l'ACK viene usato dal server per comunicare al client la corretta ricezione del primo segmento e il SYN per specificare l'ISN della connessione server-client. Dato che il segmento contiene un \textbf{riscontro}, conterrà anche la dimensione della finestra di ricezione a cui il client dovrà attenersi.
+		      \item Il \textbf{server} invia il secondo segmento, senza dati utente, con i flag \textbf{ACK} e \textbf{SYN}, l'ACK viene usato dal server per comunicare al client la corretta ricezione del primo segmento e il SYN per specificare l'ISN della connessione server-client. Dato che il segmento contiene un \textbf{riscontro}, conterrà anche la dimensione della finestra di ricezione a cui il client dovrà attenersi.
 		      \item A questo punto il \textbf{client} invia il terzo segmento e con il flag \textbf{ACK} comunica al server la corretta ricezione del secondo segmento. Il terzo segmento \textbf{può} contenere dati utente e \textbf{se} li contiene possiede anche un \textbf{numero di sequenza}.
 	      \end{enumerate}
 \end{enumerate}
@@ -1701,19 +1700,19 @@ A ogni fase corrisponde un algoritmo diverso.
 	\item La terza fase chiamata \textbf{Fast Recovery} è \textbf{opzionale} in TCP. La \textbf{versione originale non ne faceva uso}. Inizia quando arrivano \textbf{tre riscontri duplicati} interpretati come inizio di leggera congestione della rete. Aumenta la dimensione di cwnd in modo \textbf{lineare}, incrementandola di un'unità ogni volta che riceve \textbf{due riscontri duplicati}.
 \end{itemize}
 Analizziamo ora come, attraverso l'affermarsi di modelli sempre più recenti del protocollo TCP siano \textbf{cambiate le modalità di transizione da una fase all'altra}.
-La \textbf{prima versione di TCP} chiamata \textbf{TCP Taho} utilizzava \textbf{solo le prime due fasi}. Se durante la fase di \textbf{slow start} rileva la presenza di congestione allora \textbf{resetta} la dimensione di \textbf{cwnd} a 1 e \textbf{assegna} a \textbf{ssthresh} il vecchio valore di \textbf{cwnd dimezzato}. Se non la rileva entro il raggiungimento di ssthresh passa alla fase di \textbf{congestion avoidance}. In questa fase \textbf{non vi è un limite sulla dimensione di rwnd} e se non è rilevata congestione \textbf{aumenta linearmente fino alla chiusura della connessione}, se invece viene rilevata si riparte dalla fase di slow start con cwnd pari a 1 e ssthresh pari al vecchio valore di \textbf{cwnd dimezzato}.
+La \textbf{prima versione di TCP} chiamata \textbf{TCP Tahoe} utilizzava \textbf{solo le prime due fasi}. Se durante la fase di \textbf{slow start} rileva la presenza di congestione allora \textbf{resetta} la dimensione di \textbf{cwnd} a 1 e \textbf{assegna} a \textbf{ssthresh} il vecchio valore di \textbf{cwnd dimezzato}. Se non la rileva entro il raggiungimento di ssthresh passa alla fase di \textbf{congestion avoidance}. In questa fase \textbf{non vi è un limite sulla dimensione di rwnd} e se non è rilevata congestione \textbf{aumenta linearmente fino alla chiusura della connessione}, se invece viene rilevata si riparte dalla fase di slow start con cwnd pari a 1 e ssthresh pari al vecchio valore di \textbf{cwnd dimezzato}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.3]{Immagini/Taho.png}
 	\centering
-	\caption{TCP Taho rappresentato come ASF.}
+	\caption{TCP Tahoe rappresentato come ASF.}
 \end{figure}\newline
 \begin{figure}[!h]
-	\includegraphics[scale=0.34]{Immagini/Taho2.png}
+	\includegraphics[scale=0.23]{Immagini/Taho2.png}
 	\centering
-	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Taho.}
+	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Tahoe.}
 \end{figure}
 \newpage
-In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{slow recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuovo valore di sshtresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Taho.
+In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{slow recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuovo valore di sshtresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Tahoe.
 \begin{figure}[!h]
 	\includegraphics[scale=0.33]{Immagini/Reno.png}
 	\centering
@@ -1750,12 +1749,12 @@ da cui
 		      \textbf{donald@disney.com}
 	      \end{center}. Indicare la sequenza di comandi SMTP inviati e ricevuti dal PC di \textbf{mickey@disney.com} se:
 	      \begin{enumerate}
-		      \item il mailserver di disney.com non è raggiungibile.
-		      \item il mailserver di disney.com è raggiungibile.
+		      \item Il mailserver di disney.com non è raggiungibile.
+		      \item Il mailserver di disney.com è raggiungibile.
 	      \end{enumerate}
 	      \textbf{Soluzione}:
 	      \begin{enumerate}
-		      \item Il PC di mickey@disney.com non riesce a stabilire una connessione TCP con il mailserver di disney.com, quindi nessun messaggio SMTP viene inviato o ricevuto.
+		      \item Il PC di mickey@disney.com non riesce a stabilire una connessione TCP con il mailserver di disney.com, quindi \textbf{nessun} messaggio SMTP viene inviato o ricevuto.
 		      \item  Il PC di mickey@disney.com stabilisce una connessione TCP con il mailserver di
 		            disney.com su cui scambia i seguenti comandi SMTP:\newline
 		            R: 220 service ready \newline
@@ -1782,10 +1781,10 @@ da cui
 	\item Un host deve risolvere il nome simbolico:
 	      \begin{center}
 		      \textbf{host.engineering.vanderbilt.edu}
-	      \end{center}, il cui indirizzo IP non è noto al suo resolver (i.e. servizio DNS dell’host). Supponendo che la gerarchia dei name server abbia 4 livelli, indicare – giustificando la risposta - il numero di messaggi DNS che, nel caso peggiore, circoleranno in Internet per risolvere tale nome simbolico, se:
+	      \end{center} il cui indirizzo IP \textbf{non} è noto al suo resolver (i.e. servizio DNS dell’host). Supponendo che la gerarchia dei name server abbia \textbf{4} livelli, indicare, giustificando la risposta, il numero di messaggi DNS che, nel caso peggiore, circoleranno in Internet per risolvere tale nome simbolico, se:
 	      \begin{enumerate}
-		      \item si utilizza ad ogni livello una risoluzione ricorsiva.
-		      \item si utilizza ad ogni livello una risoluzione iterativa.
+		      \item Si utilizza ad ogni livello una risoluzione ricorsiva.
+		      \item Si utilizza ad ogni livello una risoluzione iterativa.
 	      \end{enumerate}
 	      \textbf{Soluzione}:
 	      \begin{enumerate}
@@ -1794,7 +1793,7 @@ da cui
 			            \includegraphics[scale=0.25]{Immagini/Es1_1.png}
 			            \centering
 		            \end{figure}\newline
-		      \item anche ora i messaggi saranno \textbf{10}, perchè i name server coinvolti saranno 4, nel caso pessimo, più i 2 messaggi dal resolver al name server locale del client, e viceversa.
+		      \item Anche ora i messaggi saranno \textbf{10}, perchè i name server coinvolti saranno 4, nel caso pessimo, più i 2 messaggi dal resolver al name server locale del client, e viceversa.
 		            \begin{figure}[!h]
 			            \includegraphics[scale=0.25]{Immagini/Es1_2.png}
 			            \centering
@@ -1809,8 +1808,8 @@ da cui
 			      www.acme.com
 		      \end{center}} con una GET che è contenuta in un segmento
 	      TCP il cui payload (campo Dati) è lungo X byte. Indicare, giustificando la risposta, i valori dei campi sequence number, ack number, e dei flags ACK ed SYN e lunghezza del
-	      campo DATA, in ciascuno dei segmenti che C e B si scambianoper aprire la connessione nell’ipotesi che l’ack finale dell’apertura della connessione sia inviato in piggybacking
-	      assieme alla GET. Si supponga che in B ed in C receivewnd sia molto grande, che
+	      campo DATA, in ciascuno dei segmenti che C e B si scambiano per aprire la connessione nell’ipotesi che l’ack finale dell’apertura della connessione sia inviato in piggybacking
+	      assieme alla GET. Si supponga che in B ed in C rwnd sia molto grande, che
 	      non scada alcun timeout, che non ci siano errori di trasmissione, che nessun segmento vada perduto, e che il numero di sequenza iniziale di C sia 1111 e quello di B sia 2222.
 	      \begin{flushleft}
 		      \textbf{Soluzione}:
@@ -1828,10 +1827,10 @@ da cui
 	      Indicare, giustificando la risposta,  il tempo minimo necessario al TCP
 	      di C per chiudere definitivamente la connessione supponendo che:
 	      \begin{itemize}
-		      \item la dimensione del terzo oggetto sia 1,5 MSS.
+		      \item La dimensione del terzo oggetto sia 1,5 MSS.
 		      \item RTT sia costantemente 700 msec e il maximum segment lifetime sia
 		            1100 msec.
-		      \item tutti i segmenti vengano ricevuti corretti ed in ordine, e che il valore
+		      \item Tutti i segmenti vengano ricevuti corretti ed in ordine, e che il valore
 		            di cwnd del TCP di S sia 1MSS quando esso riceve il FIN inviato
 		            dall’host di C.
 		            Trascurare i tempi di preparazione e di trasmissione dei segmenti e
@@ -1855,21 +1854,22 @@ da cui
 	      \begin{flushleft}
 		      \textbf{Una possibile soluzione}:
 	      \end{flushleft}
-	      Si intende con controllo di flusso la capacità del mittente di evitare la possibilità di saturare il buffer del ricevitore. Infatti, a livello TCP ogni host imposta un buffer di invio e uno di ricezione. Il processo applicativo
+	      Con controllo di flusso si intende  la capacità del mittente di evitare la possibilità di saturare il buffer del ricevitore. Infatti, a livello TCP ogni host imposta un buffer di invio e uno di ricezione. Il processo applicativo
 	      destinatario legge i dati dal buffer di ricezione (non necessariamente nell'istante in cui arrivano). Il controllo di flusso ha lo scopo di regolare la frequenza di invio del mittente in base alla frequenza di lettura
 	      dell'applicazione ricevente allo scopo di non saturare il buffer del ricevente.
 	      TCP implementa questa funzione tramite una variabile detta \textbf{receive
 		      window} mantenuta nel mittente: questa variabile fornisce un'idea di
 	      quanto spazio è ancora a disposizione nel buffer del ricevitore. Tale valore
-	      è comunicato nel campo window dell'header TCP dall’host destinatario.
+	      è comunicato nel \textbf{campo window} dell'header TCP dall’host destinatario.
 	      \begin{itemize}
-		      \item Il valore di receive window RcvWindow= RcvBuffer-( LastByteReceivedLastByteRead).
+		      \item Il valore di \textbf{receive window} è pari a: \newline
+		      rwnd = RcvBuffer - ( LastByteReceived - LastByteRead)
 		      \item L'host destinatario comunica la dimensione di RcvWindow al mittente.
-		      \item Il mittente si assicura che LastByteSent-LastByteAcked < RcvWindow pari ovvero alla quantità di dati trasmessi e non ancora riscontrati.
+		      \item Il mittente si assicura che $LastByteSent - LastByteAcked < rwnd$ pari ovvero alla quantità di dati trasmessi e non ancora riscontrati.
 	      \end{itemize}
-	      Nelle situazioni in cui il buffer risulta pieno (RcvWindow=0), il mittente
+	      Nelle situazioni in cui il buffer risulta pieno (rwnd = 0), il mittente
 	      continua a mandare \textbf{segmenti sonda} di 1 byte per ricevere
-	      l’aggiornamento sulla dimensione di RcvWindow.
+	      l’aggiornamento sulla dimensione di rwnd ed evitare lo stallo.
 	      \begin{flushleft}
 		      Per approfondire l'argomento recarsi al \hyperref[sec:TCP]{\textbf{capitolo sul TCP}}.
 	      \end{flushleft}
@@ -1893,10 +1893,10 @@ da cui
 		      trasmissione, ritardo di propagazione, ritardo di accodamento e tempo di
 		      elaborazione. In particolare:
 		      \begin{itemize}
-			      \item il tempo di trasmissione di H1 è pari a L/C1 = 40 ms.
-			      \item il tempo di trasmissione di R1 è pari a L/C2 = 40 ms.
-			      \item il tempo di trasmissione di R2 è pari a L/C3 = 40 ms
-			      \item il tempo di trasmissione di R3 è pari a L/C4 = 40 ms
+			      \item il tempo di trasmissione di H1 è pari a $\frac{L}{C1}$ = 40 ms.
+			      \item il tempo di trasmissione di R1 è pari a $\frac{L}{C2}$ = 40 ms.
+			      \item il tempo di trasmissione di R2 è pari a $\frac{L}{C3}$ = 40 ms.
+			      \item il tempo di trasmissione di R3 è pari a $\frac{L}{C4}$ = 40 ms.
 		      \end{itemize}
 		      Quindi il ritardo introdotto dai router è:
 		      ritardo introdotto dai router R1,R2,R3 $= 40 + 10 + 1 = 51$ ms.\newline
@@ -1975,12 +1975,12 @@ da cui
 		      \texttt{calcolacknum(segm)} //\textit{restituisce il numero di riscontro per il riscontro associato a segm}\newline
 		      \texttt{send(risp)} //\textit{per inviare risp al mittente}\newline
 	      \end{flushleft}
-	      Descrivere il contenuto o la funzionalità delle variabili e delle altre funzioni/procedure eventualmente utilizzate.
+	      Descrivere il contenuto o la funzionalità delle variabili e delle altre funzioni o procedure eventualmente utilizzate.
 	      \newpage
 	      \begin{flushleft}
 		      \textbf{Soluzione}:
 		      \begin{lstlisting}[gobble=2,language=C,basicstyle=\footnotesize]
-	finito=false;
+	finito = false;
 	while (!finito) { 
 	receive(segm);
 	finito = segm.FIN; 
@@ -1991,12 +1991,12 @@ da cui
 				#se il segmento contiene nuovi dati
 				if (nuovo(segm.seqnum)) { 
 					#inserisco i dati nel buffer
-					insert(segm.dati,finestra); 
+					insert(segm.dati, finestra); 
 					#nuovo valore di rwnd
-					rwnd=rwnd-(segm.lungtotTCP-segm.HLEN); 
+					rwnd = rwnd - (segm.lungtotTCP - segm.HLEN); 
 					#flag ack settato a true
 					risposta.ACK = true; 
-					risposta.ACKnum = calcolacknum(segm);2
+					risposta.ACKnum = calcolacknum(segm);
 					risposta.rwnd = rwnd;
 				}
  				#invia o il nuovo ack o ultimo ack inviato
@@ -2006,7 +2006,7 @@ da cui
 	}
 	\end{lstlisting}
 	      \end{flushleft}
-	\item Discutere l'affermazione “poiché FTP e HTTP sono protocolli adatti a trasferire file, possono essere usati indifferentemente”.
+	\item Discutere l'affermazione: \textit{poiché FTP e HTTP sono protocolli adatti a trasferire file, possono essere usati indifferentemente}.
 	      \begin{flushleft}
 		      \textbf{Soluzione possibile:}
 	      \end{flushleft}
