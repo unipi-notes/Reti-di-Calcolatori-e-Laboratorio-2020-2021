@@ -295,7 +295,7 @@ Il ritardo di elaborazione \textbf{è causato dall'elaborazione del percorso} (o
 \subsubsection{Ritardo di accodamento}
 Il ritardo di accodamento \textbf{è il tempo che un pacchetto passa nella coda del router}, dipende dall'intensità e dal tipo di traffico. I pacchetti si accodano nei buffer dei router se il tasso di arrivo dei pacchetti eccede la capacità del collegamento di inoltrarli. Se non ci sono spazi liberi i pacchetti in arrivo vengono scartati.
 
-\subsubsection{Rtardo di trasmissione}
+\subsubsection{Ritardo di trasmissione}
 Il ritardo di trasmissione \textbf{è il tempo impiegato a trasmettere un pacchetto intero} sul link.\newline
 $R$ = rate di trasmissione del collegamento.\newline
 $L$ = lunghezza del pacchetto.\newline
@@ -424,7 +424,7 @@ Un protocollo specifica quindi:
 \end{definition}
 \theoremstyle{definition}
 \begin{definition}
-	Un \textbf{servizio} è insieme di \textbf{primitive} (operazioni) che uno strato
+	Un \textbf{servizio} è l'insieme di \textbf{primitive} (operazioni) che uno strato
 	fornisce ad uno strato soprastante. (\textit{vedi sez. 3.4.1}).
 \end{definition}
 \begin{figure}[!h]
@@ -672,7 +672,7 @@ La prima riga o \textbf{start line} distingue i messaggi di request dai messaggi
 \begin{figure}[!h]
 	\includegraphics[scale=0.3]{Immagini/Req_line.png}
 	\centering
-	\caption{La struttura della \textbf{request line}. Il campo \textbf{method} è case sensitive ed indica l'operazioe da eseguire sulla risorsa identificata dalla URI. Il metodo \textbf{POST} serve per inviare dal client al server le
+	\caption{La struttura della \textbf{request line}. Il campo \textbf{method} è case sensitive ed indica l'operazione da eseguire sulla risorsa identificata dalla URI. Il metodo \textbf{POST} serve per inviare dal client al server le
 		informazioni inserite nel body del messaggio, \textbf{PUT} è usato dal client per chiedere al server di creare o modificare una risorsa, \textbf{DELETE} per cancellarla.}
 \end{figure}
 \begin{figure}[!h]
@@ -821,7 +821,7 @@ TELNET non possiede \textbf{alcuna} misura di sicurezza poichè è stato progett
 \end{figure}\newline
 Il \textbf{protocollo} di livello applicazione \textbf{SSH} è composto da \textbf{tre} diverse componenti: \textbf{SSH-TRANS, SSH-AUTH e SSH-CON}. La componente \textbf{SSH-TRANS} o \textbf{SSH-Transport Layer Protocol} costruisce un canale di comunicazione sicuro, tramite tecniche crittografiche, sfruttando la connessione offerta da TCP. Il \textbf{protocollo TCP} trasmette tutte le informazioni in chiaro, \textbf{non} è quindi in grado \textbf{da solo} di garantire \textbf{privacy} e \textbf{confidenza}. \textit{SSH-TRANS è anche in grado di riconoscere se il server a cui ci stiamo connettendo è quello autentico o meno.} La componente \textbf{SSH-AUTH} si occupa di autenticare il client. \textit{Sono disponibili altre tecniche di autenticazione oltre alla classica con username e password tra le quali l'accesso basato su coppie di chiavi crittografiche.} Infine la componente \textbf{SSH-CONN} sfruttando i servizi offerti dalle altre due componenti offre i servizi di \textbf{terminale}, \textbf{trasferimento file}, \textbf{creazione di tunnel} ecc...\newline \textbf{SSH offre} quindi \textbf{molti più servizi di TELNET}.\newline\newline
 \textit{Cos'è il TCP Port Forwarding?}\newline\newline
-Il \textbf{TCP Port Forwarding} è un meccanismo che permette di \textbf{creare} un \textbf{canale di comunicazione sicuro} attraverso il quale \textbf{veicolare} \textbf{qualsiasi} tipo di \textbf{connessione TCP}. Opera creando un canale di comunicazione \textbf{cifrato} tra la \textbf{porta} all’\textbf{indirizzo remoto} a cui ci si vuole collegare e una \textbf{porta locale} libera.  le applicazioni punteranno il collegamento alla porta locale e la connessione verrà inoltrata automaticamente all’host remoto
+Il \textbf{TCP Port Forwarding} è un meccanismo che permette di \textbf{creare} un \textbf{canale di comunicazione sicuro} attraverso il quale \textbf{veicolare} \textbf{qualsiasi} tipo di \textbf{connessione TCP}. Opera creando un canale di comunicazione \textbf{cifrato} tra la \textbf{porta} all’\textbf{indirizzo remoto} a cui ci si vuole collegare e una \textbf{porta locale} libera. Le applicazioni punteranno il collegamento alla porta locale e la connessione verrà inoltrata automaticamente all’host remoto
 tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \textbf{local port forwarding} e \textbf{remote port forwarding}.
 \newpage
 \begin{itemize}
@@ -919,7 +919,7 @@ Supponiamo che un utente utilizzi un client di trasferimento file per accedere a
 \begin{enumerate}
 	\item L'\textbf{utente} comunica il nome del server al client di trasferimento file.
 	\item \textbf{Il client di trasferimento file} trasmette il nome del server al \textbf{client DNS}.
-	\item \textbf{Qualsiasi computer una volta avviato conosce l'indirizzo IP di un server DNS}, il \textbf{client DNS} invia dunque al \textbf{server DNS} la richiesta di traduzione del nome simbolico del server.
+	\item \textbf{Ogni computer una volta avviato conosce l'indirizzo IP di un server DNS}, il \textbf{client DNS} invia dunque, usando la \textbf{porta 53}, al \textbf{server DNS} la richiesta di traduzione del nome simbolico del server.
 	\item Il \textbf{server DNS} risponde con l'indirizzo IP del server desiderato.
 	\item Il \textbf{client DNS} comunica al \textbf{client di trasferimento file} l'indirizzo IP del server.
 	\item Il \textbf{client di trasferimento file} \textbf{utilizza} così l'\textbf{indirizzo IP ricevuto} per accedere al server.
@@ -993,7 +993,7 @@ Il processo con cui si associa l'indirizzo IP da un nome è detto \textbf{proces
 		      \caption{In figura un esempio di risoluzione iterativa.}
 	      \end{figure}
 \end{itemize}
-Ogni volta che a un \textbf{server} arriva una richiesta di risoluzione di un nome, che non fa parte del suo dominio, deve cercare, all'interno del suo database, un altro server a cui inoltrare la richiesta. Ridurre questo tempo di ricerca significa ridurre il tempo di attesa della risposta e aumentare l'efficienza. Ancora una vola ci viene in aiuto il \textbf{caching}: una volta che un \textbf{server} ha appreso un' \textbf{associazione}, la inserisce in \textbf{cache}. Il server marca le risposte prese dalla propria cache come \textbf{unauthoritative} o non autorevole.
+Ogni volta che a un \textbf{server} arriva una richiesta di risoluzione di un nome, che non fa parte del suo dominio, deve cercare, all'interno del suo database, un altro server a cui inoltrare la richiesta. Ridurre questo tempo di ricerca significa ridurre il tempo di attesa della risposta e aumentare l'efficienza. Ancora una volta ci viene in aiuto il \textbf{caching}: una volta che un \textbf{server} ha appreso un' \textbf{associazione}, la inserisce in \textbf{cache}. Il server marca le risposte prese dalla propria cache come \textbf{unauthoritative} o non autorevole.
 \newpage
 Dopo un certo lasso di tempo chiamato \textbf{TTL} o \textbf{time to live} il server cancella dalla cache l'associazione per evitare l'invio di risposte obsolete.\newline\newline
 \textit{Ma come è fatto quindi il database di un server?}\newline\newline
@@ -1069,7 +1069,7 @@ Tipicamente due utenti, mittente e destinatario, sono connessi a due \textbf{ser
 Illustriamo ora \textbf{come avviene l'invio di un messaggio} da parte di \textit{Gaia} a \textit{Gabriele}.
 \begin{enumerate}
 	\item Gaia, utilizzando un programma \textbf{UA}, prepara il messaggio e lo invia al proprio server di posta.
-	\item Il \textbf{server di posta memorizza} il messaggio in una coda, e lo \textbf{invia} tramite un \textbf{programma MTA} al server di posta di Gabriele.\textbf{ N.B. sono necessari due programmi MTA per ogni server di posta, un MTA server sempre attivo, in attesa di messaggi, e un MTA client, \underline{attivo all'evenienza}, che contatta il server di posta a cui deve essere inviato un messaggio  ed effettua l'invio}.
+	\item Il \textbf{server di posta memorizza} il messaggio in una coda, e lo \textbf{invia} tramite un \textbf{programma MTA} al server di posta di Gabriele.\textbf{ \underline{N.B.} sono necessari due programmi MTA per ogni server di posta, un MTA server sempre attivo, in attesa di messaggi, e un MTA client, \underline{attivo all'evenienza}, che contatta il server di posta a cui deve essere inviato un messaggio  ed effettua l'invio}.
 	\item Il server di posta \textbf{riceverà} il messaggio e lo \textbf{memorizzerà} nella \textbf{casella postale di Gabriele} che, a sua volta usando un programma \textbf{MAA client}, contatterà il programma \textbf{MAA server} del \textbf{server} e riceverà infine il messaggio.
 \end{enumerate}
 Lo \textbf{user agent} è il primo componente di un sistema di posta elettronica, \textbf{facilita all'utente l'invio e la ricezione dei messaggi}. Può avere o un'interfaccia a \textbf{riga di comando}, ma è abbastanza desueto, o di tipo \textbf{grafico}. Se l'utente decide di leggere i messaggi nella sua casella di posta elettronica lo \textbf{user agent} mostra un elenco dei messaggi ricevuti. Ogni riga dell'elenco offre un breve resoconto del messaggio, solitamente: \textbf{indirizzo del mittente}, \textbf{ora} e \textbf{oggetto del messaggio}.\newline\newline
@@ -1143,7 +1143,7 @@ La consegna di un messaggio tramite SMTP prevede \textbf{tre fasi}:
 		      \item Il \textbf{server} risponde con il codice 250.
 		      \item Il \textbf{client} invia al server il comando RCPT TO con argomento l'indirizzo mail del destinatario
 		      \item Il server risponde con il codice 250.
-		      \item Il \textbf{client} invia il comando data per iniziare il trasferimento del messaggio.
+		      \item Il \textbf{client} invia il comando DATA per iniziare il trasferimento del messaggio.
 		      \item Il \textbf{server} risponde con il codice 354.
 		      \item Il \textbf{client} invia il messaggio come sequenza di righe, ognuna terminante con la coppia di caratteri ritorno a capo e fine linea. Il messaggio termina con una riga \textbf{contenente solo un punto}.
 		      \item Il server risponde con il codice 250.
@@ -1419,7 +1419,7 @@ Il \textbf{protocollo TCP} inoltre fornisce un servizio \textbf{full duplex}, ne
 \end{flushleft}
 Con un \textbf{meccanismo di numerazione} che prevede due campi: \textbf{il numero di sequenza} e \textbf{il numero di riscontro o ACK}. Questi due campi sono contenuti nell'\textbf{intestazione} dei segmenti TCP e fanno riferimento al \textbf{numero dei byte}, non al numero di segmento. \textbf{TCP} infatti \textbf{numera i byte che vengono trasmessi nella connessione}. Questa \textbf{numerazione} avviene all'interno del \textbf{buffer di trasmissione}, dopo che i byte sono stati generati dal processo applicativo mittente. I numeri di sequenza e di riscontro sono \textbf{diversi} nelle due \textbf{direzioni} della comunicazione. Il numero di sequenza del primo byte non necessariamente è 0 ma è \textbf{generato arbitrariamente} nell'intervallo tra 0 e $2^{32} - 1$.\newline
 Dopo aver numerato i byte, \textbf{TCP assegna a ogni segmento un numero di sequenza corrispondente al numero del primo byte del segmento}.
-Il \textbf{primo numero di sequenza} o \textbf{ISN} è un numero casuale tra 0 e $2^{32} -1$. \textbf{Tutti gli altri numeri } sono il numero di sequenza del segmento precedente a cui viene sommato il numero di byte, \textbf{reali o fittizi}, da lui contenuti.
+Il \textbf{primo numero di sequenza} o \textbf{ISN} è un numero casuale tra 0 e $2^{32} -1$. \textbf{Tutti gli altri numeri }sono il numero di sequenza del segmento precedente a cui viene sommato il numero di byte, \textbf{reali o fittizi}, da lui contenuti.
 \newpage
 Oltre al \textbf{numero di sequenza } nell'intestazione di un \textbf{segmento TCP} è contenuto anche un \textbf{numero di riscontro}, più brevemente detto \textbf{ACK}. L' \textbf{ACK} è utilizzato dalle due entità comunicanti per \textbf{confermare i byte ricevuti}, indica infatti il \textbf{numero} del \textbf{prossimo byte }che l'entità si aspetta di ricevere.\textit{ e.g. se un'entità utilizza 5643 come ACK significa che ha ricevuto tutti i byte fino al 5642. \underline{\textbf{N.B.}}: non necessariamente vuol dire che l'entità ha ricevuto 5642 byte.}\newline
 Riportiamo di seguito la \textbf{struttura} di un \textbf{segmento TCP}:
@@ -1545,7 +1545,7 @@ Il \textbf{controllo del flusso} è gestito con il seguente meccanismo: il \text
 \begin{flushleft}
 	\textit{Come funzionano le finestre TCP?}
 \end{flushleft}
-Il \textbf{protocollo TCP} prevede due finestre, una di \textbf{ricezione} e una di \textbf{trasmissione}, per ognuna delle due direzioni di comunicazione, in totale sono quindi presenti \textbf{4 finestre}. Ricordiamo che TCP instaura \textbf{due connessioni}. La \textbf{dimensione della finestra di trasmissione} è \textit{\textbf{inizialmente}} determinata all'apertura della connessione. Si \textbf{apre} quando la dimensione della finestra di ricezione segnalata dal TCP destinatario lo consente e si \textbf{chiude} quando viene confermata la ricezione dei byte inviati. \textbf{Apertura, chiusura e ridimensionamento sono controllate dal TCP destinatario}.
+Il \textbf{protocollo TCP} prevede due finestre, una di \textbf{ricezione} e una di \textbf{trasmissione}, per ognuna delle due direzioni di comunicazione, in totale sono quindi presenti \textbf{4 finestre}. Ricordiamo che TCP instaura \textbf{una sola connessione}. La \textbf{dimensione della finestra di trasmissione} è \textit{\textbf{inizialmente}} determinata all'apertura della connessione. Si \textbf{apre} quando la dimensione della finestra di ricezione segnalata dal TCP destinatario lo consente e si \textbf{chiude} quando viene confermata la ricezione dei byte inviati. \textbf{Apertura, chiusura e ridimensionamento sono controllate dal TCP destinatario}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.55]{Immagini/TCP_Window.png}
 	\centering
@@ -1564,7 +1564,7 @@ Alleghiamo di seguito un'immagine in grado di spiegare efficacemente ciò che su
 	\centering
 	\caption{Il controllo di flusso in una ipotetica connessione TCP unidirezionale.}
 \end{figure}\newline
-\centerline{\fbox{\textbf{rwindow = rwindowInit - (LastByteReceived - LastByteRead)}}}\newline\newline
+\centerline{\fbox{\textbf{rwindow = RecBuff - (LastByteReceived - LastByteRead)}}}\newline\newline
 Il \textbf{mittente} si assicura che:\newline\newline
 \centerline{\fbox{\textbf{LastByteSent - LastByteAcked $<$ rindow}}}\newline\newline
 Ovvero che la quantità di dati trasmessi e non ancora riscontrati sia \textbf{minore} della \textbf{finestra di ricezione}.\newline
@@ -1649,7 +1649,10 @@ Oltre al valore RTT stimato \textbf{è necessaria anche una stima della} sua \te
 \begin{equation}
 	RTT_{DEV} = (1 - b) \times RTT_{DEV} + b \times \mid RTT_{SAMPLE} - RTT_{ESTIMATED} \mid
 \end{equation}
-Rappresenta una \textbf{stima di quanto $RTT_{SAMPLE}$ si discosta da $RTT_{ESTIMATED}$}. Il valore di b viene posto a 1/4. Una volta ottenuti questi valori, \textbf{il timeout viene normalmente calcolato come}:
+\begin{flushleft}
+	Inizialmente $RTT_{DEV} = \frac{RTT_{sample}}{2}$.
+\end{flushleft}
+$RTT_{DEV}$ rappresenta una \textbf{stima di quanto $RTT_{SAMPLE}$ si discosta da $RTT_{ESTIMATED}$}. Il valore di b viene posto a 1/4. Una volta ottenuti questi valori, \textbf{il timeout viene normalmente calcolato come}:
 \begin{equation}
 	RTO = RTT_{ESTIMATED} + 4 \times RTT_{DEV}
 \end{equation}
