@@ -1171,7 +1171,7 @@ Il \textbf{protocollo POP3} prevede due modalità: \textbf{delete} e \textbf{kee
 	\centering
 	\caption{In figura il protocollo POP3.}
 \end{figure}\newline
-Il \textbf{protocollo IMAP4} è simile al POP3 ma è più \textbf{potente} e \textbf{complesso}. POP3 \textbf{non} consente di \textbf{gestire più caselle }di posta sul server, di \textbf{organizzare} la posta e di \textbf{controllare una parte del messaggio prima di prelevarlo} nella sua interezza. \textbf{IMP4} invece fornisce varie funzionalità aggiuntive, tra le quali:
+Il \textbf{protocollo IMAP4} è simile al POP3 ma è più \textbf{potente} e \textbf{complesso}. POP3 \textbf{non} consente di \textbf{gestire più caselle }di posta sul server, di \textbf{organizzare} la posta e di \textbf{controllare una parte del messaggio prima di prelevarlo} nella sua interezza. \textbf{IMAP4} invece fornisce varie funzionalità aggiuntive, tra le quali:
 \begin{itemize}
 	\item \textbf{Controllare le intestazioni} dei messaggi prima di \textbf{prelevarli}.
 	\item \textbf{Ricercare una stringa} specifica \textbf{nei messaggi prima di prelevarli}.
@@ -1253,7 +1253,7 @@ Anche al \textbf{server} verrà \textbf{associato} un \textbf{numero di porta} c
 \end{figure}\newline
 \textbf{Ricapitolando}: l'\textbf{indirizzo IP individua un host} tra i miliardi di host dell'intera rete mondiale ed è un numero di 32 bit. Il \textbf{numero di porta individua un processo} in esecuzione su tale host.
 \newpage
-L'\textbf{ICANN}, ovvero \textbf{Internet Corporation for Assigned Names and Numbers} ha suddiviso i numeri di porta il \textbf{tre} categorie:
+L'\textbf{ICANN}, ovvero \textbf{Internet Corporation for Assigned Names and Numbers} ha suddiviso i numeri di porta in \textbf{tre} categorie:
 \begin{enumerate}
 	\item \textbf{Numeri di porta noti}: sono compresi tra \textbf{0} e \textbf{1023} e sono \textbf{assegnati} dall'authority \textbf{ICANN}.
 	\item \textbf{Numeri di porta registrati}: sono compresi tra \textbf{1024} e \textbf{49151}, \textbf{non} sono \textbf{controllati} \textbf{né} \textbf{assegnati} dall'autorithy ICANN ma è \textbf{possibile} \textbf{registrarli} per evitare duplicazioni.
@@ -1404,7 +1404,7 @@ Poichè il processo produttore e il processo consumatore non scrivono e leggono 
 \end{figure}\newline
 Tipicamente viene usato un \textbf{buffer circolare}, poiché consente più agilmente di mettere a disposizione per la scrittura le celle che contengono byte inviati e la cui ricezione è stata confermata.
 \newpage
-Sebbene la \textbf{bufferizzazione} gestisca il \textbf{controllo del flusso}, per inviare dati in uno \textbf{stream} bisogna ovviare a un altro problema. Il \textbf{livello IP infatti} invia i dati in \textbf{pacchetti} e non in un flusso di byte. Per far fronte a ciò \textbf{TCP raggruppa un certo numero di byte in unità chiamate segmenti},  \textbf{indipendenti} dal programma applicativo, a cui vi aggiunge un'intestazione prima di affidarli al livello rete.
+Sebbene la \textbf{bufferizzazione} gestisca il \textbf{controllo del flusso}, per inviare dati in uno \textbf{stream} bisogna ovviare a un altro problema. Il \textbf{livello IP infatti} invia i dati in \textbf{pacchetti} e non in un flusso di byte. Per far fronte a ciò \textbf{TCP raggruppa un certo numero di byte in unità chiamate segmenti},  \textbf{indipendenti} dal programma applicativo, a cui aggiunge un'intestazione prima di affidarli al livello rete.
 I \textbf{segmenti} vengono poi incapsulati in datagrammi IP e trasmessi. La \textbf{bufferizzazione} consente una \textbf{riduzione del traffico} sulla rete
 ottimizzando in un certo modo il numero di segmenti da trasmettere\newline
 \textbf{\underline{N.B.}} non è detto che tutti i segmenti abbiano la \textbf{stessa dimensione}.
