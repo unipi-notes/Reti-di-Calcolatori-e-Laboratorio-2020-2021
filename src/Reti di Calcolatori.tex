@@ -109,7 +109,7 @@ una rete di area geografica limitata collegata attraverso una tecnologia etherne
 \begin{figure}[!h]
 	\includegraphics[scale=0.85]{Immagini/LAN.png}
 	\centering
-\end{figure}
+\end{figure}\newline
 Ciascun host ha un cavo che lo collega allo switch e a ogni porta dello switch corrisponde un host. Lo \textbf{switch} possiede una tecnologia di autoapprendimento ed è una componente del \textbf{livello link}.
 \newpage
 
@@ -124,11 +124,11 @@ Acronimo di \textbf{W}ide \textbf{A}rea \textbf{N}etwork, è una rete di area ge
 
 
 \subsection{Internetwork}
-L'internetwork è un sistema in cui ci sono più reti composte, capaci di scambiarsi informazioni e collegate. Concettualmente è una WAN ma è più complicata.\newline
+L'internetwork è un sistema in cui ci sono più reti composte, capaci di scambiarsi informazioni e collegate. Concettualmente è una WAN ma è più complicata.
 I dispositivi che la compongono si distinguono in \textbf{sistemi terminali}
 e dispositivi come gli \textbf{switch} e i \textbf{routers} che si trovano nel percorso tra i sistemi sorgente e i sistemi destinazione.
 \begin{figure}[!h]
-	\includegraphics[scale=0.4]{Immagini/Internetwork.png}
+	\includegraphics[scale=0.45]{Immagini/Internetwork.png}
 	\centering
 	\caption{Una internetwork.}
 \end{figure}\newline
@@ -232,7 +232,7 @@ Lo \textbf{stack protocollare} offre il servizio di connessione. Vi sono due app
 
 \theoremstyle{definition}
 \begin{definition}
-	ICANN (Internet Corporation for Assigned Names and Numbers) È un ente internazionale che coordina il sistema dei nomi di dominio (DNS), assegna i gruppi di indirizzi di rete, identificativi di protocollo e ha funzioni di controllo (blando) dello sviluppo di Internet.
+	ICANN (Internet Corporation for Assigned Names and Numbers) È un ente internazionale che coordina il sistema dei nomi di dominio (DNS), assegna i gruppi di indirizzi di rete, gli identificativi di protocollo e ha funzioni di controllo (blando) sullo sviluppo di Internet.
 \end{definition}
 
 \subsubsection{Rete di accesso}
@@ -538,7 +538,7 @@ Abbiamo, seppur assai brevemente, esaminato la comunicazione a livello applicati
 
 \theoremstyle{definition}
 \begin{definition}
-	\textbf{API}: acronimo di Application Programming Interface, è un insieme di \textbf{procedure} e \textbf{regole} che un programmatore deve seguire per accedere a delle risorse. Facilita molto la programmazione del software client-side.
+	\textbf{API}: acronimo di Application Programming Interface, è un insieme di \textbf{procedure} e \textbf{regole} che un programmatore deve seguire per accedere a delle risorse o per realizzare l'interazione tra due entità. Facilita molto la programmazione del software client-side.
 \end{definition}
 L' \textbf{API} che funge da \textbf{interfaccia} tra gli \textbf{strati di applicazione} \textbf{e} di \textbf{trasporto} è chiamata \textbf{socket} ed è usata dai processi dello strato applicativo per inviare e ricevere dati dallo strato di trasporto. Si tratta, ancora una volta, di una connessione \textbf{logica} poichè in realtà l'invio e la ricezione dei dati sono, nel \textbf{concreto}, responsabilità del sistema operativo e del protocollo TCP/IP.\newline
 Riportiamo un estratto dell'\textbf{API} di \textbf{TCP:}\newline\newline
@@ -719,7 +719,7 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 \end{figure}
 \newpage
 \begin{figure}[!h]
-	\includegraphics[scale=0.3]{Immagini/Cond_HTTP.png}
+	\includegraphics[scale=0.32]{Immagini/Cond_HTTP_risp.png}
 	\centering
 	\caption{In figura la risposta alla richiesta condizionale di prima. La riga di stato indica che il file non è stato modificato successivamente alla data indicata dal client, nulla viene inviato e il corpo del messaggio è vuoto.}
 \end{figure}
@@ -729,9 +729,9 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 	\caption{I campi del \textbf{response-header} consentono al server di inviare informazioni aggiuntive che non possono essere poste nella status-line. Ad esempio: \textbf{Age}: indica quanto tempo è trascorso, in secondi, tra l'invio della risposta da parte del mittente e la generazione della stessa all'origine. \textbf{Location} é usato per reindirizzare il client verso un altra URI per completare la sua richiesta o per fornire una nuova risorsa. Il campo \textbf{Server} contiene informazioni sul software usato dal server di origine per portare a compimento la richiesta del client.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.52]{Immagini/Stat_code.png}
+	\includegraphics[scale=0.5]{Immagini/Stat_code.png}
 	\centering
-	\caption{In figura l'elenco degli status-codes e il loro significato. Definiscono lo \textbf{stato della richiesta}, i codici dal 100 al 199 indicano che si tratta di informazioni, dal 200 al 299 che una richiesta è stata eseguita con successo, quelli tra 300 e 399 reindirizzano il client verso un'altra URL, quelli tra 400 e 499 indicano che si è verificato un errore lato client e quelli dal 500 al 599 dal lato server.}
+	\caption{In figura l'elenco degli status-codes e il loro significato. Descrivono lo stato della risposta. I codici dal 100 al 199 indicano informazioni, dal 200 al 299 che una richiesta è stata eseguita con successo, quelli tra 300 e 399 reindirizzano il client verso un'altra URL, quelli tra 400 e 499 indicano che si è verificato un errore lato client e quelli dal 500 al 599 dal lato server.}
 \end{figure}
 \newpage
 Fin'ora abbiamo mostrato come il client accede alle risorse del web inviando richieste al server. Cosa succederebbe se, ad esempio, un client richiedesse continuamente la \textbf{stessa} risorsa? Potremmo evitare di inoltrare richieste tutte uguali al server?\newline
@@ -1950,7 +1950,7 @@ da cui
 	      \textbf{Soluzione}:
 	      \begin{enumerate}
 		      \item Il primo segmento avrà il payload vuoto e il payload del secondo conterrà 220 service ready.
-		      \item Il pimo segmento sarà SYNACK, e quindi: come già detto, payload vuoto, flags SYN e ACK ad 1, numero sequenza Z, ack number Y, \textbf{porta mittente 25}, porta destinazione effimera. Il secondo segmento conterrà come payload 220 service ready, nessun flag ad 1, numero sequenza Z+1, ack number Y, porta	mittente 25, porta destinazione effimera.
+		      \item Il primo segmento sarà SYNACK, e quindi: come già detto, payload vuoto, flags SYN e ACK ad 1, numero sequenza Z, ack number Y, \textbf{porta mittente 25}, porta destinazione effimera. Il secondo segmento conterrà come payload 220 service ready, nessun flag ad 1, numero sequenza Z+1, ack number Y, porta	mittente 25, porta destinazione effimera.
 	      \end{enumerate}
 	      \newpage
 	\item Dire in quali delle seguenti circostanze il TCP cambia la dimensione della
