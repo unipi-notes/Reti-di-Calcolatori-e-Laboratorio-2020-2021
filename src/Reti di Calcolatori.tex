@@ -243,6 +243,12 @@ ISP (\textit{internet service provider}).
 \begin{definition}
 	Il collegamento che connette l'utente al primo router di internet è detto \textbf{rete di accesso}, suddetto collegamento può essere effettuato tramite rete telefonica, rete wireless o tramite accesso diretto.
 \end{definition}
+\begin{itemize}
+	\item \textbf{Accesso via rete telefonica}: servizio dial-up, ADSL o Asymmetric Digital Subscriber Line e fibra ottica.
+	\item \textbf{Accesso tramite reti wireless}.
+	\item \textbf{Collegamento diretto}: collegamenti WAN dedicati ad alta velocità e.g. aziende o
+	      università.
+\end{itemize}
 
 \newpage
 
@@ -585,8 +591,8 @@ Le \textbf{sintassi} della URI:\newline\newline
 	\item \textcolor{purple}{\textbf{path}}: contiene \textbf{dati} specifici per l’authority (o per lo scheme) e \textbf{identifica} la risorsa \textbf{nel contesto} di quel namespace e di quell'authority.
 \end{itemize}
 Le URI possono essere \textbf{assolute} o \textbf{relative}, una \textbf{URI assoluta} identifica una risorsa \textbf{indipendentemente} dal contesto in cui è usata. Una \textbf{URI relativa} identifica una risorsa in relazione ad un'altra URL, \textbf{è priva di schema e di authority}, non viaggia sulla rete ed è interpretata dal browser in relazione al documento di partenza.\newline \textit{(e.g. http://www.w3.org/pub/WWW/TheProject.html oppure\newline /pub/WWW/TheProject.html \underline{sotto l'host}: www.w3.org)}.
-\subsubsection{HTTP Protocol}
-\label{sec:HTTP Protocol}
+\subsubsection{HTTP}
+\label{sec:HTTP}
 Il protocollo \textbf{HTTP} è un protocollo di tipo \textbf{request}/\textbf{response}: il client inizia la connessione inviando un messaggio di \textbf{request} al server che a sua volta invia una \textbf{response}. Si tratta di un \textbf{protocollo generico}, poichè non dipende dal formato delle risorse, e \textbf{stateless} poichè \textbf{le coppie richiesta/risposta sono indipendenti l'una dall'altra}. In \textbf{HTTP 1.0} dopo la prima coppia di richiesta/risposta la connessione viene \textbf{terminata} mentre in \textbf{HTTP 1.1} si \textbf{procede} con un’altra coppia. \newline
 Lo \textbf{schema http} è usato per accedere alle risorse attraverso il protocollo HTTP. \newpage
 Si riporta di seguito la \textbf{sintassi} per le URL http:\newline\newline
@@ -692,24 +698,40 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 \end{itemize}
 \newpage
 \begin{figure}[!h]
-	\includegraphics[scale=0.31]{Immagini/General_h.png}
+	\includegraphics[scale=0.2]{Immagini/HTTP_get.png}
+	\centering
+	\caption{In figura un esempio di richiesta HTTP con cui il client preleva un documento, viene usato il metodo \textbf{GET} per ottenere l'immagine individuata dal percorso \texttt{usr/bin/image1}.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/General_h.png}
 	\centering
 	\caption{L'elenco dei general headers.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.3]{Immagini/Req_h.png}
+	\includegraphics[scale=0.5]{Immagini/Req_h.png}
 	\centering
-	\caption{L'elenco dei request headers. \textbf{Accept} specifica quali tipi di media sono accettati in risposta dal client, \textbf{Accept-Charset}, quali caratteri e \textbf{Accept-Encoding} quali formati.}
+	\caption{L'elenco dei request headers. \textbf{Accept} specifica quali tipi di media sono accettati in risposta dal client, \textbf{Accept-Charset}, quali caratteri e \textbf{Accept-Encoding} quali formati. È possibile specificare una \textbf{condizione}, in tal caso il server invia la risorsa solo se la condizione è soddisfatta altrimenti informa il client della motivazione del mancato invio.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.34]{Immagini/Stat_code.png}
+	\includegraphics[scale=0.3]{Immagini/Cond_HTTP.png}
 	\centering
-	\caption{In figura l'elenco degli status-codes e il loro significato.}
+	\caption{In figura un esempio di richiesta condizionale.}
+\end{figure}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Cond_HTTP.png}
+	\centering
+	\caption{In figura la risposta alla richiesta condizionale di prima. La riga di stato indica che il file non è stato modificato successivamente alla data indicata dal client, nulla viene inviato e il corpo del messaggio è vuoto.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.3]{Immagini/Resp_h.png}
+	\includegraphics[scale=0.4]{Immagini/Resp_h.png}
 	\centering
 	\caption{I campi del \textbf{response-header} consentono al server di inviare informazioni aggiuntive che non possono essere poste nella status-line. Ad esempio: \textbf{Age}: indica quanto tempo è trascorso, in secondi, tra l'invio della risposta da parte del mittente e la generazione della stessa all'origine. \textbf{Location} é usato per reindirizzare il client verso un altra URI per completare la sua richiesta o per fornire una nuova risorsa. Il campo \textbf{Server} contiene informazioni sul software usato dal server di origine per portare a compimento la richiesta del client.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.52]{Immagini/Stat_code.png}
+	\centering
+	\caption{In figura l'elenco degli status-codes e il loro significato. Definiscono lo \textbf{stato della richiesta}, i codici dal 100 al 199 indicano che si tratta di informazioni, dal 200 al 299 che una richiesta è stata eseguita con successo, quelli tra 300 e 399 reindirizzano il client verso un'altra URL, quelli tra 400 e 499 indicano che si è verificato un errore lato client e quelli dal 500 al 599 dal lato server.}
 \end{figure}
 \newpage
 Fin'ora abbiamo mostrato come il client accede alle risorse del web inviando richieste al server. Cosa succederebbe se, ad esempio, un client richiedesse continuamente la \textbf{stessa} risorsa? Potremmo evitare di inoltrare richieste tutte uguali al server?\newline
@@ -2025,7 +2047,7 @@ da cui
 		      \item  FTP è Stateful
 		      \item Offre funzionalità aggiuntive rispetto a HTTP per la gestione di file e directory (list, retr, put).
 	      \end{itemize}
-	      e.g. \hyperref[sec:HTTP Protocol]{\textbf{HTTP}}
+	      e.g. \hyperref[sec:HTTP]{\textbf{HTTP}}
 	      \begin{itemize}
 		      \item Un'unica connessione per dati e comandi.
 		      \item Interazione stateless.
