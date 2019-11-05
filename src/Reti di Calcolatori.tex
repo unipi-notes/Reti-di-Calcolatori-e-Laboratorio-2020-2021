@@ -879,8 +879,7 @@ Il \textbf{client} ha \textbf{tre} componenti: \textbf{interfaccia utente}, \tex
 \end{itemize}
 Poco sopra abbiamo accennato al fatto che \textbf{FTP} prevede l'instaurazione di \textbf{due tipi di connessione tra il client e il server} ovvero:
 \begin{enumerate}
-	\item \textbf{Control connection}: prevede uno scambio di comandi e risposte
-	      tra client e server. Segue il protocollo TELNET e \textbf{rimane aperta per l'intera durata della sessione interattiva}. Si usa la \textbf{porta 21} del \textbf{server} e la codifica standard \textbf{NVT ASCII}.
+	\item \textbf{Control connection}: prevede uno scambio di comandi e \textbf{codici di ritorno} e.g. \textbf{200 OK}, tra client e server. Segue il protocollo TELNET e \textbf{rimane aperta per l'intera durata della sessione interattiva}. Si usa la \textbf{porta 21} del \textbf{server} e la codifica standard \textbf{NVT ASCII}.
 	\item \textbf{Data connection}: prevede il trasferimento di dati mediante procedure e la \textbf{specifica dei tipi}. I dati trasferiti possono essere parte di un file, un file o un set di file. \textbf{Viene aperta e chiusa per ogni singolo scambio}. Per lo scambio di dati il \textbf{server} usa la \textbf{porta 20}.
 \end{enumerate}
 \newpage
@@ -898,29 +897,63 @@ Concludiamo menzionando il fatto che esistono server che supportano connessioni 
 \begin{table}[h!]
 	\begin{center}
 		\label{tab:table1}
-		\begin{tabular}{l|c|r}
+		\begin{tabular}{l|c}
 			\textbf{Comandi di controllo} & \textbf{Significato}             \\
 			\hline
-			USER                          & username                         \\
-			PASS                          & password                         \\
-			LIST                          & elenca i file della
+			USER   username               & username d'autenticazione        \\
+			PASS   password               & password   d'autenticazione      \\
+			LIST   dirname                & elenca i file della
 			directory corrente                                               \\
-			NLST                          & richiede elenco file e
+			NLST   dirname                & richiede elenco file e
 			directory (ls)                                                   \\
-			RETR filename                 & recupera (get)
+			RETR   filename               & recupera (get)
 			un file dalla directory
 			corrente                                                         \\
-			STOR filename                 & memorizza
+			STOR   filename               & memorizza
 			(put) un file nell’host remoto                                   \\
 			ABOR                          & interrompe l’ultimo
 			comando ed i trasferimenti in
 			corso                                                            \\
-			PORT                          & indirizzo e numero di porta
+			PORT   portnumber             & indirizzo e numero di porta
 			del client                                                       \\
 			SYST                          & il server restituisce il tipo di
 			sistema                                                          \\
 			QUIT                          & (quit) chiude la
 			connessione                                                      \\
+		\end{tabular}
+	\end{center}
+\end{table}
+\newpage
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Ftp_transfer.png}
+	\centering
+	\caption{Esempio di trasferimento di un file, notare la connessione dati.}
+\end{figure}
+Ogni comando FTP \textbf{genera} almeno \textbf{una risposta}, le risposte sono composte da due parti: \textbf{un numero di tre cifre e un testo}.
+\begin{table}[h!]
+	\begin{center}
+		\label{tab:table1}
+		\begin{tabular}{l|c}
+			\textbf{Risposte FTP} & \textbf{Descrizione}                               \\
+			\hline
+			125                   & connessione dati aperta                            \\
+			150                   & stato del file OK                                  \\
+			200                   & comando OK
+			directory corrente                                                         \\
+			220                   & servizio pronto                                    \\
+			221                   & servizio in chiusura                               \\
+			225                   & connessione dati aperta                            \\
+			226                   & connessione dati in chiusura
+			corso                                                                      \\
+			230                   & login dell'utente OK                               \\
+			250                   & azione sul file OK                                 \\
+			331                   & nome utente OK, attesa PW                          \\
+			425                   & non è possibile aprire la connessione dati         \\
+			450                   & azione sul file non eseguita, file non disponibile \\
+			452                   & azione interrotta, spazio insufficiente            \\
+			500                   & errore di sintassi, comando non riconosciuto       \\
+			501                   & errore di sintassi nei parametri o negli argomenti \\
+			530                   & login dell'utente fallito                          \\
 		\end{tabular}
 	\end{center}
 \end{table}
@@ -1135,7 +1168,7 @@ I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textb
 	      \begin{table}[h!]
 		      \begin{center}
 			      \label{tab:table1}
-			      \begin{tabular}{l|c|c}
+			      \begin{tabular}{l|c}
 				      \textbf{Codice} & \textbf{Descrizione}                     \\
 				      \hline
 				      220             & servizio pronto                          \\
@@ -1588,7 +1621,7 @@ Alleghiamo di seguito un'immagine in grado di spiegare efficacemente ciò che su
 \end{figure}\newline
 \centerline{\fbox{\textbf{rwindow = RecBuff - (LastByteReceived - LastByteRead)}}}\newline\newline
 Il \textbf{mittente} si assicura che:\newline\newline
-\centerline{\fbox{\textbf{LastByteSent - LastByteAcked $<$ rindow}}}\newline\newline
+\centerline{\fbox{\textbf{LastByteSent - LastByteAcked $<$ rw indow}}}\newline\newline
 Ovvero che la quantità di dati trasmessi e non ancora riscontrati sia \textbf{minore} della \textbf{finestra di ricezione}.\newline
 \textbf{\underline{N.B.}} \textbf{rwindow può essere uguale a 0}, qualora ad esempio il TCP destinatario non volesse ricevere dai dati per un certo periodo di tempo. Il mittente in questo caso \textbf{non} riduce realmente la dimensione della sua finestra ma continua a mandare \textbf{segmenti sonda} di 1 byte per ricevere l’\textbf{aggiornamento} sulla dimensione di \textbf{rwindow}. Questa tecnica si definisce \textbf{probing} ed è usata per \textbf{prevenire lo stallo}.
 \newpage
@@ -1715,7 +1748,7 @@ La strategia principale usata da TCP per controllare la congestione prevede \tex
 \end{enumerate}
 A ogni fase corrisponde un algoritmo diverso.
 \begin{itemize}
-	\item \textbf{Slow Start}: si basa sull'inizializzare la dimensione della finestra di congestione rendendola pari a quella della \textbf{MSS} o \textbf{Maximum Segment Size}. Aumentandola poi di MSS ogni volta che \textbf{un} segmento viene riscontrato. La MSS è stabilita all'inizio della connessione. Così facendo l'algoritmo parte lentamente ma procede con velocità via via crescente. La dimensione di cwnd nella fase di \textbf{slow start} può essere espressa come $2^{n}$ dove n sono i \textbf{riscontri ricevuti}.\textbf{ Se due segmenti vengono confermati con lo stesso riscontro cwnd aumenta solo di 1}. La crescita è comunque \textbf{esponenziale} nell'unità di tempo RTT, ma di esponente diverso. La fase continua \textbf{fino} al raggiungimento da parte di cwnd di una soglia chiamata \textbf{ssthresh}co \textbf{slow start threshold}, mantenuta dal \textbf{mittente}. Al raggiungimento di questa soglia si entra nella fase di \textbf{congestion avoidance}.
+	\item \textbf{Slow Start}: si basa sull'inizializzare la dimensione della finestra di congestione rendendola pari a quella della \textbf{MSS} o \textbf{Maximum Segment Size}. Aumentandola poi di MSS ogni volta che \textbf{un} segmento viene riscontrato. La MSS è stabilita all'inizio della connessione. Così facendo l'algoritmo parte lentamente ma procede con velocità via via crescente. La dimensione di cwnd nella fase di \textbf{slow start} può essere espressa come $2^{n}$ dove n sono i \textbf{riscontri ricevuti}.\textbf{ Se due segmenti vengono confermati con lo stesso riscontro cwnd aumenta solo di 1}. La crescita è comunque \textbf{esponenziale} nell'unità di tempo RTT, ma di esponente diverso. La fase continua \textbf{fino} al raggiungimento da parte di cwnd di una soglia chiamata \textbf{ssthresh} o \textbf{slow start threshold}, mantenuta dal \textbf{mittente}. Al raggiungimento di questa soglia si entra nella fase di \textbf{congestion avoidance}.
 	\item \textbf{Congestion Avoidance}: una volta che \textbf{cwnd} ha raggiunto una dimensione \textbf{relativamente} grande, per evitare che la crescita esponenziale finisca per causare problemi di congestione, \textbf{il protocollo TCP} usa un altro algoritmo che incrementa in modo \textbf{lineare} anziché \textbf{esponenziale} il valore di cwnd. La fase di \textbf{congestion avoidance} prevede che ogni volta che \textbf{l'intera finestra di ricezione viene riscontrata} la sua dimensione aumenti \textbf{di un'unità}.
 	      \begin{figure}[!h]
 		      \includegraphics[scale=0.38]{Immagini/CA_tcp.png}
@@ -1737,7 +1770,7 @@ La \textbf{prima versione di TCP} chiamata \textbf{TCP Tahoe} utilizzava \textbf
 	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Tahoe.}
 \end{figure}
 \newpage
-In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{slow recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuovo valore di ssthresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Tahoe.
+In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{fast recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuovo valore di ssthresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Tahoe.
 \begin{figure}[!h]
 	\includegraphics[scale=0.33]{Immagini/Reno.png}
 	\centering
