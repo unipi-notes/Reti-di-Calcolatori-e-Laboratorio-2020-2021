@@ -1,5 +1,6 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper,oneside]{book}
 
+\usepackage[italian]{babel}
 \usepackage{graphicx}
 \usepackage{amsthm}
 \usepackage{xcolor}
@@ -8,13 +9,14 @@
 \usepackage{chngpage}
 \usepackage[hidelinks]{hyperref}
 \usepackage{listings}
+\usepackage{alltt}
+\usepackage{multicol}
+
 
 \lstset{tabsize = 2}
 
-
 \theoremstyle{definition}
 \newtheorem{definition}{Definizione}[section]
-
 
 \begin{document}
 \title{Reti di Calcolatori a.a. 2019/2020}
@@ -22,15 +24,16 @@
 \date{September 16, 2019}
 \maketitle
 
-\newpage
+\setcounter{tocdepth}{5}
 \tableofcontents
-\newpage
 
-\section{Introduzione al corso}
-email: federica.paganelli@unipi.it\newline
-modalità d'esame: prova scritta (compitini) e orale (facoltativo) più\newline
-laboratorio che prevede progetto e orale. \newline
-\underline{\textbf{N.B. Si accede alla prova orale di laboratorio solo dopo aver passato lo scritto.}}
+\pagebreak
+
+\chapter{Introduzione}
+\section{Modalità d'esame}
+Email docente: federica.paganelli@unipi.it\newline
+Modalità d'esame: per il \textbf{modulo di teoria prova scritta} (compitini o appello) e orale (facoltativo) e per il \textbf{modulo di laboratorio} sono previsti \textbf{progetto e orale}. \newline
+\textbf{\underline{N.B.} Si accede alla prova orale di laboratorio solo dopo aver passato lo scritto.}
 
 \section{Cenni di modelli stratificati}
 Sono architetture di comunicazione a strati. \newline
@@ -59,12 +62,12 @@ Idea chiave: \underline{suddivisone in sottoproblemi.}
 \subsection{Livello applicativo}
 Fanno parte del livello applicativo:
 \begin{itemize}
-	\item Identificativi delle risorse: URL, URI e URN.
-	\item Il web: user agents, protocollo http.
-	\item Protocollo FTP.
-	\item TELNET: servizio di terminale virtuale.
-	\item Posta elettronica.
-	\item Sistema dei nomi DNS a dominio e la risoluzione dei nomi: iterativa e ricorsiva.
+	\item Identificativi delle risorse: \textbf{URL}, \textbf{URI} e \textbf{URN}.
+	\item Il \textbf{web}: user agents, protocollo http.
+	\item \textbf{Protocollo FTP}.
+	\item \textbf{TELNET}: servizio di terminale virtuale.
+	\item \textbf{Posta elettronica}.
+	\item Sistema dei nomi \textbf{DNS} a dominio e la risoluzione dei nomi: iterativa e ricorsiva.
 	\item molto altro ancora...
 \end{itemize}
 
@@ -76,18 +79,13 @@ Due tecnologie degne di nota:
 \end{enumerate}
 
 \subsection{Livello rete}
-Nel livello rete si ricava un percorso dall'host sorgente all'host destinatario usando le informazioni che si trovano nell'IP.\newline
+Nel \textbf{livello di rete si ricava un percorso dall'host sorgente all'host destinatario} usando le informazioni che si trovano nell'IP.\newline
 Verrà trattato il protocollo Ipv4 e introdotto il protocollo Ipv6.
 
 \subsection{Livello link}
 Si occupa di gestire il collegamento tra due nodi \textbf{adiacenti}.
 La tecnologia principale è l'\textbf{ethernet}.
-\begin{figure}[!h]
-	\includegraphics[scale=0.47]{Immagini/Modelli_Strat.png}
-	\centering
-	\caption{Modello stratificato}
-\end{figure}
-\pagebreak
+
 
 \section{Introduzione alle reti}
 \textit{Cos'è una rete? Quante tipologie di reti ci sono? Cos'è internet?}
@@ -105,13 +103,14 @@ I sistemi terminali si possono dividere in due tipi: \textbf{host} e \textbf{ser
 
 \subsection{LAN}
 Acronimo di \textbf{L}ocal \textbf{A}rea \textbf{N}etwork, è
-una rete di area geografica limitata collegata attraverso una tecnologia ethernet \textbf{bus} o ethernet \textbf{switch}:
+una rete di area geografica limitata collegata attraverso una tecnologia ethernet \textbf{bus} o ethernet \textbf{switch}: ciascun host ha un cavo che lo collega allo switch e a ogni porta dello switch corrisponde un host. Lo \textbf{switch} possiede una tecnologia di autoapprendimento ed è una componente del \textbf{livello link}.
 \begin{figure}[!h]
-	\includegraphics[scale=0.85]{Immagini/LAN.png}
+	\includegraphics[scale=0.62]{Immagini/LAN.png}
 	\centering
-\end{figure}\newline
-Ciascun host ha un cavo che lo collega allo switch e a ogni porta dello switch corrisponde un host. Lo \textbf{switch} possiede una tecnologia di autoapprendimento ed è una componente del \textbf{livello link}.
-\newpage
+	\caption{In figura due modelli diversi di LAN.}
+\end{figure}
+
+\pagebreak
 
 \subsection{WAN}
 Acronimo di \textbf{W}ide \textbf{A}rea \textbf{N}etwork, è una rete di area geografica estesa: è composta da due o più reti collegate tramite un mezzo di trasmissione. Le reti coinvolte potrebbero anche essere reti LAN. \textit{(e il link potrebbe essere affittato a un'azienda da un operatore di telefonia).}
@@ -149,36 +148,39 @@ Nelle \textbf{reti a commutazione di pacchetto} gli utenti inviano pacchetti che
 \end{itemize}
 Nelle reti a commutazione di pacchetto quindi le risorse vengono usate a seconda della necessità. Possono quindi verificarsi situazioni di contesa delle risorse e sussiste il pericolo di congestione o di perdita dei pacchetti nel caso in cui la dimensione della coda del router non fosse sufficiente a contenere il flusso dei pacchetti entranti: il commutatore (\textit{router}) deve infatti ricevere l’intero
 pacchetto prima di poter cominciare a trasmetterlo sul collegamento in uscita (\textit{\textbf{store and forward}}). \textbf{Non sono} quindi \textbf{garantite le prestazioni}.
+\subsubsection{Circuiti virtuali}
+I circuiti virtuali funzionano nel seguente modo: viene stabilito un path tra host sorgente e host destinazione e tutti i pacchetti di un certo flusso seguono lo \textbf{stesso} path.
+
+\pagebreak
+
+\subsubsection{Datagram Network}
+Con \textbf{datagram} si indica un'entità informativa autocontenuta che contiene le informazioni sufficienti per essere indirizzata alla destinazione senza comunicazioni aggiuntive tra sorgente e destinazione: \textbf{non è quindi detto} che pacchetti di uno stesso flusso seguano lo stesso path sulla rete.
+\begin{figure}[!h]
+	\includegraphics[scale=0.17]{Immagini/Circuit_switch.png}
+	\centering
+	\caption{Rete a commutazione di circuito.}
+\end{figure}
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{Immagini/Packet_Switch.png}
 	\centering
-	\caption{Rete a commutazione di pacchetto. Da notare le diverse capacità dei link.}
+	\caption{Rete a commutazione di pacchetto. Notare le diverse capacità dei link.}
 \end{figure}
-\newpage
+
 \subsubsection{Packet Switch e Circuit Switch a confronto}
 Vi sono 35 utenti su una rete con 100 Kbit/s di connessione e un link da 1 Mbit/s.
-Ogni utente è attivo solo il 10\% del tempo.\newline
-Con una \textbf{rete a commutazione di circuito} si riescono a gestire \textbf{solo} 10 utenti.\newline
-Con una \textbf{rete a commutazione di pacchetto} si hanno i seguenti casi:
+Ogni utente è attivo solo il 10\% del tempo. Con una \textbf{rete a commutazione di circuito} si riescono a gestire \textbf{solo} 10 utenti. Con una \textbf{rete a commutazione di pacchetto} si hanno i seguenti casi:
 \begin{enumerate}
-	\item 10 o meno utenti attivi: nessun problema.
-	\item Più di 10 utenti attivi: ritardo.
+	\item 10 o meno utenti attivi: \textbf{nessun problema}.
+	\item Più di 10 utenti attivi: \textbf{ritardo}.
 \end{enumerate}
 Tuttavia che gli utenti siano tutti e 35 attivi contemporaneamente è poco probabile (infatti $P(35) = 0.0004$).
 Se ne deduce che la rete a commutazione di pacchetto riesce a gestire tutti gli utenti contemporaneamente nella maggior parte dei casi.
+Nonostante il risultato ottenuto \textbf{non} si deve pensare che la rete a  commutazione di circuito sia obsoleta. Nel corso degli anni infatti le due tecnologie sono state \textbf{integrate} in vari modi. La commutazione di circuito infatti è usata nella telefonia fissa (\textit{PSTN: public switch telephone network}) per i servizi voce, la commutazione di pacchetto invece per i dati. Nelle reti ottiche di prima e seconda generazione si usano entrambe le tecnologie.
 
-Nonostante il risultato ottenuto non si deve pensare che la rete a  commutazione di circuito sia obsoleta. Nel corso degli anni infatti le due tecnologie sono state \textbf{integrate} in vari modi.\newline
-La commutazione di circuito infatti è usata nella telefonia fissa (\textit{PSTN: public switch telephone network}) per i servizi voce, la commutazione di pacchetto invece per i dati.\newline
-Nelle reti ottiche di prima e seconda generazione si usano entrambe le tecnologie.
-
-\subsubsection{Circuiti virtuali}
-I circuiti virtuali funzionano nel seguente modo: viene stabilito un path tra host sorgente e host destinazione e tutti i pacchetti di un certo flusso seguono lo \textbf{stesso} path.
-\subsubsection{Datagram Network}
-Con \textbf{datagram} si indica un'entità informativa autocontenuta che contiene le informazioni sufficienti per essere indirizzata alla destinazione senza comunicazioni aggiuntive tra sorgente e destinazione: \textbf{non è quindi detto} che pacchetti di uno stesso flusso seguano lo stesso path sulla rete.
-\newpage
+\pagebreak
 
 \subsection{Internet}
-\textit{Come interconnettere reti già esistenti?}\newline
+\textit{Come interconnettere reti già esistenti?}
 \theoremstyle{definition}
 \begin{definition}
 	Una internet (con i minuscola) è una rete costituita da
@@ -189,25 +191,24 @@ Si possono facilmente aggiungere nuove reti. \newline Tuttavia è impensabile av
 dispositivi di interconnessione che permettono la comunicazione da un host all'altro e da un router all'altro.\newline
 Uno scorcio delle \textbf{componenti di Internet}:
 \begin{itemize}
-	\item Miliardi di dispositivi interconnessi (e.g. hosts, end systems).
-	\item Link di comunicazione (e.g. fibre ottiche, doppini telefonici,
+	\item Miliardi di \textbf{dispositivi interconnessi} (e.g. hosts, end systems).
+	\item \textbf{Link di comunicazione} (e.g. fibre ottiche, doppini telefonici,
 	      cavi coassiali, onde radio).
-	\item Routers: instradano pacchetti \textit{(sequenze)} di dati attraverso la rete.
+	\item \textbf{Routers}: instradano pacchetti \textit{(sequenze)} di dati attraverso la rete.
 \end{itemize}
-
 \begin{figure}[!h]
 	\includegraphics[scale=0.7]{Immagini/Internet.png}
 	\centering
 	\caption{Una porzione di Internet}
 \end{figure}
-
 Uno scorcio delle \textbf{entità software} di Internet:
-
 \begin{itemize}
 	\item Applicazioni e processi che elaborano le informazioni.
 	\item \textbf{Protocolli} che regolamentano la trasmissione e la ricezione di informazioni e.g. TCP, IP, HTTP, FTP, PPP.
 	\item Interfacce: verranno definite in seguito, sono le \textit{“membrane”} che separano gli \textit{"strati"}.
 \end{itemize}
+
+\pagebreak
 
 \subsubsection{Servizi}
 L’\textbf{infrastruttura di comunicazione} consente il funzionamento delle applicazioni distribuite per scambio di informazioni \textit{(e.g. WWW, email, giochi, e-commerce, database, controllo remoto, ecc).}\newline
@@ -250,12 +251,12 @@ ISP (\textit{internet service provider}).
 	      università.
 \end{itemize}
 
-\newpage
+\pagebreak
 
 \begin{figure}[!h]
-	\includegraphics[scale=0.85]{Immagini/Internet_Concept.png}
+	\includegraphics[scale=0.55]{Immagini/Internet_Concept.png}
 	\centering
-	\caption{Un modello concettuale di Internet}
+	\caption{Un modello concettuale di Internet.}
 \end{figure}
 
 \section{Metriche di riferimento}
@@ -280,12 +281,25 @@ ISP (\textit{internet service provider}).
 
 \theoremstyle{definition}
 \begin{definition}
-	La \textbf{latenza} o \textbf{latency} è il tempo che passa dal momento in cui il primo bit parte dalla sorgente al momento in cui l'intero messaggio arriva a destinazione. \newline
+	La \textbf{latenza} o \textbf{latency} è il tempo che passa dal momento in cui il primo bit parte dalla sorgente al momento in cui l'intero messaggio arriva a destinazione.
 	\begin{center}
 		\fbox{\Large{$L = r_{propagazione} + r_{trasmissione} + r_{accodamento} + r_{elaborazione}$}}
 	\end{center}
 \end{definition}
-\newpage
+
+\theoremstyle{definition}
+\begin{definition}
+	Il \textbf{volume di un link} è il numero massimo di bit che il link può contenere.
+\end{definition}
+
+{\centering\fbox{$Volume = bit rate\times ritardo$} \par}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Link_Volume.png}
+	\centering
+\end{figure}
+
+\pagebreak
 
 \subsection{Ritardi}
 Il ritardo introdotto da un nodo è la somma di questi 4 ritardi:
@@ -305,14 +319,17 @@ Il ritardo di accodamento \textbf{è il tempo che un pacchetto passa nella coda 
 Il ritardo di trasmissione \textbf{è il tempo impiegato a trasmettere un pacchetto intero} sul link.\newline
 $R$ = rate di trasmissione del collegamento.\newline
 $L$ = lunghezza del pacchetto.\newline
-\[\centerline{$r_{trasmissione} = \frac{L}{R}$}\]
+
+{\centering$r_{trasmissione} = \frac{L}{R}$ \par}
+
 \subsubsection{Ritardo di propagazione}
 Il ritardo di propagazione \textbf{è il tempo impiegato da un bit per essere propagato da un nodo (router) all'altro}.\newline
 $d$ = lunghezza del collegamento fisico\newline
 $s$ = velocità di propagazione del collegamento fisico \newline
-\[\centerline{$r_{propagazione} = \frac{d}{s}$}\]
 
-\subsection{Esempio}
+{\centering$r_{propagazione} = \frac{d}{s}$ \par}
+
+\subsection{Esempi}
 Si consideri l'invio di un file di 1 MBit su un datalink di lunghezza 4800km:\newline
 $d = 4800\times10^3 m$ \newline
 $s = 3\times10^8 m/s$ \newline
@@ -324,33 +341,24 @@ $r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{64\times10^3 bps}= 15.625$ sec
 Se il trasmission rate fosse invece di 1 Gbps? \newline\newline
 $r_{trasmissione} = \frac{L}{R} = \frac{10^6 bit}{10^9 bps} = 0.001$ secondi.
 
-\subsection{Volume di un link}
-\begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Link_Volume.png}
-	\centering
-\end{figure}
-\theoremstyle{definition}
-\begin{definition}
-	Il volume di un link è il numero massimo di bit che il link può contenere.
-\end{definition}
-\centerline{\fbox{$Volume = bit rate\times ritardo$}}
-
-\subsection{Esempio}
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{Immagini/Esempio_ritardi.png}
 	\centering
 \end{figure}
-Si calcoli il ritardo end-to-end di un pacchetto su un percorso con due router. Sia trascurabile il ritardo di congestione e si suppongano uguali su tutti link il propagation delay, il transmission delay e il processing delay.\newline\newline
-\textbf{Soluzione}:\newline Essendoci due router intermedi bisongna attraversare tre link, quindi:\newline\newline
-\centerline{$r_{totale} = 3\times r_{propagation} + 3\times r_{trasmission} + 3\times r_{processing}$}
-\newpage
+Si calcoli il ritardo end-to-end di un pacchetto sul percorso con i router A e B. Sia trascurabile il ritardo di congestione e si suppongano uguali su tutti link il propagation delay, il transmission delay e il processing delay.\newline\newline
+\textbf{Soluzione}:\newline Essendoci due router intermedi bisongna attraversare tre link, quindi:
+
+{\centering $r_{totale} = 3\times r_{propagation} + 3\times r_{trasmission} + 3\times r_{processing}$ \par}
+
 \begin{figure}[!h]
-	\includegraphics[scale=0.82]{Immagini/Soluzione_ritardi.png}
+	\includegraphics[scale=0.35]{Immagini/Soluzione_ritardi.png}
 	\centering
 	\caption{Quello che succede in dettaglio nell'esempio precedente.}
 \end{figure}
 
-\section{Modelli Stratificati e Protocolli}
+\pagebreak
+
+\chapter{Modelli Stratificati e Protocolli}
 \textit{Cos'è un protocollo? Cos'è uno strato?}
 
 \begin{figure}[!h]
@@ -365,9 +373,10 @@ Si calcoli il ritardo end-to-end di un pacchetto su un percorso con due router. 
 	\item La comunicazione tra strati adiacenti avviene attraverso un'\textbf{interfaccia}.
 	\item Tra due entità diverse comunicano fra di loro solo gli strati dello \textbf{stesso livello} e secondo un \textbf{protocollo assegnato}, queste due entità sono dette \textbf{peer}.
 \end{enumerate}
-\newpage
 
-\subsection{OSI: Open Systems Interconnection}
+\pagebreak
+
+\section{OSI: Open Systems Interconnection}
 Le \textbf{prime} reti di calcolatori nacquero come \textbf{sistemi chiusi} in cui tutti i componenti dovevano essere dello stesso costruttore. Erano quindi tecnologie chiuse e \textbf{non interoperabili} l'una con l'altra a causa di drastiche differenze \textit{(e.g. differenza di linguaggio, \textbf{modelli di stratificazione diversi} e impossibilità per i programmi applicativi di riuscire ad operare in ambiente distribuito)}. Alla fine degli anni ‘60 esistevano: ARPANET, SNA (IBM), DNA (Digital).\newline
 I \textbf{Sistemi Aperti} nascono dall'obbiettivo di alcune aziende di realizzare una rete di calcolatori in cui qualsiasi terminale potesse comunicare con un qualsiasi fornitore di servizi mediante qualsiasi rete.\newline\newline
 Per realizzare un sistema aperto è necessario stabilire delle regole comuni: \textbf{gli standards}.
@@ -384,7 +393,7 @@ Per realizzare un sistema aperto è necessario stabilire delle regole comuni: \t
 	\end{enumerate}
 \end{definition}
 
-\subsubsection{Modello ISO/OSI}
+\subsection{Modello ISO/OSI}
 L’International Organization for Standards (ISO) ha specificato
 uno standard per l’interconnessione di sistemi aperti: l' \textbf{Open System Interconnection Reference Model} (OSI-RM) poi diventato standard internazionale nel 1983 (ISO 7498). \textbf{Si basa sul concetto di architettura a strati i cui criteri sono:}.
 \begin{itemize}
@@ -397,7 +406,9 @@ uno standard per l’interconnessione di sistemi aperti: l' \textbf{Open System 
 	      svincolato.
 \end{itemize}
 
-\subsection{Protocollo}
+\pagebreak
+
+\section{Protocollo}
 \begin{figure}[!h]
 	\includegraphics[scale=0.7]{Immagini/Protocollo.png}
 	\centering
@@ -434,21 +445,22 @@ Un protocollo specifica quindi:
 	fornisce ad uno strato soprastante. (\textit{vedi sez. 3.4.1}).
 \end{definition}
 \begin{figure}[!h]
-	\includegraphics[scale=0.85]{Immagini/Protocol_stack.png}
+	\includegraphics[scale=0.7]{Immagini/Protocol_stack.png}
 	\centering
 	\caption{Esempio di stack protocollare.}
 \end{figure}
 \begin{figure}[!h]
-	\includegraphics[scale=0.75]{Immagini/Osi_strati.png}
 	\centering
-	\caption{Gli strati di OSI.}
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[scale=0.47]{Immagini/Osi_strati.png}
+		\caption{Gli strati di OSI.}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[scale=0.47]{Immagini/End_sys.png}
+		\caption{Esempio di collegamento tra end systems.}
+	\end{minipage}
 \end{figure}
-\begin{figure}[!h]
-	\includegraphics[scale=0.75]{Immagini/End_sys.png}
-	\centering
-	\caption{Esempio di collegamento tra end systems.}
-\end{figure}
-\newpage
 \subsection{Incapsulamento dell'informazione}
 All'interno della rete l'informazione ha origine \textbf{al livello
 	applicativo} (\textit{livello 7 in figura}), discende quindi i vari livelli fino alla
@@ -456,7 +468,7 @@ All'interno della rete l'informazione ha origine \textbf{al livello
 Da ogni livello attraversato viene aggiunta all'informazione una sezione informativa (o più di una) chiamata \textbf{header} che contiene informazioni pertinenti esclusivamente al livello stesso.
 Per i dati ricevuti invece si segue il cammino inverso. Si tratta infatti di un \textbf{processo di incapsulamento \underline{reversibile}}.
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Incapsulamento.png}
+	\includegraphics[scale=0.6]{Immagini/Incapsulamento.png}
 	\centering
 \end{figure}
 \begin{itemize}
@@ -464,15 +476,15 @@ Per i dati ricevuti invece si segue il cammino inverso. Si tratta infatti di un 
 	\item \textbf{DATA}: è il payload proveniente dal livello superiore.
 	\item \textbf{Trailer}: è usato per rilevare e correggere gli errori.
 \end{itemize}
-
 \begin{figure}[!h]
-	\includegraphics[scale=0.7]{Immagini/Incaps_2.png}
+	\includegraphics[scale=0.8]{Immagini/Incaps_2.png}
 	\centering
 	\caption{Il processo di incapsulamento. Da notare in particolare il payload.}
 \end{figure}
-\newpage
 
-\section{Stack protocollare TCP/IP}
+\pagebreak
+
+\chapter{Stack protocollare TCP/IP}
 \textbf{TCP/IP} è una \textbf{famiglia di protocolli} attualmente
 in uso su Internet.\newline Si tratta di una \textbf{gerarchia di
 	protocolli} costituita da \textbf{moduli interagenti}, ciascuno dei
@@ -507,7 +519,7 @@ intesa come \textbf{composta} \textbf{di cinque livelli}.
 	\caption{I vari collegamenti logici di comunicazione, in \textbf{rosso} invece, \textbf{il collegamento fisico}. La modularità del sistema fa in modo che gli strati paritari dei due host abbiano l'\textbf{illusione} di comunicare direttamente tra di loro. Si ricorda che queste entità situate a livelli corrispondenti su macchine (host) diverse sono dette \textbf{peer}.}
 \end{figure}
 
-\subsection{Lo strato applicativo}
+\section{Lo strato applicativo}
 Dello \textbf{strato applicativo} fanno parte le \textbf{applicazioni di rete}. Le applicazioni di rete sono composte da \textbf{processi distribuiti} e \textbf{comunicanti}, ovvero programmi eseguiti dai dispositivi terminali (host o end system) di una rete. Nella comunicazione \textbf{a livello applicativo} fra due dispositivi terminali interconnessi, due o più processi sono in esecuzione su ciascuno degli host comunicanti e si scambiano messaggi.
 Il protocollo dello strato applicativo definisce: (\textit{repetita iuvant})
 \begin{itemize}
@@ -533,7 +545,9 @@ Presentiamo ora i \textbf{paradigmi di comunicazione} dello strato applicativo:
 	\centering
 	\caption{Esempio di paradigma client-server.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 Abbiamo, seppur assai brevemente, esaminato la comunicazione a livello applicativo tra macchine diverse. Scendiamo ora più nel dettaglio iniziando a tracciare il percorso \textbf{reale} dei dati dallo \textbf{strato applicativo} allo \textbf{strato di trasporto}. Partiamo dalla seguente definizione:
 
 \theoremstyle{definition}
@@ -559,7 +573,9 @@ Servirebbe un modo per \textbf{identificarli}... ci viene in aiuto il \textbf{so
 	\centering
 	\caption{Il socket address identifica sia il \textbf{processo} con il numero di porta che l'\textbf{host} con l'indirizzo IP, a ogni porta corrisponde un processo.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 \textbf{\underline{Riassumendo}}: dello strato applicativo fanno parte le \textbf{applicazioni di rete}, composte da \textbf{processi distribuiti} su macchine diverse che comunicano tra di loro mediante il protocollo proprio dello strato applicativo. Sebbene il protocollo fornisca alle applicazioni l'illusione di comunicare direttamente, la comunicazione è in realtà garantita da tutto lo stack protocollare sottostante. In particolare, lo strato applicativo dipende dai servizi offerti dallo \textbf{strato di trasporto} che gli è immediatamente sottostante. I due strati comunicano tramite una \textbf{API} che si chiama \textbf{socket}.\newline\newline
 A seconda del \textbf{servizio di trasporto richiesto} dall'applicazione è possibile che si trovino in uso \textbf{protocolli di trasporto diversi} tra i quali: \textbf{TCP} e \textbf{UDP}. \textit{(vedi sez. 2.2)}
 \begin{figure}[!h]
@@ -567,7 +583,7 @@ A seconda del \textbf{servizio di trasporto richiesto} dall'applicazione è poss
 	\centering
 	\caption{In figura le caratteristiche di alcune delle principali applicazioni di rete. Non tutte le applicazioni sono uguali. Tipicamente la telefonia di internet usa il protocollo UDP.}
 \end{figure}
-\subsubsection{Web}
+\subsection{Web}
 Il \textbf{web} è formato da risorse indirizzate da \textbf{URL}, acronimo di \textbf{uniform resource locator}. Generalmente queste risorse sono \textbf{pagine web}, formate da altri oggetti referenziati \textit{(e.g. altre pagine web, immagini ecc...)}. Lo \textbf{user agent} o \textbf{client} per il web è chiamato \textbf{browser} ed il \textbf{server} è chiamato \textbf{web server}.
 \theoremstyle{definition}
 \begin{definition}
@@ -580,9 +596,13 @@ La \textbf{sintassi} delle URI è organizzata \textbf{gerarchicamente} e i compo
 	\centering
 	\caption{URN e URL non sono altro che specializzazioni delle URI.}
 \end{figure}
-\newpage
-Le \textbf{sintassi} della URI:\newline\newline
-\centerline{\LARGE$<scheme>://<authority><path>?<\textcolor{green}{query}>$}\newline\newline
+
+\pagebreak
+
+\subsubsection{Sintassi della URI}
+\begin{center}
+	\Large$<scheme>://<authority><path>?<\textcolor{green}{query}>$
+\end{center}
 \textcolor{red}{http}://\textcolor{blue}{maps.google.it}/\textcolor{purple}{maps}/\textcolor{purple}{place}?\textcolor{green}{q=largo+bruno+pontecorvo+pisa
 	\&hl=it}
 \begin{itemize}
@@ -591,12 +611,17 @@ Le \textbf{sintassi} della URI:\newline\newline
 	\item \textcolor{purple}{\textbf{path}}: contiene \textbf{dati} specifici per l’authority (o per lo scheme) e \textbf{identifica} la risorsa \textbf{nel contesto} di quel namespace e di quell'authority.
 \end{itemize}
 Le URI possono essere \textbf{assolute} o \textbf{relative}, una \textbf{URI assoluta} identifica una risorsa \textbf{indipendentemente} dal contesto in cui è usata. Una \textbf{URI relativa} identifica una risorsa in relazione ad un'altra URL, \textbf{è priva di schema e di authority}, non viaggia sulla rete ed è interpretata dal browser in relazione al documento di partenza.\newline \textit{(e.g. http://www.w3.org/pub/WWW/TheProject.html oppure\newline /pub/WWW/TheProject.html \underline{sotto l'host}: www.w3.org)}.
-\subsubsection{HTTP}
+\subsection{HTTP}
 \label{sec:HTTP}
 Il protocollo \textbf{HTTP} è un protocollo di tipo \textbf{request}/\textbf{response}: il client inizia la connessione inviando un messaggio di \textbf{request} al server che a sua volta invia una \textbf{response}. Si tratta di un \textbf{protocollo generico}, poichè non dipende dal formato delle risorse, e \textbf{stateless} poichè \textbf{le coppie richiesta/risposta sono indipendenti l'una dall'altra}. In \textbf{HTTP 1.0} dopo la prima coppia di richiesta/risposta la connessione viene \textbf{terminata} mentre in \textbf{HTTP 1.1} si \textbf{procede} con un’altra coppia. \newline
-Lo \textbf{schema http} è usato per accedere alle risorse attraverso il protocollo HTTP. \newpage
-Si riporta di seguito la \textbf{sintassi} per le URL http:\newline\newline
-\centerline{\LARGE$http: // <host> [ : <port> ] [ <path> ]$}
+Lo \textbf{schema http} è usato per accedere alle risorse attraverso il protocollo HTTP.
+
+\pagebreak
+
+\subsubsection{Sintassi della URL HTTP}
+\begin{center}
+	\LARGE$http: // <host> [ : <port> ] [ <path> ]$
+\end{center}
 \begin{itemize}
 	\item \textbf{host}: è un \textbf{host domain di Internet} valido oppure un indirizzo IP in forma decimale puntata.
 	\item \textbf{port}: \textbf{è un intero}, se  la porta è vuota o non è indicata si usa automaticamente la porta 80.
@@ -613,19 +638,25 @@ Si riporta di seguito la \textbf{sintassi} per le URL http:\newline\newline
 \texttt{r = TCPreceive(d);}\newline
 \texttt{...}\newline
 \texttt{TCPsend(d,pag);}\newline
-\texttt{TCPclose(d);}\newline
+\texttt{TCPclose(d);}
 \theoremstyle{definition}
+\subsubsection{Connessione HTTP}
 \begin{definition}
 	Una \textbf{connessione http} è  un circuito logico di livello di trasporto stabilito tra due programmi applicativi per comunicare tra loro.
 \end{definition}
-Una \textbf{connessione} può essere:
+Una \textbf{connessione HTTP} può essere:
 \begin{itemize}
-	\item \textbf{Non persistente}\textit{(http1.0: RFC 1945)}: si parla di connessione non persistente quando \textbf{per ogni richiesta} del \textbf{client} viene instaurata \textbf{una nuova connessione} con il \textbf{server}. Ciò aumenta il \textbf{carico} su quest ultimo e potrebbero verificarsi fenomeni di \textbf{congestione}. \textit{Infatti per visualizzare le n immagini di un sito il client invia di seguito n richieste al server.}
+	\item \textbf{Non persistente}\textit{(http1.0: RFC 1945)}:  \textbf{per ogni richiesta} del \textbf{client} viene instaurata \textbf{una nuova connessione} con il \textbf{server}. Ciò aumenta il \textbf{carico} su quest ultimo e potrebbero verificarsi fenomeni di \textbf{congestione}. \textit{Infatti per visualizzare le n immagini di un sito il client invia di seguito n richieste al server.}
 	\item \textbf{Persistente}\textit{(http1.1: RFC 2616)}: la connessione è appunto \textbf{persistente}. Nello \textbf{standard} è specificato un meccanismo che consente al server di \textbf{chiudere} la connessione TCP su richiesta del client. \textit{(CONNECTION = CLOSE, in GENERAL HEADER, vedi seguito.)}\newline \textbf{\underline{N.B.}} Una volta che la chiusura della connessione è stata segnalata, il client \textbf{non deve} inviare altre richieste.
 \end{itemize}
-\newpage
+
+\pagebreak
+
 \textbf{Esempio:}\newline
-Supponiamo che l’utente digiti la seguente URL:\newline\newline \centerline{\textbf{www.someSchool.edu/someDepartment/home.index}}\newline\newline
+Supponiamo che l’utente digiti la seguente URL:
+\begin{center}
+	\textbf{www.someSchool.edu/someDepartment/home.index}
+\end{center}
 Con \textbf{una connessione non persistente}, in ordine temporale succedono le seguenti cose:
 \begin{enumerate}
 	\item Il \textbf{client http}  invia una richiesta di connessione
@@ -641,6 +672,7 @@ Con \textbf{una connessione persistente} invece il server lascerebbe aperta la c
 Un ulteriore miglioramento delle prestazioni, si otterrebbe con una tecnica di \textbf{pipelining}, consistente nell’invio da parte del client di molteplici richieste senza aspettarne la ricezione da parte del server.\newline
 Il \textbf{server} \textbf{deve} tuttavia inviare le risposte nello stesso ordine in cui sono state ricevute le richieste e il \textbf{client} \textbf{non} può inviare \textbf{in pipeline} richieste che usano metodi HTTP \textbf{non idempotenti}. Ma cos'è un \textbf{metodo idempotente}?
 \theoremstyle{definition}
+\subsubsection{Metodo idempotente}
 \begin{definition}
 	Un \textbf{metodo idempotente} è un metodo tale che il suo effetto collaterale sulla risorsa è lo \textbf{stesso} per N o 1 richieste identiche che ne fanno uso. \textit{(e.g. GET, HEAD, PUT, DELETE, OPTIONS, TRACE)}
 \end{definition}
@@ -649,11 +681,11 @@ Il \textbf{server} \textbf{deve} tuttavia inviare le risposte nello stesso ordin
 	Un \textbf{metodo safe} è un metodo che non produce effetti collaterali sulle risorse. \textit{(e.g. non le modificano: GET, HEAD, OPTIONS, TRACE...)}
 \end{definition}
 \begin{figure}[!h]
-	\includegraphics[scale=0.85]{Immagini/Http_vs.png}
+	\includegraphics[scale=0.65]{Immagini/Http_vs.png}
 	\centering
 	\caption{In figura sono rappresentate le differenze viste prima.}
 \end{figure}
-\textit{Come sono strutturati i messaggi HTTP?}\newline\newline
+\subsubsection{Messaggi HTTP}
 Riportiamo di seguito la \textbf{struttura} di un generico messaggio http:\newline
 \texttt{Request = Request-Line} \textit{o} \texttt{Response = Status-Line} \textit{per i messaggi di risposta.}\newline
 \texttt{*( general-header}\newline
@@ -674,7 +706,9 @@ La prima riga o \textbf{start line} distingue i messaggi di request dai messaggi
 		\caption{In figura un messaggio di risposta.}
 	\end{minipage}
 \end{figure}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.3]{Immagini/Req_line.png}
 	\centering
@@ -696,7 +730,9 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 	\item \textbf{Request Headers}: sono relativi alla \textbf{richiesta}. Supportano il \textbf{content negotiation}, il processo tramite cui il server sceglie la forma "giusta" del contenuto richiesto dal client. \textit{(Specificano da chi è fatta la richiesta, a chi viene fatta, che tipo di risposte il client è in grado di accettare, l'autorizzazione, ecc.)}
 	\item \textbf{Response Headers}: sono relativi al \textbf{messaggio di risposta}.
 \end{itemize}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.2]{Immagini/HTTP_get.png}
 	\centering
@@ -717,7 +753,9 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 	\centering
 	\caption{In figura un esempio di richiesta condizionale.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.32]{Immagini/Cond_HTTP_risp.png}
 	\centering
@@ -733,7 +771,9 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 	\centering
 	\caption{In figura l'elenco degli status-codes e il loro significato. Descrivono lo stato della risposta. I codici dal 100 al 199 indicano informazioni, dal 200 al 299 che una richiesta è stata eseguita con successo, quelli tra 300 e 399 reindirizzano il client verso un'altra URL, quelli tra 400 e 499 indicano che si è verificato un errore lato client e quelli dal 500 al 599 dal lato server.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 Fin'ora abbiamo mostrato come il client accede alle risorse del web inviando richieste al server. Cosa succederebbe se, ad esempio, un client richiedesse continuamente la \textbf{stessa} risorsa? Potremmo evitare di inoltrare richieste tutte uguali al server?\newline
 \textbf{Sì}, ci viene in aiuto il \textbf{web caching}. L'obbiettivo del web caching è di soddisfare le richieste del client \textbf{senza} contattare il server. Funziona memorizzando \textbf{copie temporanee} di risorse web, servendole poi al client così da \textbf{ridurre} l’uso di \textbf{banda}, limitare il \textbf{workload} sul server e di conseguenza \textbf{diminuire tempo di risposta} verso gli altri clients.\newline
 Consideriamo due modelli possibili di web caching:
@@ -741,15 +781,14 @@ Consideriamo due modelli possibili di web caching:
 	\item \textbf{User Agent Cache}: lo \textbf{user agent} (il browser) mantiene una \textbf{copia} delle risorse visitate dall’utente.
 	\item \textbf{Proxy Cache}: il \textbf{proxy intercetta il traffico} e mette in cache le risposte. Successive richieste alla stessa URI possono essere servite direttamente dal proxy senza inoltrare la richiesta al server. Sta poi all' utente configurare il browser per consentire gli accessi Web via proxy.
 \end{itemize}
-
-\textit{Cos'è un proxy?}
+\subsubsection{Proxy}
 \theoremstyle{definition}
 \begin{definition}
-	Un \textbf{proxy} è un \textbf{programma intermediario} che agisce sia da \textbf{server} che da \textbf{client}, \textbf{inviando} e \textbf{servendo} \textbf{richieste} per altri clients. Le richieste sono gestite internamente oppure sono girate a server terzi.
+	Un \textbf{proxy} è un \textbf{programma intermediario} che agisce sia da \textbf{server} che da \textbf{client}, \textbf{inviando} e \textbf{servendo} \textbf{richieste} per altri clients. Le richieste sono gestite internamente o inoltrate a server terzi.
 \end{definition}
-Resta ora da chiarire come è possibile che, sebbene abbiamo definito il protocollo HTTP come \textbf{stateless}, alcuni siti, \textit{riconoscano} gli utenti.\newline
-Sebbene infatti il protocollo HTTP sia a tutti gli effetti stateless, le applicazioni web \textbf{non} lo sono. Come fare quindi a conciliare queste due realtà?\newline\newline
-\textit{Con i cookies!}
+Resta ora da chiarire come è possibile che, sebbene abbiamo definito il protocollo HTTP come \textbf{stateless}, alcuni siti, \textit{riconoscano} gli utenti.
+Sebbene infatti il protocollo HTTP sia a tutti gli effetti stateless, le applicazioni web \textbf{non} lo sono. Come fare quindi a conciliare queste due realtà?
+\subsubsection{Cookies}
 \begin{definition}
 	I \textbf{cookies} sono stringhe di testo contenenti informazioni relative all'utente.
 \end{definition}
@@ -761,9 +800,10 @@ I \textbf{cookies} funzionano nel seguente modo:
 	      Lo aggiungerà con la seguente linea: \textbf{cookie: 1678453} a tutte le sue successive richieste.
 	\item Alla successiva richiesta da parte del client, il server \textbf{risalirà} tramite il cookie alle informazioni ad esso \textbf{associate}.
 \end{enumerate}
-\newpage
 
-\subsubsection{TELNET}
+\pagebreak
+
+\subsection{TELNET}
 \textbf{TELNET}, acronimo per \textbf{TE}rmina\textbf{L} \textbf{NET}work, è un \textbf{protocollo} \textbf{client-server} che fornisce una comunicazione \textbf{interattiva ed orientata al testo} tra due macchine, è basato sul trasporto \textbf{connection-oriented} ed usa il protocollo \textbf{TCP}.
 Consente all'utente di effettuare una sessione di \textbf{login} in una macchina remota e quindi di utilizzarne il terminale. L'utente che si autentica tramite login remoto ha accesso infatti a tutti i \textbf{comandi} e ai \textbf{programmi} disponibili su di essa. \textbf{I comandi vengono eseguiti come se l'utente li digitasse dalla tastiera stessa della macchina.} \textit{Per estensione,} \texttt{\textbf{telnet}} \textit{è anche il nome di un programma usato per avviare una sessione TELNET verso un host remoto.}
 \textbf{TELNET} infatti include due programmi: un programma \textbf{TELNET client} e un programma \textbf{TELNET server}. \textbf{TELNET client} (\texttt{\textbf{telnet}}) interagisce con l'utente sulla macchina locale e scambia messaggi con \textbf{TELNET server}. Riportiamo di seguito una semplificazione del funzionamento:
@@ -780,9 +820,13 @@ Consente all'utente di effettuare una sessione di \textbf{login} in una macchina
 	\caption{In figura il funzionamento di TELNET.}
 \end{figure}
 \underline{N.B. TELNET è un protocollo STATEFUL.}
-\newpage
-\textit{Problema: come operare con sistemi operativi diversi?}\newline\newline
-I terminali infatti non sono tutti uguali, possono differire gli uni dagli altri per il \textbf{set} e la \textbf{codifica} dei caratteri, per la \textbf{lunghezza} della \textbf{linea} e della \textbf{pagina} e per i \textbf{tasti funzione} individuati da diverse sequenze di caratteri. \newline\newline
+
+\pagebreak
+
+\subsubsection{Network Virtual Terminal}
+\begin{flushleft}
+	\textbf{I terminali non sono tutti uguali}, possono differire gli uni dagli altri per il \textbf{set} e la \textbf{codifica} dei caratteri, per la \textbf{lunghezza} della \textbf{linea} e della \textbf{pagina} e per i \textbf{tasti funzione} individuati da diverse sequenze di caratteri.
+\end{flushleft}
 Una \textbf{soluzione} è stata trovata mediante la definizione di un \textbf{Network Virtual  Terminal (NVT) che definisce un \textbf{set di caratteri universali}}.
 L’NVT è quindi un dispositivo “immaginario” che fornisce una
 rappresentazione astratta di un terminale. Gli host, sia client
@@ -805,8 +849,12 @@ Il funzionamento di TELNET, con l'aggiunta della trasformazioni intermedie sopra
 	\centering
 \end{figure}
 \underline{\textit{N.B. NVT invia i caratteri di controllo prioritariamente con TCP URGENT.}}
-\newpage
-Concludiamo con qualche tecnicismo: \newline\newline
+
+\pagebreak
+
+\begin{flushleft}
+	Concludiamo con qualche tecnicismo:
+\end{flushleft}
 I terminali NVT si scambiano dati in formato \textbf{7-bit US-ASCII} e adottano inoltre un approccio \textbf{in-band signaling}, ovvero dati e comandi viaggiano sullo \textbf{stesso canale}. Per distinguere i due tipi di informazione si usa la seguente convenzione: ogni carattere è inviato come un \textbf{ottetto di bit} con \textbf{il primo bit settato a zero}. I caratteri, in notazione decimale, vanno dal numero 0 al 127. I comandi invece sono identificati tramite  ottetti speciali di 1, in n. d. vanno dal numero 240 al numero 254, per distinguerli dai dati sono sempre preceduti da un carattere speciale: \textbf{IAC o Interpret As Command} identificato, sempre in n. d., dal numero 255. Essenzialmente quindi si usa un canale di 8 bit per scambiare dati di tipo 7 bit ASCII. I messaggi scambiati durante la fase iniziale della comunicazione, ovvero prima del login, sono \textbf{messaggi di controllo} e costituiscono la \textbf{Telnet Option Negotiation}, in sostanza sono usati per scambiare \textbf{informazioni} sulle \textbf{caratteristiche} degli \textbf{host}.
 \begin{table}[h!]
 	\begin{center}
@@ -822,8 +870,12 @@ I terminali NVT si scambiano dati in formato \textbf{7-bit US-ASCII} e adottano 
 		\end{tabular}
 	\end{center}
 \end{table}\newline
-\textit{Ma quindi NVT conviene?}\newline\newline
-Rispondiamo alla domanda mostrando dei semplici calcoli:\newline\newline
+\begin{flushleft}
+	\textit{Ma quindi NVT conviene?}
+\end{flushleft}
+\begin{flushleft}
+	Rispondiamo alla domanda mostrando dei semplici calcoli:
+\end{flushleft}
 Supponiamo che N sia il numero di sistemi distinti che si vogliono far
 interoperare:
 \begin{itemize}
@@ -832,8 +884,10 @@ interoperare:
 	\item \textbf{Usando} NVT, bisogna scrivere 1 TELNET-server per ogni sistema e N TELNET-client (1 per ogni sistema che traduca dallo standard di sistema allo standard di NVT): \newline Avremo quindi $N + N = 2N$ applicativi.
 \end{itemize}
 Quindi per $N > 2$ \textbf{conviene} usare NVT!
-\newpage
-\subsubsection{SSH}
+
+\pagebreak
+
+\subsection{SSH}
 TELNET non possiede \textbf{alcuna} misura di sicurezza poichè è stato progettato per l'uso su \textbf{reti private}, trasmette tutto in chiaro, anche le \textbf{password}! Con l'avvento delle reti pubbliche però si è reso necessario prendere delle contromisure. \newline
 \textbf{SSH} o \textbf{S}ecure \textbf{SH}ell è un'applicazione nata per sostituire TELNET.
 \begin{figure}[!h]
@@ -841,11 +895,14 @@ TELNET non possiede \textbf{alcuna} misura di sicurezza poichè è stato progett
 	\centering
 	\caption{Le componenti di SSH}
 \end{figure}\newline
-Il \textbf{protocollo} di livello applicazione \textbf{SSH} è composto da \textbf{tre} diverse componenti: \textbf{SSH-TRANS, SSH-AUTH e SSH-CON}. La componente \textbf{SSH-TRANS} o \textbf{SSH-Transport Layer Protocol} costruisce un canale di comunicazione sicuro, tramite tecniche crittografiche, sfruttando la connessione offerta da TCP. Il \textbf{protocollo TCP} trasmette tutte le informazioni in chiaro, \textbf{non} è quindi in grado \textbf{da solo} di garantire \textbf{privacy} e \textbf{confidenza}. \textit{SSH-TRANS è anche in grado di riconoscere se il server a cui ci stiamo connettendo è quello autentico o meno.} La componente \textbf{SSH-AUTH} si occupa di autenticare il client. \textit{Sono disponibili altre tecniche di autenticazione oltre alla classica con username e password tra le quali l'accesso basato su coppie di chiavi crittografiche.} Infine la componente \textbf{SSH-CONN} sfruttando i servizi offerti dalle altre due componenti offre i servizi di \textbf{terminale}, \textbf{trasferimento file}, \textbf{creazione di tunnel} ecc...\newline \textbf{SSH offre} quindi \textbf{molti più servizi di TELNET}.\newline\newline
-\textit{Cos'è il TCP Port Forwarding?}\newline\newline
+Il \textbf{protocollo} di livello applicazione \textbf{SSH} è composto da \textbf{tre} diverse componenti: \textbf{SSH-TRANS, SSH-AUTH e SSH-CON}. La componente \textbf{SSH-TRANS} o \textbf{SSH-Transport Layer Protocol} costruisce un canale di comunicazione sicuro, tramite tecniche crittografiche, sfruttando la connessione offerta da TCP. Il \textbf{protocollo TCP} trasmette tutte le informazioni in chiaro, \textbf{non} è quindi in grado \textbf{da solo} di garantire \textbf{privacy} e \textbf{confidenza}. \textit{SSH-TRANS è anche in grado di riconoscere se il server a cui ci stiamo connettendo è quello autentico o meno.} La componente \textbf{SSH-AUTH} si occupa di autenticare il client. \textit{Sono disponibili altre tecniche di autenticazione oltre alla classica con username e password tra le quali l'accesso basato su coppie di chiavi crittografiche.} Infine la componente \textbf{SSH-CONN} sfruttando i servizi offerti dalle altre due componenti offre i servizi di \textbf{terminale}, \textbf{trasferimento file}, \textbf{creazione di tunnel} ecc...\newline \textbf{SSH offre} quindi \textbf{molti più servizi di TELNET}.
+\subsubsection{TCP Port Forwarding}
+
 Il \textbf{TCP Port Forwarding} è un meccanismo che permette di \textbf{creare} un \textbf{canale di comunicazione sicuro} attraverso il quale \textbf{veicolare} \textbf{qualsiasi} tipo di \textbf{connessione TCP}. Opera creando un canale di comunicazione \textbf{cifrato} tra la \textbf{porta} all’\textbf{indirizzo remoto} a cui ci si vuole collegare e una \textbf{porta locale} libera. Le applicazioni punteranno il collegamento alla porta locale e la connessione verrà inoltrata automaticamente all’host remoto
 tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \textbf{local port forwarding} e \textbf{remote port forwarding}.
-\newpage
+
+\pagebreak
+
 \begin{itemize}
 	\item \textbf{Local}: \texttt{ssh -L} specifica che il traffico sulla porta indicata della macchina locale deve essere reindirizzato verso la porta indicata della macchina remota. \newline
 	      e.g. \texttt{ssh -L sourcePort:forwardToHost:onPort connectToHost} significa: connettiti via ssh a \textbf{connectToHost}, e inoltra tutti i tentativi di connessione che arrivano alla porta locale \textbf{sourcePort} verso la porta \textbf{onPort} della macchina chiamata \textbf{forwardToHost}, che si raggiunge tramite la macchina chiamata a sua volta \textbf{connectToHost}.
@@ -853,7 +910,9 @@ tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \t
 		      \includegraphics[scale=0.8]{Immagini/Local_ssh.png}
 		      \centering
 	      \end{figure}
-	      \newpage
+
+	      \pagebreak
+
 	\item \textbf{Remote}: \texttt{ssh -R} specifica che il traffico sulla porta indicata della macchina remota deve essere reindirizzato verso la porta indicata della macchina locale.\newline
 	      e.g. \texttt{ssh -R sourcePort:forwardToHost:onPort connectToHost} significa: connettiti via ssh a \textbf{connectToHost}, e inoltra tutti i tentativi di connessione che arrivanao alla porta remota \textbf{sourcePort} verso la porta \textbf{onPort} della macchina \textbf{forwardToHost}, che si raggiunge tramite la tua macchina locale.
 	      \begin{figure}[!h]
@@ -862,8 +921,10 @@ tramite un canale sicuro. \newline Segue una spiegazione delle differenze tra \t
 	      \end{figure}
 \end{itemize}
 \underline{N.B. SSH è un protocollo STATEFUL.}
-\newpage
-\subsubsection{FTP}
+
+\pagebreak
+
+\subsection{FTP}
 \label{sec:FTP}
 \textbf{FTP} acronimo per \textbf{F}ile \textbf{T}ransfer \textbf{P}rotocol, è un \textbf{protocollo} per il \textbf{trasferimento} di \textbf{dati} tra due host di una rete, è lo \textbf{standard} per il \textbf{trasferimento} di file \textbf{offerto da TCP/IP}. Adotta il modello \textbf{client-server}: il \textbf{client} richiede il trasferimento di un file che può consistere sia nell'\textbf{acquisizione} di una copia locale modificabile sia nell'eventuale \textbf{trasferimento} della copia modificata sull'host remoto (\textbf{server}).
 \begin{figure}[!h]
@@ -882,7 +943,9 @@ Poco sopra abbiamo accennato al fatto che \textbf{FTP} prevede l'instaurazione d
 	\item \textbf{Control connection}: prevede uno scambio di comandi e \textbf{codici di ritorno} e.g. \textbf{200 OK}, tra client e server. Segue il protocollo TELNET e \textbf{rimane aperta per l'intera durata della sessione interattiva}. Si usa la \textbf{porta 21} del \textbf{server} e la codifica standard \textbf{NVT ASCII}.
 	\item \textbf{Data connection}: prevede il trasferimento di dati mediante procedure e la \textbf{specifica dei tipi}. I dati trasferiti possono essere parte di un file, un file o un set di file. \textbf{Viene aperta e chiusa per ogni singolo scambio}. Per lo scambio di dati il \textbf{server} usa la \textbf{porta 20}.
 \end{enumerate}
-\newpage
+
+\pagebreak
+
 La \textbf{Data Connection} \textbf{non segue il protocollo TELNET} e la sua apertura avviene secondo uno schema completamente diverso, ovvero:
 \begin{enumerate}
 	\item Il \textbf{client}, non il server, effettua un'\textbf{apertura} \textbf{passiva} usando una \textbf{porta effimera} e resta in attesa di connessione, viene fatto dal client poichè è tale processo che invierà i comandi, tramite la connessione di controllo, per il trasferimento dei file.
@@ -911,8 +974,8 @@ Concludiamo menzionando il fatto che esistono server che supportano connessioni 
 			corrente                                                         \\
 			STOR   filename               & memorizza
 			(put) un file nell’host remoto                                   \\
-			ABOR                          & interrompe l’ultimo
-			comando ed i trasferimenti in
+			ABOR                          & interrompe ultimo
+			comando e trasferimenti in
 			corso                                                            \\
 			PORT   portnumber             & indirizzo e numero di porta
 			del client                                                       \\
@@ -923,7 +986,9 @@ Concludiamo menzionando il fatto che esistono server che supportano connessioni 
 		\end{tabular}
 	\end{center}
 \end{table}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.4]{Immagini/Ftp_transfer.png}
 	\centering
@@ -956,10 +1021,14 @@ Ogni comando FTP \textbf{genera} almeno \textbf{una risposta}, le risposte sono 
 		\end{tabular}
 	\end{center}
 \end{table}
-\newpage
-\subsubsection{DNS}
-Sappiamo oramai che i dispositivi connessi in rete vengono individuati dai protocolli TCP/IP mediante i loro \textbf{indirizzi IP}, gli utenti, d'altro canto, preferiscono usare dei \textbf{nomi} invece che degli indirizzi numerici. Un \textbf{nome} identifica un \textbf{oggetto} mentre un \textbf{indirizzo} specifica \textbf{dove} l'oggetto è situato.\newline\newline
-\textit{Come fare per associare i nomi agli indirizzi?}\newline\newline
+
+\pagebreak
+
+\subsection{DNS}
+Sappiamo oramai che i dispositivi connessi in rete vengono individuati dai protocolli TCP/IP mediante i loro \textbf{indirizzi IP}, gli utenti, d'altro canto, preferiscono usare dei \textbf{nomi} invece che degli indirizzi numerici. Un \textbf{nome} identifica un \textbf{oggetto} mentre un \textbf{indirizzo} specifica \textbf{dove} l'oggetto è situato.
+\begin{flushleft}
+	\textit{Come fare per associare i nomi agli indirizzi?}
+\end{flushleft}
 Agli albori di Internet l’associazione tra nomi logici e indirizzi IP era statica!
 Tutti i nomi \textit{logici} e i relativi indirizzi IP erano contenuti in un file chiamato \textbf{host file} e periodicamente tutti gli host ne prelevavano una versione aggiornata, chiamata a sua volta \textbf{master host file}, da un server ufficiale.\newline
 A noi utenti moderni però dovrebbe immediatamente saltare all'occhio la seguente \textbf{problematica}: le \textbf{dimensioni attuali di Internet} rendono questo approccio \textbf{impraticabile}. Non sarebbe infatti possibile che ogni host possegga una \textbf{copia aggiornata} di un elenco del genere, in più la dimensione di questo  sarebbe sterminata, per non parlare del \textbf{volume di traffico} sul server ufficiale, il pericolo dovuto alla presenza di un \textbf{unico punto di fallimento} e l'\textbf{impossibilità di scalare} di questo sistema.\newline
@@ -969,7 +1038,9 @@ Fu così che all'inizio degli anni '80 venne ideato il \textbf{DNS} o \textbf{Do
 	\centering
 \end{figure}\newline
 Supponiamo che un utente utilizzi un client di trasferimento file per accedere a un file su un server. L'utente conoscerà solo il \textbf{nome} del server e.g. \textit{cheneso.com}, lo \textbf{stack TCP/IP} invece ha bisogno dell'\textbf{indirizzo IP} del server per stabilire una connessione. Alla pagina seguente troviamo i sei passi necessari per \textbf{associare} l'\textbf{indirizzo} IP al \textbf{nome} del server.
-\newpage
+
+\pagebreak
+
 \begin{enumerate}
 	\item L'\textbf{utente} comunica il nome del server al client di trasferimento file.
 	\item \textbf{Il client di trasferimento file} trasmette il nome del server al \textbf{client DNS}.
@@ -985,7 +1056,9 @@ Per far sì che questo meccanismo funzioni bisogna \textbf{eliminare le ambiguit
 	\caption{In figura lo spazio dei nomi di dominio.}
 \end{figure}\newline
 Nello \textbf{spazio dei nomi di dominio} i nomi hanno una struttura ad \textbf{albero} con la radice in cima e un numero di livelli compreso tra 0 e 127. Ogni nodo è individuato da un'\textbf{etichetta} costituita da \textbf{massimo 63 caratteri} (\textit{la radice ha l'etichetta vuota}), tutti i nodi collegati a uno stesso nodo da rami diversi hanno etichette \textbf{diverse}, ciò garantisce l'\textbf{univocità} dei nomi. Ogni nodo dell'albero ha inoltre un \textbf{nome di dominio}, che, se letto da sinistra verso destra, è costituito da tutte le etichette, separate da punti, di tutti i nodi a partire dal nodo stesso fino alla radice, la cui etichetta è la stringa \textbf{nulla}. Immediatamente sotto la radice si trovano i \textbf{domini top-level}.
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.7]{Immagini/Etichette_dns.png}
 	\centering
@@ -1002,7 +1075,11 @@ Nello \textbf{spazio dei nomi di dominio} i nomi hanno una struttura ad \textbf{
 	\centering
 	\caption{In figura la gerarchia dei name server.}
 \end{figure}
-All'interno dei \textbf{DNS-Servers} o \textbf{name servers}. L'intero spazio dei nomi è stato \textbf{diviso} in diversi domini, differenziati al \textbf{top-level}, e i domini così ottenuti sono stati divisi a loro volta ottenendo dei sotto domini. Ogni \textbf{name server} è responsabile di un dominio o di un sottodominio. Vi è quindi una \textbf{gerarchia di server}. Una \textbf{zona} \textbf{è tutto ciò di cui è responsabile un server}, se un server è responsabile di un dominio e non effettua suddivisioni in sottodomini, allora la sua zona e il suo dominio \textbf{coincidono}. Se invece il server suddivide il proprio dominio in sottodomini la sua zona e il suo dominio \textbf{differiscono}. Ogni name-server ha un database chiamato \textbf{file di zona} contenente le informazioni su tutti i nodi che ricadono nella \textbf{sua} \textbf{zona} di competenza. \newpage Un \textbf{root server} è un server che ha per zona l'\textbf{intero albero dello spazio dei nomi}.\newline Solitamente i \textbf{root server} si limitano a immagazzinare riferimenti relativi ad altri server e \textbf{delegano} loro tutte le responsabilità.\newline
+All'interno dei \textbf{DNS-Servers} o \textbf{name servers}. L'intero spazio dei nomi è stato \textbf{diviso} in diversi domini, differenziati al \textbf{top-level}, e i domini così ottenuti sono stati divisi a loro volta ottenendo dei sotto domini. Ogni \textbf{name server} è responsabile di un dominio o di un sottodominio. Vi è quindi una \textbf{gerarchia di server}. Una \textbf{zona} \textbf{è tutto ciò di cui è responsabile un server}, se un server è responsabile di un dominio e non effettua suddivisioni in sottodomini, allora la sua zona e il suo dominio \textbf{coincidono}. Se invece il server suddivide il proprio dominio in sottodomini la sua zona e il suo dominio \textbf{differiscono}. Ogni name-server ha un database chiamato \textbf{file di zona} contenente le informazioni su tutti i nodi che ricadono nella \textbf{sua} \textbf{zona} di competenza.
+
+\pagebreak
+
+Un \textbf{root server} è un server che ha per zona l'\textbf{intero albero dello spazio dei nomi}.\newline Solitamente i \textbf{root server} si limitano a immagazzinare riferimenti relativi ad altri server e \textbf{delegano} loro tutte le responsabilità.\newline
 Esempio di top-level domains:
 \begin{table}[h!]
 	\begin{center}
@@ -1026,10 +1103,12 @@ I \textbf{server DNS} possono essere \textbf{primari} o \textbf{secondari}.
 	\item Un server \textbf{primario} possiede sul disco e aggiorna il \textbf{file di zona} relativo alla zona sotto la sua responsabilità.
 	\item Un server \textbf{secondario} riceve le informazioni relative a una zona da un \textbf{server primario}.
 \end{itemize}
-I \textbf{server} \textbf{primari} e \textbf{secondari} hanno la medesima autorità sulla loro zona di competenza, è bene specificare che \textbf{un server può essere primario per una zona  e secondario per un altra}, \textbf{primario} e \textbf{secondario} sono quindi aggettivi \textbf{relativi alla zona}. Si noti inoltre come l'introduzione di un server secondario in una zona porti a una duplicazione del \textbf{file di zona} che può risultare utile per eventuali guasti al \textbf{server primario}.\newline\newline
-\textit{Come si associa l'indirizzo IP da un nome?}\newline\newline
+I \textbf{server} \textbf{primari} e \textbf{secondari} hanno la medesima autorità sulla loro zona di competenza, è bene specificare che \textbf{un server può essere primario per una zona  e secondario per un altra}, \textbf{primario} e \textbf{secondario} sono quindi aggettivi \textbf{relativi alla zona}. Si noti inoltre come l'introduzione di un server secondario in una zona porti a una duplicazione del \textbf{file di zona} che può risultare utile per eventuali guasti al \textbf{server primario}.
+\subsubsection{Risoluzione}
+
 Il processo con cui si associa l'indirizzo IP da un nome è detto \textbf{processo di risoluzione}. Il \textbf{protocollo DNS} è progettato come protocollo \textbf{client-server}. Un host che voglia ricavare un indirizzo IP da un nome si rivolge al \textbf{programma client} detto anche \textbf{resolver} che invierà un'opportuna richiesta al \textbf{server DNS più vicino} il quale, se dispone della risposta, invierà l'indirizzo o il nome (\textit{è infatti possibile fare il processo al contrario}), oppure inoltrerà la richiesta a un altro server o comunicherà al resolver l'indirizzo di un altro server a cui fare riferimento. Il \textbf{resolver}, ricevuta la risposta, la esaminerà per verificarne la presenza di errori e la trasmetterà al processo che l'ha effettuata. La \textbf{risoluzione} può essere \textbf{ricorsiva} o \textbf{iterativa}.
-\newpage
+
+\pagebreak
 
 \begin{itemize}
 	\item Con la \textbf{risoluzione ricorsiva}, la \textbf{query DNS} viaggia dall'host su cui è in esecuzione il processo applicativo che ne ha fatto richiesta fino a un host che conosce l'indirizzo IP richiesto, eventualmente scalando, poi discendendo e infine percorrendo a all'indietro \textbf{l'intera gerarchia dei server DNS}. \textbf{Al server locale che ha richiesto la query viene inviato \textbf{solo} l'indirizzo IP risultante}, ha richiesto quindi una \textbf{conversione completa}.
@@ -1048,11 +1127,15 @@ Il processo con cui si associa l'indirizzo IP da un nome è detto \textbf{proces
 	      \end{figure}
 \end{itemize}
 Ogni volta che a un \textbf{server} arriva una richiesta di risoluzione di un nome, che non fa parte del suo dominio, deve cercare, all'interno del suo database, un altro server a cui inoltrare la richiesta. Ridurre questo tempo di ricerca significa ridurre il tempo di attesa della risposta e aumentare l'efficienza. Ancora una volta ci viene in aiuto il \textbf{caching}: una volta che un \textbf{server} ha appreso un' \textbf{associazione}, la inserisce in \textbf{cache}. Il server marca le risposte prese dalla propria cache come \textbf{unauthoritative} o non autorevoli.
-\newpage
-Dopo un certo lasso di tempo chiamato \textbf{TTL} o \textbf{time to live} il server cancella dalla cache l'associazione per evitare l'invio di risposte obsolete.\newline\newline
-\textit{Ma come è fatto quindi il database di un server?}\newline\newline
-Il \textbf{database del server} non è altro che una collezione di \textbf{records} strutturati nel seguente modo:\newline\newline
-\centerline{\textbf{(Nome di dominio, Tipo, Classe, TTL, Valore)}}\newline\newline
+
+\pagebreak
+
+Dopo un certo lasso di tempo chiamato \textbf{TTL} o \textbf{time to live} il server cancella dalla cache l'associazione per evitare l'invio di risposte obsolete.
+
+\subsubsection{Record DNS} Il \textbf{database di un  server DNS} non è altro che una collezione di \textbf{records} strutturati nel seguente modo:
+\begin{center}
+	\textbf{(Nome di dominio, Tipo, Classe, TTL, Valore)}
+\end{center}
 A ogni \textbf{nome di dominio}, quindi a ogni \textbf{nodo dell'albero dello spazio dei nomi di dominio}, è associato un record composto da 5 campi.
 \begin{itemize}
 	\item \textbf{Nome di dominio} identifica il record della risorsa.
@@ -1078,11 +1161,19 @@ Di seguito i \textbf{tipi} dei \textbf{record}:
 		\end{tabular}
 	\end{center}
 \end{table}\newline
-\textit{Che protocollo di livello trasporto è usato?}\newline\newline
+\begin{flushleft}
+	\textit{Che protocollo di livello trasporto è usato?}
+\end{flushleft}
 Il sistema DNS può usare \textbf{sia} il \textbf{il protocollo TCP} che l'\textbf{UDP}.
-Il \textbf{protocollo UDP} viene usato \textbf{quando} la dimensione del messaggio di risposta è \textbf{inferiore} a\textbf{ 512 byte}, molto spesso infatti i \textbf{datagrammi utente UDP} non possono superare i 512 byte come dimensione massima. In caso contrario si usa il \textbf{protocollo TCP}.\newline\newline
-\textit{Come si aggiungono nuovi domini al DNS?}\newline\newline Pagando i \textbf{registrar}, ovvero aziende commerciali accreditate dall'ICANN.\newpage
-\textit{Come sono fatti i messaggi DNS?}\newline\newline
+Il \textbf{protocollo UDP} viene usato \textbf{quando} la dimensione del messaggio di risposta è \textbf{inferiore} a\textbf{ 512 byte}, molto spesso infatti i \textbf{datagrammi utente UDP} non possono superare i 512 byte come dimensione massima. In caso contrario si usa il \textbf{protocollo TCP}.
+\begin{flushleft}
+	\textit{Come si aggiungono nuovi domini al DNS?}
+\end{flushleft}
+Pagando i \textbf{registrar}, ovvero aziende commerciali accreditate dall'ICANN.
+
+\pagebreak
+
+\subsubsection{Messaggi DNS}
 I \textbf{messaggi DNS} posso essere di \textbf{due tipi}: di \textbf{interrogazione} o di \textbf{risposta} e i due tipi hanno lo \textbf{stesso} formato.
 \begin{figure}[!h]
 	\includegraphics[scale=0.6]{Immagini/DNSmessage.png}
@@ -1103,13 +1194,15 @@ Poi del \textbf{messaggio}:
 	\item La \textbf{sezione supplementare} contiene \textbf{informazioni aggiuntive} che potrebbero essere \textbf{utili} al \textbf{client DNS}.
 \end{itemize}
 \textit{In UNIX si può utilizzare il comando} \texttt{nslookup} \textit{per ottenere associazioni nome simbolico : indirizzo numerico.}
-\newpage
-\subsubsection{EMAIL - SMTP}
+
+\pagebreak
+
+\subsection{EMAIL - SMTP}
 \label{sec:SMTP}
 La \textbf{posta elettronica} è uno dei primi servizi applicativi di Internet, la sua nascita risale infatti al 1971, quando un tale Ray Tomlinson installò su ARPANET un sistema in grado di scambiare messaggi fra le varie università. La \textbf{posta elettronica} consente agli utenti di scambiarsi \textbf{messaggi}, sebbene si siano trattate \textbf{altre applicazioni} fornenti questo servizio e.g. \textbf{HTTP} e \textbf{TCP}, il funzionamento della posta elettronica è tale da distinguersi da queste due applicazioni citate poco prima. Infatti in applicazioni come \textbf{FTP} e \textbf{HTTP} il programma \textbf{server} è \textbf{sempre attivo} e in attesa di richieste, che quando arrivano, vengono processate.
 Vi è quindi una richiesta e una risposta. Nella \textbf{posta elettronica} il \textbf{funzionamento} è \textbf{differente}: infatti l'invio di un messaggio è considerato una \textbf{transazione unidirezionale}, la risposta può anche non arrivare e se arriva è considerata un'altra transazione unidirezionale. Secondariamente \textbf{non avrebbe} molto \textbf{senso tenere in esecuzione continuata un programma server} in attesa che qualcuno ci invii un messaggio, potremmo ragionevolmente voler spegnere il computer nell'attesa. Ciò implica che l'idea di modello client-server debba essere realizzata in un altro modo, magari utilizzando dei \textbf{server intermedi} e \textbf{disaccoppiando} le funzionalità di \textbf{ricezione} da quelle di \textbf{invio}. Di seguito illustriamo concisamente l'architettura della posta elettronica.
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/MAIL.png}
+	\includegraphics[scale=0.45]{Immagini/MAIL.png}
 	\centering
 	\caption{Un esempio di architettura di posta elettronica.}
 \end{figure}\newline
@@ -1119,24 +1212,28 @@ Tipicamente due utenti, mittente e destinatario, sono connessi a due \textbf{ser
 	\item \textbf{MTA} o \textbf{message trasfer agent}, è un'applicazione \textbf{push} .
 	\item \textbf{MAA} o \textbf{message access agent}, è un'applicazione \textbf{pull}.
 \end{itemize}
-\newpage
+
+\pagebreak
+
 Illustriamo ora \textbf{come avviene l'invio di un messaggio} da parte di \textit{Gaia} a \textit{Gabriele}.
 \begin{enumerate}
 	\item Gaia, utilizzando un programma \textbf{UA}, prepara il messaggio e lo invia al proprio server di posta.
 	\item Il \textbf{server di posta memorizza} il messaggio in una coda, e lo \textbf{invia} tramite un \textbf{programma MTA} al server di posta di Gabriele.\textbf{ \underline{N.B.} sono necessari due programmi MTA per ogni server di posta, un MTA server sempre attivo, in attesa di messaggi, e un MTA client, \underline{attivo all'evenienza}, che contatta il server di posta a cui deve essere inviato un messaggio  ed effettua l'invio}.
 	\item Il server di posta \textbf{riceverà} il messaggio e lo \textbf{memorizzerà} nella \textbf{casella postale di Gabriele} che, a sua volta usando un programma \textbf{MAA client}, contatterà il programma \textbf{MAA server} del \textbf{server} e riceverà infine il messaggio.
 \end{enumerate}
-Lo \textbf{user agent} è il primo componente di un sistema di posta elettronica, \textbf{facilita all'utente l'invio e la ricezione dei messaggi}. Può avere o un'interfaccia a \textbf{riga di comando}, ma è abbastanza desueto, o di tipo \textbf{grafico}. Se l'utente decide di leggere i messaggi nella sua casella di posta elettronica lo \textbf{user agent} mostra un elenco dei messaggi ricevuti. Ogni riga dell'elenco offre un breve resoconto del messaggio, solitamente: \textbf{indirizzo del mittente}, \textbf{ora} e \textbf{oggetto del messaggio}.\newline\newline
-\textit{Come sono fatti gli indirizzi di posta elettronica?}\newline\newline
+Lo \textbf{user agent} è il primo componente di un sistema di posta elettronica, \textbf{facilita all'utente l'invio e la ricezione dei messaggi}. Può avere o un'interfaccia a \textbf{riga di comando}, ma è abbastanza desueto, o di tipo \textbf{grafico}. Se l'utente decide di leggere i messaggi nella sua casella di posta elettronica lo \textbf{user agent} mostra un elenco dei messaggi ricevuti. Ogni riga dell'elenco offre un breve resoconto del messaggio, solitamente: \textbf{indirizzo del mittente}, \textbf{ora} e \textbf{oggetto del messaggio}.
+\subsubsection{Indirizzi di posta elettronica}
 Gli indirizzi di posta elettronica individuano gi utenti in modo \textbf{univoco}. Su \textbf{Internet} consistono di \textbf{due parti}:
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{Immagini/Mail_address.png}
 	\centering
 \end{figure}\newline
-La \textbf{parte locale} identifica la \textbf{casella di posta del destinatario} sul server e il nome di dominio identifica il \textbf{server}.\newline\newline
-\textit{Come viaggiano i messaggi di posta elettronica?}\newline\newline
+La \textbf{parte locale} identifica la \textbf{casella di posta del destinatario} sul server e il nome di dominio identifica il \textbf{server}.
+\subsubsection{Invio di messaggi}
 Con il protocollo \textbf{SMTP} o \textbf{simple mail transfer protocol}. Il protocollo \textbf{SMTP} definisce in maniera formale l'\textbf{interazione tra il client MTA e il server MTA}. Nell'operazione di invio di un messaggio SMTP è utilizzato \textbf{due} volte: tra il \textbf{mittente} e il \textbf{suo server di post}a e tra il \textbf{server di posta del mittente} e \textbf{quello del destinatario}. Di seguito un'immagine per schiarire le idee.
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.7]{Immagini/SMTP.png}
 	\centering
@@ -1181,7 +1278,9 @@ I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textb
 		      \end{center}
 	      \end{table}
 \end{itemize}
-\newpage
+
+\pagebreak
+
 \underline{N.B.} Il protocollo \textbf{SMTP} \textbf{usa} il protocollo di trasporto \textbf{TCP} per consegnare in maniera \textbf{\underline{affidabile}} i messaggi.\newline\newline
 La consegna di un messaggio tramite SMTP prevede \textbf{tre fasi}:
 \begin{enumerate}
@@ -1209,22 +1308,28 @@ La consegna di un messaggio tramite SMTP prevede \textbf{tre fasi}:
 		      \item Il \textbf{server} risponde con il codice 221.
 	      \end{enumerate}
 \end{enumerate}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.8]{Immagini/SMTPes.png}
 	\centering
-	\caption{In figura un esempio di scambio di messaggi tramite SMTP. L'RFC 2822 definisce lo standard per il formato del messaggio. To: , From: , Subject: . \textbf{I campi sono diversi dai comandi SMTP. Il corpo del messaggio o body contiene solamente caratteri ASCII a 7 bit}.}
+	\caption{In figura l'invio di un messaggio. L'RFC 2822 definisce lo standard per il formato del messaggio. \textbf{I campi sono diversi dai comandi SMTP.} Il corpo del messaggio  contiene solamente caratteri ASCII a 7 bit.}
 \end{figure}
-\textit{Come vengono ricevuti i messaggi?}\newline\newline
+\subsubsection{Ricezione dei messaggi}
 Poco sopra abbiamo descritto l'invio di un messaggio di posta elettronica come la \textbf{composizione di tre fasi}: una di \textbf{preparazione} del messaggio, una di \textbf{invio} e una di \textbf{ricezione}. Le prime due utilizzano i \textbf{protocollo SMTP}, che è un protocollo \textbf{push}, il messaggio viene \textit{spinto} dal client mittente verso il server. L'ultima fase, quella di ricezione, usa invece un protocollo \textbf{pull}, il client destinatario \textit{tira} i messaggi dal server. Attualmente sono in uso \textbf{due} protocolli di tipo \textbf{pull}: \textbf{POP3} o \textbf{Post Office Protocol v.3} e \textbf{IMAP4} o \textbf{Internet Mail Access Protocol v.4}.
 \textbf{POP3} è molto semplice ma ha funzionalità limitate. Il software \textbf{client POP3 } è installato sul computer del destinatario mentre il software \textbf{server POP3 }sul suo server di posta. Il \textbf{client POP3} apre una connessione TCP sulla porta \textbf{110} del \textbf{server POP3} e invia il proprio nome utente e la propria password per accedere alla casella postale. L'utente richiede poi la lista dei messaggi presenti e li preleva uno alla volta.
-\newpage
+
+\pagebreak
+
+\subsubsection{POP3}
 Il \textbf{protocollo POP3} prevede due modalità: \textbf{delete} e \textbf{keep}, con la modalità \textbf{delete} i messaggi vengono automaticamente eliminati dalla mailbox dopo il prelievo, con la modalità \textbf{keep} vengono tenuti per uso futuro.
 \begin{figure}[!h]
 	\includegraphics[scale=0.6]{Immagini/POP3.png}
 	\centering
 	\caption{In figura il protocollo POP3.}
-\end{figure}\newline
+\end{figure}
+\subsubsection{IMAP4}
 Il \textbf{protocollo IMAP4} è simile al POP3 ma è più \textbf{potente} e \textbf{complesso}. POP3 \textbf{non} consente di \textbf{gestire più caselle }di posta sul server, di \textbf{organizzare} la posta e di \textbf{controllare una parte del messaggio prima di prelevarlo} nella sua interezza. \textbf{IMAP4} invece fornisce varie funzionalità aggiuntive, tra le quali:
 \begin{itemize}
 	\item \textbf{Controllare le intestazioni} dei messaggi prima di \textbf{prelevarli}.
@@ -1233,12 +1338,14 @@ Il \textbf{protocollo IMAP4} è simile al POP3 ma è più \textbf{potente} e \te
 	\item \textbf{Creare}, \textbf{cancellare} e \textbf{rinominare} le \textbf{mailbox} sul server di posta.
 	\item \textbf{Creare una gerarchia di cartelle} all'interno della mailbox a scopo di archiviazione.
 \end{itemize}
-Abbiamo visto fin'ora come la posta elettronica abbia una struttura molto \textbf{elementare}, questa semplicità comporta però che i protocolli visti fin'ora supportino \textbf{soltanto} messaggi nel formato standard\textbf{ NVT ASCII a 7 bit}. \newline\newline
-\textit{Come fare quindi a scambiarsi messaggi con caratteri non supportati dal formato NVT ASCII a 7 bit, come ad esempio il \textbf{formato binario}?}
-\newpage
-Il \textbf{MIME} o \textbf{Multipurpose External Mail Extension} è un protocollo \textbf{supplementare} che permette l'invio di messaggi in formato \textbf{diverso} dall'\textbf{ASCII}. Il \textbf{MIME} agisce \textbf{sia} dal lato \textbf{mittente} \textbf{che} dal lato \textbf{destinatario}. Traduce tutti i dati in formato \textbf{non ASCII} in ASCII \textbf{prima} di inviare il messaggio alla MTA e opera poi a ritroso quest'operazione di traduzione \textbf{presso} il destinatario dopo che ha ricevuto il messaggio tramite la MAA.
+I protocolli visti fin'ora supportano \textbf{soltanto} messaggi nel formato standard\textbf{ NVT ASCII a 7 bit}.
+
+\pagebreak
+
+\subsubsection{MIME}
+Il \textbf{MIME} o \textbf{Multipurpose External Mail Extension} è un protocollo \textbf{supplementare} che permette l'invio di messaggi in formato \textbf{diverso} dall'\textbf{ASCII}. Il \textbf{MIME} agisce \textbf{sia} dal lato \textbf{mittente} \textbf{che} dal lato \textbf{destinatario}. Traduce tutti i dati in formato \textbf{non ASCII} in ASCII \textbf{prima} di inviare il messaggio al MTA e opera poi a ritroso quest'operazione di traduzione \textbf{presso} il destinatario dopo che ha ricevuto il messaggio tramite il MAA.
 \begin{figure}[!h]
-	\includegraphics[scale=0.6]{Immagini/MIME.png}
+	\includegraphics[scale=0.55]{Immagini/MIME.png}
 	\centering
 	\caption{In figura il il funzionamento del protocollo MIME.}
 \end{figure}\newline
@@ -1248,18 +1355,21 @@ Il \textbf{protocollo MIME} definisce \textbf{cinque} tipi di intestazioni speci
 	\item \textbf{Content Type}: vi sono dichiarati i tipi di dato contenuti nel corpo del messaggio. Il tipo del contenuto e il sottotipo sono separati da una barra. Il protocollo MIME usa sette tipi di dato diversi:
 	      \begin{itemize}
 		      \item \textbf{Text}: \textbf{plain} o \textbf{html}, formato del testo.
-		      \item \textbf{Multipart}: \textbf{mixed}, \textbf{parallel} o \textbf{alternative}, da informazioni circa le parti da cui è composto il messaggio.
-		      \item \textbf{Message}: \textbf{RFC 882}, \textbf{partial}, \textbf{external-body}. Da informazioni circa il messaggio, rispettivamente: se è un messaggio incapsulato, se è una parte di un altro messaggio o se è un riferimento ad un altro messaggio.
+		      \item \textbf{Multipart}: \textbf{mixed}, \textbf{parallel} o \textbf{alternative}, dà informazioni circa le parti da cui è composto il messaggio.
+		      \item \textbf{Message}: \textbf{RFC 882}, \textbf{partial}, \textbf{external-body}, indicano rispettivamente: se il messaggio è incapsulato, se è una parte di un altro messaggio o se è un riferimento ad un altro messaggio.
 		      \item \textbf{Image}: \textbf{jpeg} o \textbf{gif}.
 		      \item \textbf{Video}: \textbf{mpeg}.
 		      \item \textbf{Audio}: \textbf{basic}.
 		      \item \textbf{Application}: \textbf{PostScript} o \textbf{octet-stream}.
 	      \end{itemize}
-	\item \textbf{Content-Transfer-Encoding}: definisce la codifica utilizzata in trasporto per il messaggio.
-	\item \textbf{Content-ID}: individua univocamente una parte del messaggio nei messaggi che sono composti da più parti.
+	\item \textbf{Content-Transfer-Encoding}: definisce la codifica utilizzata per il messaggio.
+	\item \textbf{Content-ID}: individua univocamente una parte nei messaggi che sono composti da più parti.
 	\item \textbf{Content-Description}: indica se il corpo del messaggio contiene un'immagine, un file audio o video.
 \end{itemize}
-\newpage
+
+\pagebreak
+
+\subsubsection{Web mail}
 Concludiamo questa sezione offrendo una breve panoramica del servizio chiamato \textbf{web mail}. Data la larga diffusione della posta elettronica molti siti web ne offrono il servizio. I \textbf{webmail servers} a seconda del \textbf{client} interessato, che può essere \textbf{SMTP} o \textbf{HTTP}, ricevono ed evadono i messaggi tramite o il \textbf{protocollo HTTP} o il \textbf{protocollo SMTP} come illustrato nelle seguenti figure:
 \begin{figure}[!h]
 	\includegraphics[scale=0.6]{Immagini/Web_mail.png}
@@ -1271,14 +1381,16 @@ Concludiamo questa sezione offrendo una breve panoramica del servizio chiamato \
 	\centering
 	\caption{In figura uno scenario in cui \textbf{sia} che il ricevente che il destinatario utilizzano \textbf{HTTP}.}
 \end{figure}
-\subsection{Lo strato di trasporto}
+\section{Lo strato di trasporto}
 \begin{figure}[!h]
-	\includegraphics[scale=0.7]{Immagini/TCP_IP.png}
+	\includegraphics[scale=0.3]{Immagini/App_tr_rete.png}
 	\centering
 	\caption{Livelli dello stack protocollare TCP/IP.}
 \end{figure}
 Nello \textbf{stack protocollare TCP/IP} il \textbf{livello di trasporto} è posizionato tra il livello applicazione e il livello rete, \textbf{fornisce} servizi al \textbf{livello applicazione} e ne \textbf{riceve} dal \textbf{livello rete}. Realizza una connessione \textbf{logica} fra \textbf{processi applicativi} in esecuzione su host system \textbf{diversi}.
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.7]{Immagini/Trasporto.png}
 	\centering
@@ -1291,22 +1403,28 @@ Come anticipato poco prima, uno dei \textbf{servizi offerti} dal \textbf{livello
 	\caption{In figura un esempio di comunicazione tra dispositivi. Si notino i ruoli dei protocolli di rete e dei protocolli di trasporto.}
 \end{figure}\newline
 I \textbf{protocolli di rete} si occupano di trasferire informazioni tra \textbf{macchine} e i \textbf{protocolli di trasporto} di indirizzarle ai \textbf{processi}.
-\newpage
-\textit{Come indirizzare le informazioni verso i processi?}\newline\newline
+
+\pagebreak
+
+\begin{flushleft}
+	\textit{Come indirizzare le informazioni verso i processi?}
+\end{flushleft}
 Come osservato nella sezione precedente, uno dei principali modelli di comunicazione interprocessuale è il \textbf{client-server}. Per garantire quindi la \textbf{comunicazione} tra il \textbf{processo client} e il \textbf{processo server} c'è bisogno di:
 \begin{enumerate}
 	\item \textbf{Identificare l'host locale e l'host remoto}. Spesso infatti, se non quasi sempre, il processo client e il processo server sono in esecuzione su host \textbf{diversi}. Gli host, in \textbf{rete}, vengono identificati mediante il loro \textbf{indirizzo IP}.
 	\item \textbf{Identificare il processo}. I sistemi operativi moderni sono \textbf{multiutente} e \textbf{multiprocesso}. I processi necessitano quindi di un  identificatore detto \textbf{numero di porta}. I protocolli TCP/IP usano numeri di porta compresi tra \textbf{0} e \textbf{65535}, l'intervallo è codificabile con \textbf{16 bit}.
 \end{enumerate}
 Al \textbf{client} viene \textbf{assegnato} un \textbf{numero di porta} detto \textbf{effimero}, ovvero di breve durata, dato il \textbf{breve} tempo di vita di un processo client. I numeri di porta \textbf{effimeri} sono superiori al \textbf{1023}.\newline
-Anche al \textbf{server} verrà \textbf{associato} un \textbf{numero di porta} che dovrà però essere \textbf{noto} al \textbf{client}. Nei \textbf{protocolli TCP/IP},  per i server, si usano \textbf{numeri di porta universali} detti anche \textbf{numeri di porta noti}. Ogni \textbf{client applicativo conosce} il numero di porta noto del \textbf{server applicativo} corrispondente.\newline\newline
+Anche al \textbf{server} verrà \textbf{associato} un \textbf{numero di porta} che dovrà però essere \textbf{noto} al \textbf{client}. Nei \textbf{protocolli TCP/IP},  per i server, si usano \textbf{numeri di porta universali} detti anche \textbf{numeri di porta noti}. Ogni \textbf{client applicativo conosce} il numero di porta noto del \textbf{server applicativo} corrispondente.
 \begin{figure}[!h]
-	\includegraphics[scale=0.5]{Immagini/Port_numb.png}
+	\includegraphics[scale=0.65]{Immagini/Port_numb.png}
 	\centering
 	\caption{In figura i numeri di porta di un processo client e del corrispondente processo server.}
 \end{figure}\newline
 \textbf{Ricapitolando}: l'\textbf{indirizzo IP individua un host} tra i miliardi di host dell'intera rete mondiale ed è un numero di 32 bit. Il \textbf{numero di porta individua un processo} in esecuzione su tale host.
-\newpage
+
+\pagebreak
+
 L'\textbf{ICANN}, ovvero \textbf{Internet Corporation for Assigned Names and Numbers} ha suddiviso i numeri di porta in \textbf{tre} categorie:
 \begin{enumerate}
 	\item \textbf{Numeri di porta noti}: sono compresi tra \textbf{0} e \textbf{1023} e sono \textbf{assegnati} dall'authority \textbf{ICANN}.
@@ -1320,10 +1438,14 @@ L'\textbf{ICANN}, ovvero \textbf{Internet Corporation for Assigned Names and Num
 \end{definition}
 Quando un processo applicativo deve inviare un messaggio a un altro processo applicativo, lo passa al livello trasporto insieme a una \textbf{coppia} di \textbf{socket address}, uno che identifica il \textbf{processo stesso} e uno che identifica il \textbf{processo destinatario}. Il \textbf{protocollo di trasporto} riceve questi dati e vi aggiunge la propria \textbf{intestazione}, \textbf{incapsulando} il tutto in un \textbf{pacchetto}. Questi pacchetti sono chiamati \textbf{segmenti} nel \textbf{protocollo TCP} e \textbf{datagrammi utente} nel \textbf{protocollo UDP}. L'\textbf{incapsulamento} avviene dal lato del \textbf{mittente} e il \textbf{decapsulamento} avviene dal lato del \textbf{ricevente}.
 \newline\newline
-Il metodo con cui un entità riceve informazioni da più di una sorgente è chiamato \textbf{multiplexing}, viceversa con \textbf{demultiplexing} si fa riferimento a un'entità che trasmette informazioni a più di un destinatario. Il \textbf{livello di trasporto} effettua \textbf{multiplexing} sul versante \textbf{mittente}, raccogliendo i messaggi da varie socket e incapsulandoli, e \textbf{demultiplexing} su quello del \textbf{destinatario}, consegnando i vari pacchetti in ingresso al socket appropriato.\newline\newline
-\textit{Come garantire un controllo del flusso?}\newline\newline
+Il metodo con cui un entità riceve informazioni da più di una sorgente è chiamato \textbf{multiplexing}, viceversa con \textbf{demultiplexing} si fa riferimento a un'entità che trasmette informazioni a più di un destinatario. Il \textbf{livello di trasporto} effettua \textbf{multiplexing} sul versante \textbf{mittente}, raccogliendo i messaggi da varie socket e incapsulandoli, e \textbf{demultiplexing} su quello del \textbf{destinatario}, consegnando i vari pacchetti in ingresso al socket appropriato.
+\begin{flushleft}
+	\textit{Come garantire un controllo del flusso?}
+\end{flushleft}
 \textbf{Il livello di trasporto} supporta la comunicazione tra \textbf{processi applicativi}.  Il \textbf{processo mittente} \textbf{produce informazioni} e le passa poi allo \textbf{strato di trasporto mittente} che le \textbf{consuma} e \textbf{produce pacchetti}. Lo \textbf{strato di trasporto destinatario} a sua volta \textbf{consuma pacchetti} e \textbf{produce informazioni} che verranno in seguito inviate al \textbf{processo destinatario}. Se i pacchetti vengono consumati con una velocità \textbf{inferiore} o \textbf{superiore} a quella con cui si è in grado di crearli o viceversa si va in contro a situazioni di \textbf{grave inefficienza} o addirittura di \textbf{perdita di dati}. Il controllo di flusso si occupa di \textbf{quest'ultima problematica}.
-\newpage
+
+\pagebreak
+
 Una soluzione tipica per evitare la \textbf{perdita di dati} consiste nell'utilizzare \textbf{due} buffer. Uno dal \textbf{lato trasporto  del destinatario} e\textbf{ uno dal lato trasporto del mittente}. Se il \textbf{destinatario} ha il buffer \textbf{saturo} lo segnalerà al \textbf{mittente} che a sua volta \textbf{tratterrà} i messaggi nel \textbf{proprio} buffer e li rinvierà quando il \textbf{destinatario} segnalerà che il suo buffer non è più saturo.
 \begin{figure}[!h]
 	\includegraphics[scale=0.8]{Immagini/Plexing.png}
@@ -1335,8 +1457,12 @@ Una soluzione tipica per evitare la \textbf{perdita di dati} consiste nell'utili
 	\centering
 	\caption{In figura il controllo di flusso.}
 \end{figure}
-\newpage
-\textit{Come garantire l'affidabilità?}\newline\newline
+
+\pagebreak
+
+\begin{flushleft}
+	\textit{Come garantire l'affidabilità?}
+\end{flushleft}
 Aggiungendo i \textbf{servizi di controllo degli errori} al livello di trasporto.
 Il \textbf{livello di rete} infatti, come si vedrà più avanti, è \textbf{fallace}, ciò comporta che si debba \textbf{garantire l'affidabilità}, \textbf{se richiesta dalle applicazioni}, \textbf{al livello di trasporto}. Nel \textbf{controllo degli errori} sono coinvolti \textbf{solo} i \textbf{livelli trasporto del mittente e del destinatario}, in particolare, \textbf{è quest ultimo che gestisce il controllo degli errori}:
 \begin{itemize}
@@ -1356,19 +1482,29 @@ Gli ultimi \textbf{tre} punti implicano che \textbf{il livello di trasporto del 
 	\textbf{e.g.} per n = 3 si ha la sequenza: 0 1 2 3 4 5 6 7 0 1 2 3 4 ...
 \end{center}
 Per \textbf{notificare} al mittente la corretta ricezione di uno o più pacchetti viene utilizzato il \textbf{numero di riscontro} o \textbf{ACK}. Il mittente identifica i pacchetti persi utilizzando un \textbf{timer} e \textbf{attivandolo dopo ogni invio}, se non riceve un \textbf{ACK prima della scadenza} allora rispedisce il pacchetto.
-\newpage
-\textit{È possibile combinare controllo degli errori e controllo del flusso?}\newline\newline
+
+\pagebreak
+
+\begin{flushleft}
+	\textit{È possibile combinare controllo degli errori e controllo del flusso?}
+\end{flushleft}
 Sì, è \textbf{possibile}. Per farlo si usa una coppia di \textbf{buffer numerati}, combinando l'esigenza di avere due buffer a quella di numerare i pacchetti.
 Dal \textbf{lato mittente}, quando si \textbf{costruisce un pacchetto} per la spedizione, si usa come \textbf{numero di sequenza} la successiva posizione libera all'interno del buffer e lo si tiene in memoria finché non arriva l'\textbf{ACK} corrispondente. Dal \textbf{lato destinatario} invece, si tiene in memoria nel buffer il pacchetto ricevuto finché l'applicazione non è pronta a riceverlo, \textbf{solo} a quel punto viene inviato l'\textbf{ACK} e il pacchetto viene \textbf{eliminato}. L'intervallo dei numeri di sequenza: da 0 a $2^n - 1$, fa si che possano essere rappresentati come un \textbf{cerchio} e il buffer, a seconda della sua \textbf{dimensione}, come una \textbf{sezione} di esso, chiamata anche \textbf{sliding window}. Quando all'interno del \textbf{buffer} (\textbf{sliding window}) si libera una sezione \textbf{contigua} di posizioni \textbf{a partire dall'inizio}, la \textbf{sliding window} scorre.
 \begin{figure}[!h]
 	\includegraphics[scale=0.75]{Immagini/Sliding_w.png}
 	\centering
 	\caption{La sliding window. Si ricorda che è solo un'astrazione per far capire il concetto di fondo, in realtà si usano delle variabili per tenere traccia delle posizioni.}
-\end{figure}\newline
-\textit{Esiste un controllo della congestione?}\newline\newline
+\end{figure}
+\begin{flushleft}
+	\textit{Esiste un controllo della congestione?}
+\end{flushleft}
 Sì. \textbf{esiste}, sebbene sia un \textbf{problema} del \textbf{livello rete}, il \textbf{protocollo TCP} implementa un \textbf{proprio} meccanismo di controllo della congestione.
-\newpage
-\textit{Che differenza c'è tra un servizio privo di connessione e un servizio orientato alla connessione?}\newline\newline
+
+\pagebreak
+
+\begin{flushleft}
+	\textit{Che differenza c'è tra un servizio privo di connessione e un servizio orientato alla connessione?}
+\end{flushleft}
 Un \textbf{protocollo di livello trasporto}, cosi come un protocollo di livello rete, può fornire \textbf{due differenti tipi di servizi}: \textbf{connection-oriented} o \textbf{connection-less}. A livello di \textbf{rete} un servizio \textbf{connection-less} può comportare che datagrammi facenti parte dello stesso messaggio transitino su percorsi fisici \textbf{diversi}. A \textbf{livello di trasporto} invece, il percorso dei pacchetti \textbf{non è rilevante}, la \textbf{presenza} o l'\textbf{assenza di connessione} implicano rispettivamente \textbf{la dipendenza o l'indipendenza fra i pacchetti}.
 \begin{itemize}
 	\item \textbf{In un servizio privo di connessione} il \textbf{processo applicativo mittente  deve suddividere i suoi messaggi in porzioni accettabili dal protocollo di livello trasporto} \textbf{connection-less}, che li tratterà come se fossero unità indipendenti e scorrelate. Le varie porzioni sono \textbf{consegnate} al livello trasporto \textbf{in ordine}, ma \textbf{non} verrano \textbf{riconsegnate} al processo applicativo destinatario \textbf{in tal modo}. Inoltre i pacchetti \textbf{non sono numerati}. \textbf{Non è possibile implementare efficacemente il controllo di flusso, il controllo degli errori e il controllo della congestione.}
@@ -1379,7 +1515,9 @@ Un \textbf{protocollo di livello trasporto}, cosi come un protocollo di livello 
 	      \end{figure}
 	\item \textbf{In un servizio orientato alla connessione} i due processi comunicanti devono per prima cosa stabilire \textbf{una connessione logica} e poi possono iniziare a scambiarsi dati. Una volta \textbf{terminato lo scambio} la connessione viene \textbf{chiusa}. Come menzionato in precedenza ancora una volta l'approccio \textbf{connection-oriented} è \textbf{diverso} tra il livello di trasporto e il livello di rete. Nel livello di rete si presuppone una coordinazione totale fra gli host finali e tutti i router della rete, al livello di trasporto solo tra i due host finali. Ciò significa che \textbf{è possibile utilizzare un protocollo di trasporto connection-oriented indipendentemente dal protocollo di rete utilizzato}.
 \end{itemize}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.55]{Immagini/Connection_oriented.png}
 	\centering
@@ -1390,10 +1528,12 @@ Un \textbf{protocollo di livello trasporto}, cosi come un protocollo di livello 
 	\centering
 	\caption{Differenze tra i due approcci descritti sopra rappresentati come automi a stati finiti. La rappresentazione dell'approccio connection-oriented in esempio prevede l'apertura di una connessione bidirezionale.}
 \end{figure}
-\newpage
-\subsubsection{UDP}
+
+\pagebreak
+
+\subsection{UDP}
 Il \textbf{protocollo UDP} o \textbf{User Datagram Protocol} è un protocollo di livello trasporto \textbf{inaffidabile} e \textbf{privo di connessione}. \textbf{Non aggiunge} \textbf{niente} ai \textbf{servizi IP} se non la comunicazione tra processi che avviene mediante l'utilizzo di \textbf{due code}, una in \textbf{ingresso} e una in \textbf{uscita}. Essendo \textbf{molto semplice} ha un \textbf{overhead minimo} ed è per ciò usato da processi che vogliono inviare \textbf{messaggi contenuti} senza preoccuparsi troppo dell'affidabilità che può comunque essere aggiunta al livello applicazione. \textbf{Al livello trasporto non è effettuato nessun controllo di flusso né di congestione}.\newline
-I \textbf{pacchetti UDP} sono chiamati \textbf{datagrammi utente} e data l'\textbf{assenza di una connessione} vengono \textbf{trasmessi in modo indipendente} gli uni dagli altri. La loro \textbf{intestazione} è costituita da \textbf{4 campi di 2 byte}, per un totale di 8 byte.\newline
+I \textbf{pacchetti UDP} sono chiamati \textbf{datagrammi utente} e data l'\textbf{assenza di una connessione} vengono \textbf{trasmessi in modo indipendente} gli uni dagli altri. La loro \textbf{intestazione} è costituita da \textbf{4 campi di 2 byte}, per un totale di 8 byte.
 \textbf{\underline{N.B.}} \textbf{Solo} i processi che inviano messaggi di dimensione \textbf{inferiore a 65507}, i.e. $65535 - 8$ byte di intestazione UDP $= 65527 - 20$ di intestazione IP $ = 65507$, \textbf{possono usare il protcollo UDP}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{Immagini/UDP.png}
@@ -1401,8 +1541,10 @@ I \textbf{pacchetti UDP} sono chiamati \textbf{datagrammi utente} e data l'\text
 	\caption{La struttura di un datagramma utente. La prima parte in figura è uno \textbf{pseudo header} e \textbf{non} viene trasmesso. Il campo proto serve a distinguere i pacchetti UDP (17) da quelli TCP.}
 \end{figure}\newline
 I \textbf{primi} \textbf{due campi} definiscono i numeri di porta rispettivamente del \textbf{mittente} e del \textbf{destinatario}. Il \textbf{terzo campo} definisce la \textbf{lunghezza totale del datagramma} compresa l'intestazione.\textit{ I 16 bit possono definire una lunghezza totale da 0 a 65535 ma in realtà la dimensione è \textbf{inferiore}, il datagramma utente viene infatti inserito in un datagramma IP di lunghezza totale di 65535.} Lo \textbf{pseudoheader} è una parte dell'intestazione del \textbf{pacchetto IP} in cui viene incapsulato il datagramma utente. \textbf{L'ultimo campo} dell'intestazione può contenere la \textbf{checksum}, se il campo è settato con tutti 0, il mittente ha deciso di non calcolarla. La \textbf{checksum} è \textbf{l'unico} controllo degli errori che UDP mette  a disposizione, usa tutti i campi del datagramma \textbf{compreso lo pseudoheader}, se quest ultimo non fosse incluso infatti, si rischierebbe che il datagramma, seppur privo di errori in invio, finisca a un host sbagliato per via di errori nel pacchetto IP che lo trasporta.
-\newpage
-\textit{Come viene calcolata la checksum?}\newline\newline
+
+\pagebreak
+
+\subsubsection{Checksum}
 La \textbf{checksum} viene calcolata nel seguente modo:
 \begin{itemize}
 	\item \textbf{Mittente}
@@ -1411,7 +1553,7 @@ La \textbf{checksum} viene calcolata nel seguente modo:
 		      \item Il valore della checksum viene inizialmente impostato a 0.
 		      \item Tutte le parole del messaggio vengono sommate usando l'addizione complemento a 1.
 		      \item Viene fatto il complemento a 1 della somma e il risultato è la \textbf{checksum}.
-		      \item La checksum viene inviata insieme ai dati.
+
 	      \end{enumerate}
 	\item \textbf{Destinatario}
 	      \begin{enumerate}
@@ -1420,21 +1562,27 @@ La \textbf{checksum} viene calcolata nel seguente modo:
 		      \item Se il valore della checksum è 0 allora il messaggio viene accettato altrimenti viene scartato.
 	      \end{enumerate}
 \end{itemize}
-\begin{figure}[!h]
-	\includegraphics[scale=0.2]{Immagini/Checksum.png}
-	\centering
-\end{figure}
-\textit{Come mai il DNS usa UDP?}\newline\newline
-Il \textbf{DNS usa UDP} \textbf{poiché} le richieste che il \textbf{client DNS} invia al \textbf{server DNS} sono \textbf{brevi} e possono essere \textbf{contenute in un singolo datagramma UDP}. Inoltre le \textbf{risposte} devono arrivare \textbf{velocemente} e soprattutto viaggia un \textbf{solo messaggio} per volta: uno di richiesta e uno di risposta, quindi \textbf{non c'è un problema di ordine di sequenza}.\newline\newline
-\textit{Quali sono quindi i possibili campi di applicazione del protocollo UDP?}
+\begin{verbatim}
+ 1110011001100110 + 
+ 1101010101010101 =
+11011101110111011 troncamento
+ 1011101110111011 somma
+ 0100010001000100 checksum
+\end{verbatim}
+\subsubsection{DNS e UDP}
+Il \textbf{DNS usa UDP} \textbf{poiché} le richieste che il \textbf{client DNS} invia al \textbf{server DNS} sono \textbf{brevi} e possono essere \textbf{contenute in un singolo datagramma UDP}. Inoltre le \textbf{risposte} devono arrivare \textbf{velocemente} e soprattutto viaggia un \textbf{solo messaggio} per volta: uno di richiesta e uno di risposta, quindi \textbf{non c'è un problema di ordine di sequenza}.
+\subsubsection{Applicazioni UDP}
+UDP potrebbe essere usato da applicazioni i cui processi:
 \begin{itemize}
-	\item \textbf{Processi che richiedono uno scambio di dati di volume limitato, con scarso interesse verso il controllo del flusso e degli errori}. \textbf{Non} è quindi adatto ad applicazioni come \textbf{SMTP} e \textbf{FTP}.
-	\item \textbf{Processi con meccanismi interni di controllo di flusso e di errore.}
-	\item \textbf{Processi di trasmissione multicast.}
-	\item \textbf{Applicazioni interattive e in tempo reale che non tollerano latenza.}
+	\item \textbf{Richiedono uno scambio di dati di volume limitato, con scarso interesse verso il controllo del flusso e degli errori}. \textbf{Non} è quindi adatto ad applicazioni come \textbf{SMTP} e \textbf{FTP}.
+	\item \textbf{Possiedono meccanismi interni di controllo di flusso e di errore.}
+	\item \textbf{Trasmettono in multicast.}
+	\item \textbf{Non tollerano latenza} e.g. applicazioni interattive o real time.
 \end{itemize}
-\newpage
-\subsubsection{TCP}
+
+\pagebreak
+
+\subsection{TCP}
 \label{sec:TCP}
 Il \textbf{protocollo TCP} è un protocollo \textbf{orientato alla connessione e affidabile}, è il protocollo di livello trasporto \textbf{più utilizzato} su Internet.
 Quando un processo sull'host A decide di inviare e ricevere dati da un processo sull'host B avvengono le seguenti \textbf{tre} cose:
@@ -1457,7 +1605,9 @@ Poichè il processo produttore e il processo consumatore non scrivono e leggono 
 	\caption{I due buffer.}
 \end{figure}\newline
 Tipicamente viene usato un \textbf{buffer circolare}, poiché consente più agilmente di mettere a disposizione per la scrittura le celle che contengono byte inviati e la cui ricezione è stata confermata.
-\newpage
+
+\pagebreak
+
 Sebbene la \textbf{bufferizzazione} gestisca il \textbf{controllo del flusso}, per inviare dati in uno \textbf{stream} bisogna ovviare a un altro problema. Il \textbf{livello IP infatti} invia i dati in \textbf{pacchetti} e non in un flusso di byte. Per far fronte a ciò \textbf{TCP raggruppa un certo numero di byte in unità chiamate segmenti},  \textbf{indipendenti} dal programma applicativo, a cui aggiunge un'intestazione prima di affidarli al livello rete.
 I \textbf{segmenti} vengono poi incapsulati in datagrammi IP e trasmessi. La \textbf{bufferizzazione} consente una \textbf{riduzione del traffico} sulla rete
 ottimizzando in un certo modo il numero di segmenti da trasmettere\newline
@@ -1468,13 +1618,13 @@ ottimizzando in un certo modo il numero di segmenti da trasmettere\newline
 	\caption{Il flusso di dati viene partizionato in segmenti, ognuno con il suo header.}
 \end{figure}\newline
 Il \textbf{protocollo TCP} inoltre fornisce un servizio \textbf{full duplex}, nel quale, instaurata la connessione, le due entità possono \textbf{scambiarsi} e \textbf{ricevere} i dati \textbf{contemporaneamente}. \textbf{Ciascuna entità TCP} ha infatti i propri buffer di \textbf{invio} e \textbf{ricezione}.
-\begin{flushleft}
-	\textit{Come fa TCP a garantire l'affidabilità?}
-\end{flushleft}
-Con un \textbf{meccanismo di numerazione} che prevede due campi: \textbf{il numero di sequenza} e \textbf{il numero di riscontro o ACK}. Questi due campi sono contenuti nell'\textbf{intestazione} dei segmenti TCP e fanno riferimento al \textbf{numero dei byte}, non al numero di segmento. \textbf{TCP} infatti \textbf{numera i byte che vengono trasmessi nella connessione}. Questa \textbf{numerazione} avviene all'interno del \textbf{buffer di trasmissione}, dopo che i byte sono stati generati dal processo applicativo mittente. I numeri di sequenza e di riscontro sono \textbf{diversi} nelle due \textbf{direzioni} della comunicazione. Il numero di sequenza del primo byte non necessariamente è 0 ma è \textbf{generato arbitrariamente} nell'intervallo tra 0 e $2^{32} - 1$.\newline
+\subsubsection{Numerazione dei pacchetti}
+L'affidabilità è garantita con un \textbf{meccanismo di numerazione} che prevede due campi: \textbf{il numero di sequenza} e \textbf{il numero di riscontro o ACK}. Questi due campi sono contenuti nell'\textbf{intestazione} dei segmenti TCP e fanno riferimento al \textbf{numero dei byte}, non al numero di segmento. \textbf{TCP} infatti \textbf{numera i byte che vengono trasmessi nella connessione}. Questa \textbf{numerazione} avviene all'interno del \textbf{buffer di trasmissione}, dopo che i byte sono stati generati dal processo applicativo mittente. I numeri di sequenza e di riscontro sono \textbf{diversi} nelle due \textbf{direzioni} della comunicazione. Il numero di sequenza del primo byte non necessariamente è 0 ma è \textbf{generato arbitrariamente} nell'intervallo tra 0 e $2^{32} - 1$.
 Dopo aver numerato i byte, \textbf{TCP assegna a ogni segmento un numero di sequenza corrispondente al numero del primo byte del segmento}.
-Il \textbf{primo numero di sequenza} o \textbf{ISN} è un numero casuale tra 0 e $2^{32} -1$. \textbf{Tutti gli altri numeri }sono il numero di sequenza del segmento precedente a cui viene sommato il numero di byte, \textbf{reali o fittizi}, da lui contenuti.
-\newpage
+Il \textbf{primo numero di sequenza} o \textbf{ISN} è un numero casuale tra 0 e $2^{32} -1$. \textbf{Tutti gli altri numeri }sono il numero di sequenza del segmento precedente a cui viene sommato il numero di byte, \textbf{reali o fittizi}, contenuti dal successivo.
+
+\pagebreak
+
 Oltre al \textbf{numero di sequenza } nell'intestazione di un \textbf{segmento TCP} è contenuto anche un \textbf{numero di riscontro}, più brevemente detto \textbf{ACK}. L' \textbf{ACK} è utilizzato dalle due entità comunicanti per \textbf{confermare i byte ricevuti}, indica infatti il \textbf{numero} del \textbf{prossimo byte }che l'entità si aspetta di ricevere.\textit{ e.g. se un'entità utilizza 5643 come ACK significa che ha ricevuto tutti i byte fino al 5642. \underline{\textbf{N.B.}}: non necessariamente vuol dire che l'entità ha ricevuto 5642 byte.}\newline
 Riportiamo di seguito la \textbf{struttura} di un \textbf{segmento TCP}:
 \begin{figure}[!h]
@@ -1500,16 +1650,16 @@ Il \textbf{segmento consiste} di un'\textbf{intestazione} di dimensione compresa
 	\item \textbf{Puntatore urgente}: è rilevante se il flag \textbf{URG} è attivato. Contiene la cifra da sommare al numero di sequenza del segmento per ottenere il numero dell'ultimo bit urgente della sezione dati.
 	\item \textbf{Opzioni}: contiene da 0 a 40 byte di informazioni opzionali.
 \end{itemize}
-\begin{flushleft}
-	\textit{Come funziona la connessione TCP?}
-\end{flushleft}
+\subsubsection{Connessione TCP}
 Il \textbf{protocollo TCP} è \textbf{connection-oriented} il che vuol dire che stabilisce una connessione logica tra il processo mittente e il processo destinatario e tutti i segmenti TCP vengono spediti lungo questo percorso. L'utilizzo di una connessione virtuale \textbf{semplifica} i \textbf{processi di conferma}, di \textbf{controllo degli errori} e \textbf{di rispedizione}. La trasmissione orientata alla connessione del protocollo TCP richiede \textbf{tre fasi}: \textbf{apertura della connessione}, \textbf{trasmissione dei dati} e \textbf{chiusura della connessione}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.44]{Immagini/Three_way.png}
 	\centering
 	\caption{L'apertura della connessione TCP.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 \begin{enumerate}
 	\item \textbf{Apertura della connessione}: nel TCP, essendo un protocollo \textbf{full duplex}, le due entità comunicanti devono inizializzare la connessione e ciascuna deve ottenerne l'\textit{approvazione} da parte dell'altra. L'apertura della connessione TCP è detta \textbf{three-way handshake} e avviene nel seguente modo:
 	      \begin{enumerate}[label*=\arabic*.]
@@ -1526,7 +1676,9 @@ Il protocollo TCP gestisce quest'eventualità con la \textbf{funzione push} che 
 	\textit{Cosa succede se un processo necessita che il TCP elabori dei dati per primi indipendentemente dalla loro posizione nel segmento?}
 \end{flushleft}
 Il processo invierà i dati urgenti in un segmento con il \textbf{flag URG} attivato, li posizionerà all'\textbf{inizio} del segmento stesso e indicherà poi al TCP mittente, mediante il \textbf{puntatore urgente}, il \textbf{numero dell'ultimo byte di dati urgenti} contenuti nel segmento. e.g. se il numero di sequenza del segmento vale 15000 e il puntatore urgente vale 200, l'ultimo byte urgente sarà il 15200.
-\newpage
+
+\pagebreak
+
 \begin{flushleft}
 	\textit{Come avviene la chiusura della connessione TCP?}
 \end{flushleft}
@@ -1543,7 +1695,9 @@ Entrambe le entità coinvolte possono chiudere la connessione, solitamente però
 	      \end{figure}
 	\item Nella \textbf{chiusura handshake a quattro vie con halfclose} un \textbf{processo smette di inviare dati mentre ne sta ancora ricevendo dall'altro}.\textit{ e.g. l'ordinamento di una grossa quantità di dati inviati da un client a un server}. Il \textbf{client TCP} richiede la halfclose inviando un \textbf{segmento FIN}, il server accetta la richiesta di chiusura inviando un \textbf{segmento ACK}. Il trasferimento dei dati client-server \textbf{termina} ma il \textbf{server può ancora inviare dati al client}. Quando a sua volta il \textbf{server termina} l'invio dei dati, invia un \textbf{segmento FIN} al client che risponde con un \textbf{segmento ACK}.
 \end{itemize}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{Immagini/Halfway.png}
 	\centering
@@ -1557,7 +1711,9 @@ Una visione generale con un \textbf{diagramma delle transizioni di stato del pro
 \end{figure}\newline
 \textbf{TIME\_WAIT} è lo stato finale in cui un'entità che esegue la
 chiusura attiva si trova prima della chiusura definitiva della connessione. Vi resta per due volte la MSL (Maximum Segment Lifetime). \textbf{Garantisce una terminazione affidabile della connessione in caso di perdita dell'ultimo ACK e consente l'eliminazione dalla rete dei segmenti duplicati}.
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.6]{Immagini/ASF_halfclose.png}
 	\centering
@@ -1584,9 +1740,7 @@ Riportiamo di seguito i \textbf{significati degli stati}.
 		\end{tabular}
 	\end{center}
 \end{table}
-\begin{flushleft}
-	\textit{Come fa TCP a garantire il controllo del flusso?}
-\end{flushleft}
+\subsubsection{Controllo del flusso}
 Descriviamo il \textbf{ciclo di vita dei dati} scambiati all'interno della comunicazione TCP. I dati sono:
 \begin{enumerate}
 	\item \textbf{Generati} dal processo applicativo mittente.
@@ -1595,10 +1749,9 @@ Descriviamo il \textbf{ciclo di vita dei dati} scambiati all'interno della comun
 	\item \textbf{Consumati} dal processo applicativo destinatario.
 \end{enumerate}
 Il \textbf{controllo del flusso} è gestito con il seguente meccanismo: il \textbf{TCP destinatario} invia un feedback al \textbf{TCP mittente} che a sua volta invia un feedback al \textbf{processo applicativo mittente}. Quando la finestra del TCP mittente è \textbf{piena} i dati, provenienti dal processo, vengono \textbf{rifiutati}.
-\newpage
-\begin{flushleft}
-	\textit{Come funzionano le finestre TCP?}
-\end{flushleft}
+
+\pagebreak
+
 Il \textbf{protocollo TCP} prevede due finestre, una di \textbf{ricezione} e una di \textbf{trasmissione}, per ognuna delle due direzioni di comunicazione, in totale sono quindi presenti \textbf{4 finestre}. Ricordiamo che TCP instaura \textbf{una sola connessione}. La \textbf{dimensione della finestra di trasmissione} è \textit{\textbf{inizialmente}} determinata all'apertura della connessione. Si \textbf{apre} quando la dimensione della finestra di ricezione segnalata dal TCP destinatario lo consente e si \textbf{chiude} quando viene confermata la ricezione dei byte inviati. \textbf{Apertura, chiusura e ridimensionamento sono controllate dal TCP destinatario}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.55]{Immagini/TCP_Window.png}
@@ -1611,22 +1764,29 @@ Invece la \textbf{finestra di ricezione} si \textbf{chiude} quando giungono altr
 	\centering
 	\caption{La finestra di ricezione TCP. Ipotizzeremo che non si riduca mai.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 Alleghiamo di seguito un'immagine in grado di spiegare efficacemente ciò che succede in uno scenario \textbf{dinamico}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.65]{Immagini/Dyn_win.png}
 	\centering
 	\caption{Il controllo di flusso in una ipotetica connessione TCP unidirezionale.}
-\end{figure}\newline
-\centerline{\fbox{\textbf{rwindow = RecBuff - (LastByteReceived - LastByteRead)}}}\newline\newline
-Il \textbf{mittente} si assicura che:\newline\newline
-\centerline{\fbox{\textbf{LastByteSent - LastByteAcked $<$ rw indow}}}\newline\newline
+\end{figure}
+\begin{center}
+	\fbox{\textbf{rwindow = RecBuff - (LastByteReceived - LastByteRead)}}
+\end{center}
+Il \textbf{mittente} si assicura che:
+\begin{center}
+	\fbox{\textbf{LastByteSent - LastByteAcked $<$ rwindow}}
+\end{center}
 Ovvero che la quantità di dati trasmessi e non ancora riscontrati sia \textbf{minore} della \textbf{finestra di ricezione}.\newline
-\textbf{\underline{N.B.}} \textbf{rwindow può essere uguale a 0}, qualora ad esempio il TCP destinatario non volesse ricevere dai dati per un certo periodo di tempo. Il mittente in questo caso \textbf{non} riduce realmente la dimensione della sua finestra ma continua a mandare \textbf{segmenti sonda} di 1 byte per ricevere l’\textbf{aggiornamento} sulla dimensione di \textbf{rwindow}. Questa tecnica si definisce \textbf{probing} ed è usata per \textbf{prevenire lo stallo}.
-\newpage
-\begin{flushleft}
-	\textit{Come fa TCP a garantire il controllo degli errori?}
-\end{flushleft}
+\textbf{\underline{N.B.}} \textbf{rwindow può essere uguale a 0}, qualora ad esempio il TCP destinatario non volesse ricevere dai dati per un certo periodo di tempo. Il mittente in questo caso \textbf{non} riduce realmente la dimensione della sua finestra ma continua a mandare \textbf{segmenti sonda} di 1 byte per ricevere l’\textbf{aggiornamento} sulla dimensione di \textbf{rwindow}. Questa tecnica si definisce \textbf{probing} ed è usata per \textbf{prevenire
+	lo stallo}.
+
+\pagebreak
+
+\subsubsection{Controllo degli errori}
 Come è ormai più che noto \textbf{TCP è un protocollo di trasporto affidabile} e garantisce al processo applicativo che i dati vengano consegnati in \textbf{sequenza}, \textbf{senza errori}, \textbf{smarrimenti o duplicazioni}.\newline
 Gli strumenti utilizzati da TCP per individuare gli errori di trasmissione sono \textbf{tre}:
 \begin{enumerate}
@@ -1641,7 +1801,9 @@ Gli strumenti utilizzati da TCP per individuare gli errori di trasmissione sono 
 	      \end{itemize}
 	\item \textbf{I timeout}: il \textbf{TCP mittente} inizializza un \textbf{timer di ritrasmissione}, o \textbf{RTO} per ogni segmento inviato. Il \textbf{primo} segmento inviato e in attesa di riscontro, che ricordiamo essere memorizzato nel buffer del TCP mittente, allo scadere del timer, \textbf{è ritrasmesso}.
 \end{enumerate}
-\newpage
+
+\pagebreak
+
 \textbf{\underline{N.B.}} Un segmento viene ritrasmesso o alla \textbf{scadenza del timer} o quando vengono ricevuti \textbf{tre ACK duplicati} per quello precedente, questa funzione è chiamata \textbf{ritrasmissione veloce}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.4]{Immagini/Fast_retrsm.png}
@@ -1655,7 +1817,9 @@ Presentiamo ora una collezione di vari scenari di operatività del protocollo TC
 	\centering
 	\caption{Uno scenario di operatività normale. Notare, come descritto in precedenza, il ritardo nella trasmissione dell'ACK dovuto alla ricezione di un solo segmento.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 \begin{figure}[!h]
 	\includegraphics[scale=0.3]{Immagini/Loss_op.png}
 	\centering
@@ -1672,7 +1836,9 @@ Presentiamo ora una collezione di vari scenari di operatività del protocollo TC
 	\caption{Uno scenario di perdita di un ACK. Stavolta si torna alla normalità tramite la ricezione di un segmento duplicato e il conseguente ed immediato invio dell'ACK da parte del server..}
 \end{figure}
 \textbf{\underline{N.B.}} Lo \textbf{smarrimento di un riscontro può provocare lo stallo} ed è nel caso in cui, a seguito della ricezione da parte del TCP mittente di un segmento ACK con  il campo \textbf{rwnd settato a 0}, si perda il successivo ACK con il campo rwnd non nullo. Il \textbf{TCP destinatario} supporrà che il TCP mittente lo abbia ricevuto e \textbf{resterà in attesa} dei dati.
-\newpage
+
+\pagebreak
+
 Riassumiamo gli argomenti fin qui trattati presentando degli \textbf{ASF} per il \textbf{TCP mittente} e il \textbf{TCP destinatario}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.47]{Immagini/ASF_tcpm.png}
@@ -1684,7 +1850,9 @@ Riassumiamo gli argomenti fin qui trattati presentando degli \textbf{ASF} per il
 	\centering
 	\caption{ASF del TCP destinatario.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 \begin{flushleft}
 	\textit{Come si calcola l'RTO o Retrasmission Time-Out?}
 \end{flushleft}
@@ -1711,10 +1879,10 @@ $RTT_{DEV}$ rappresenta una \textbf{stima di quanto $RTT_{SAMPLE}$ si discosta d
 	RTO = RTT_{ESTIMATED} + 4 \times RTT_{DEV}
 \end{equation}
 In altre parole si prende il valore più recente di $RTT_{ESTIMATED}$ e gli si somma \textbf{quattro volte} $RTT_{DEV}$, solitamente piccolo, per \textbf{equilibrarlo}.
-\newpage
-\begin{flushleft}
-	\textit{Come fa TCP a gestire la congestione?}
-\end{flushleft}
+
+\pagebreak
+
+\subsubsection{Controllo della congestione}
 Ricordiamo che il fenomeno della \textbf{congestione} è originato dal tentativo delle
 sorgenti di \textbf{richiedere più banda di quella disponibile} sul percorso fino alle destinazione.\newline
 Il \textbf{traffico eccessivo} nella rete \textbf{può provocare}:
@@ -1738,7 +1906,9 @@ Il \textbf{TCP mittente} interpreta come sinonimi di congestione:
 	\item La ricezione di \textbf{tre riscontri duplicati}.
 \end{enumerate}
 Il secondo caso è \textbf{probabilmente meno critico del primo} poiché significa che un segmento è stato smarrito ma tre sono stati ricevuti. Può indicare o che la \textbf{rete è al limite della congestione o vi che è appena uscita}. L'\textbf{assenza} di una ricezione rapida e regolare dei riscontri è invece \textbf{evidenziata} dalla scadenza del \textbf{timeout}.
-\newpage
+
+\pagebreak
+
 La strategia principale usata da TCP per controllare la congestione prevede \textbf{tre fasi}:
 \begin{enumerate}
 	\item \textbf{Slow Start}.
@@ -1750,25 +1920,31 @@ A ogni fase corrisponde un algoritmo diverso.
 	\item \textbf{Slow Start}: si basa sull'inizializzare la dimensione della finestra di congestione rendendola pari a quella della \textbf{MSS} o \textbf{Maximum Segment Size}. Aumentandola poi di MSS ogni volta che \textbf{un} segmento viene riscontrato. La MSS è stabilita all'inizio della connessione. Così facendo l'algoritmo parte lentamente ma procede con velocità via via crescente. La dimensione di cwnd nella fase di \textbf{slow start} può essere espressa come $2^{n}$ dove n sono i \textbf{riscontri ricevuti}.\textbf{ Se due segmenti vengono confermati con lo stesso riscontro cwnd aumenta solo di 1}. La crescita è comunque \textbf{esponenziale} nell'unità di tempo RTT, ma di esponente diverso. La fase continua \textbf{fino} al raggiungimento da parte di cwnd di una soglia chiamata \textbf{ssthresh} o \textbf{slow start threshold}, mantenuta dal \textbf{mittente}. Al raggiungimento di questa soglia si entra nella fase di \textbf{congestion avoidance}.
 	\item \textbf{Congestion Avoidance}: una volta che \textbf{cwnd} ha raggiunto una dimensione \textbf{relativamente} grande, per evitare che la crescita esponenziale finisca per causare problemi di congestione, \textbf{il protocollo TCP} usa un altro algoritmo che incrementa in modo \textbf{lineare} anziché \textbf{esponenziale} il valore di cwnd. La fase di \textbf{congestion avoidance} prevede che ogni volta che \textbf{l'intera finestra di ricezione viene riscontrata} la sua dimensione aumenti \textbf{di un'unità}.
 	      \begin{figure}[!h]
-		      \includegraphics[scale=0.38]{Immagini/CA_tcp.png}
+		      \includegraphics[scale=0.35]{Immagini/CA_tcp.png}
 		      \centering
 		      \caption{In figura la crescita della cwnd nella fase di congestion avoidance.}
 	      \end{figure}\newline
+
+	      \pagebreak
+
 	\item La terza fase chiamata \textbf{Fast Recovery} è \textbf{opzionale} in TCP. La \textbf{versione originale non ne faceva uso}. Inizia quando arrivano \textbf{tre riscontri duplicati} interpretati come inizio di leggera congestione della rete. Aumenta la dimensione di cwnd in modo \textbf{lineare}, incrementandola di un'unità ogni volta che riceve \textbf{due riscontri duplicati}.
 \end{itemize}
 Analizziamo ora come, attraverso l'affermarsi di modelli sempre più recenti del protocollo TCP siano \textbf{cambiate le modalità di transizione da una fase all'altra}.
-La \textbf{prima versione di TCP} chiamata \textbf{TCP Tahoe} utilizzava \textbf{solo le prime due fasi}. Se durante la fase di \textbf{slow start} rileva la presenza di congestione allora \textbf{resetta} la dimensione di \textbf{cwnd} a 1 e \textbf{assegna} a \textbf{ssthresh} il vecchio valore di \textbf{cwnd dimezzato}. Se non la rileva entro il raggiungimento di ssthresh passa alla fase di \textbf{congestion avoidance}. In questa fase \textbf{non vi è un limite sulla dimensione di rwnd} e se non è rilevata congestione \textbf{aumenta linearmente fino alla chiusura della connessione}, se invece viene rilevata si riparte dalla fase di slow start con cwnd pari a 1 e ssthresh pari al vecchio valore di \textbf{cwnd dimezzato}.
+La \textbf{prima versione di TCP} chiamata \textbf{TCP Tahoe} utilizzava \textbf{solo le prime due fasi}. Se durante la fase di \textbf{slow start} rileva la presenza di congestione allora \textbf{resetta} la dimensione di \textbf{cwnd} a 1 e \textbf{assegna} a \textbf{ssthresh} il vecchio valore di \textbf{cwnd dimezzato}. Se non la rileva entro il raggiungimento di ssthresh passa alla fase di \textbf{congestion avoidance}.
+In questa fase \textbf{non vi è un limite sulla dimensione di rwnd} e se non è rilevata congestione \textbf{aumenta linearmente fino alla chiusura della connessione}, se invece viene rilevata si riparte dalla fase di slow start con cwnd pari a 1 e ssthresh pari al vecchio valore di \textbf{cwnd dimezzato}.
 \begin{figure}[!h]
-	\includegraphics[scale=0.3]{Immagini/Taho.png}
+	\includegraphics[scale=0.33]{Immagini/Taho.png}
 	\centering
 	\caption{TCP Tahoe rappresentato come ASF.}
-\end{figure}\newline
+\end{figure}
 \begin{figure}[!h]
 	\includegraphics[scale=0.23]{Immagini/Taho2.png}
 	\centering
 	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Tahoe.}
 \end{figure}
-\newpage
+
+\pagebreak
+
 In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è prevista anche la terza fase di \textbf{fast recovery}. TCP Reno inoltre \textbf{tratta i due sintomi della congestione in modo differente}. La mancata ricezione di un riscontro e il conseguente \textbf{timeout} portano TCP Reno a tornare nella fase di \textbf{slow start }, mentre la ricezione di \textbf{tre ACK duplicati}, sia che avvenga in \textbf{slowstart che in congestion avoidance}, portano TCP Reno ad \textbf{assegnare} a \textbf{ssthresh} il valore di \textbf{cwnd dimezzato}, a \textbf{cwnd il nuovo valore di ssthresh aumentato di tre unità} e a spostarsi nella fase di \textbf{fast recovery}, che può essere visto come uno \textbf{stato intermedio tra slow start e congestion avoidance}. In \textbf{fast recovery cwnd continua a crescere esponenzialmente}, se arriva un \textbf{ACK non duplicato} si giunge nello stato di \textbf{congestion avoidance} se invece giunge un altro \textbf{ACK duplicato} rimane in \textbf{fast recovery} e si \textbf{aumenta la cwnd di un'unità}, infine se scatta un timeout si torna in \textbf{slow start} con le modalità descritte per TCP Tahoe.
 \begin{figure}[!h]
 	\includegraphics[scale=0.33]{Immagini/Reno.png}
@@ -1780,10 +1956,10 @@ In una versione più recente del protocollo TCP chiamata \textbf{TCP Reno}, è p
 	\centering
 	\caption{In figura l'evoluzione della dimensione di cwnd con TCP Reno.}
 \end{figure}
-\newpage
-\begin{flushleft}
-	\textit{Come calcolare il throughput di TCP?}
-\end{flushleft}
+
+\pagebreak
+
+\subsubsection{Throughput}
 Il \textbf{throughput di TCP dipende dal comportamento della finestra di congestione} e non è quindi costante, se riportato su un grafico avrebbe un profilo simile a quello dei denti di una sega detto anche \textbf{AIMD} o \textbf{addictive increase multiplicative decrease}. Ciò è dovuto a come è determinata, dopo la prima fase di \textbf{slow start}, la dimensione della finestra di congestione. Se i denti fossero tutti uguali il throughput sarebbe uguale a:\[\frac{\frac{\mid max + min \mid }{2}}{RTT}\]
 Sapendo che ogni rilevazione di congestion cwnd è impostato alla metà del suo valore precedente, \textbf{il throughput può essere calcolato come:}
 \[\frac{ 0.75 \times W_{max}}{RTT}\]
@@ -1797,7 +1973,9 @@ Proviamo a \textbf{calcolare} il \textbf{throughput} avendo come dati il \textbf
 \[W_{MAX} = \frac{10 + 12 + 10 + 8 + 8}{5} = 9.6 \ MSS\]
 da cui
 \[throughput =  \frac{0,75 \times W_{MAX}}{RTT}  = \frac{0,75 \times (96 \times 8)_{Kbit}}{100_{ms}} = 5,76 Mbit/s\]
-\newpage
+
+\pagebreak
+
 \section{Esercizi}
 \begin{enumerate}
 	\item L’utente \begin{center}
@@ -1834,7 +2012,8 @@ da cui
 		      Per chiarimenti è consigliato il ripasso del capitolo sull'\hyperref[sec:SMTP]{\textbf{SMTP}}.
 	      \end{flushleft}
 
-	      \newpage
+	      \pagebreak
+
 	\item Un host deve risolvere il nome simbolico:
 	      \begin{center}
 		      \textbf{host.engineering.vanderbilt.edu}
@@ -1856,7 +2035,9 @@ da cui
 			            \centering
 		            \end{figure}\newline
 	      \end{enumerate}
-	      \newpage
+
+	      \pagebreak
+
 	\item Un client C chiede la pagina web
 	      \textbf{\begin{center}
 			      www.acme.com/home/products.html
@@ -1876,7 +2057,9 @@ da cui
 		      \centering
 	      \end{figure}
 	      Si ricorda che per \textbf{piggybacking} si indica la tecnica mediante la quale l'invio dell'ACK è unito all'invio dei dati. La tecnica migliora l'efficienza dei protocolli bidirezionali.
-	      \newpage
+
+	      \pagebreak
+
 	\item Un client C ha stabilito una connessione TCP con un server web S per
 	      scaricare una pagina web che consiste di tre oggetti. Al tempo t, subito
 	      dopo avere inviato la richiesta per il terzo oggetto, l’host di C invia a S
@@ -1905,7 +2088,9 @@ da cui
 		      \includegraphics[scale=0.4]{Immagini/Es3.png}
 		      \centering
 	      \end{figure}
-	      \newpage
+
+	      \pagebreak
+
 	\item Si descriva il meccanismo di controllo di flusso in
 	      TCP.
 	      \begin{flushleft}
@@ -1939,7 +2124,9 @@ da cui
 		      \item C1=C2=C3=C4 = 2 Mbps.
 		      \item a1=a2=a3 = 0,01 s.
 	      \end{itemize}
-	      \newpage
+
+	      \pagebreak
+
 	      \begin{figure}[!h]
 		      \includegraphics[scale=0.4]{Immagini/Es4.png}
 		      \centering
@@ -1984,7 +2171,9 @@ da cui
 		      \item Il primo segmento avrà il payload vuoto e il payload del secondo conterrà 220 service ready.
 		      \item Il primo segmento sarà SYNACK, e quindi: come già detto, payload vuoto, flags SYN e ACK ad 1, numero sequenza Z, ack number Y, \textbf{porta mittente 25}, porta destinazione effimera. Il secondo segmento conterrà come payload 220 service ready, nessun flag ad 1, numero sequenza Z+1, ack number Y, porta	mittente 25, porta destinazione effimera.
 	      \end{enumerate}
-	      \newpage
+
+	      \pagebreak
+
 	\item Dire in quali delle seguenti circostanze il TCP cambia la dimensione della
 	      finestra di congestione \textbf{cwnd}, e, nel caso, come viene ricalcolata.
 	      \begin{figure}[!h]
@@ -2013,7 +2202,9 @@ da cui
 		            settimo riscontro con acknumber uguale a Y + 4 MSS.
 	      \end{itemize}
 	      Si supponga che non scatti alcun timeout tra t0 e t1. Indicare, per ciascun riscontro ricevuto, lo stato del TCP e i valori di ssthresh e cwnd, giustificando la risposta.
-	      \newpage
+
+	      \pagebreak
+
 	      \textbf{Soluzione}:
 	      \begin{figure}[!h]
 		      \includegraphics[scale=0.5]{Immagini/Es6.png}
@@ -2033,7 +2224,9 @@ da cui
 		      \texttt{send(risp)} //\textit{per inviare risp al mittente}\newline
 	      \end{flushleft}
 	      Descrivere il contenuto o la funzionalità delle variabili e delle altre funzioni o procedure eventualmente utilizzate.
-	      \newpage
+
+	      \pagebreak
+
 	      \begin{flushleft}
 		      \textbf{Soluzione}:
 		      \begin{lstlisting}[gobble=2,language=C,basicstyle=\footnotesize]
@@ -2085,6 +2278,772 @@ da cui
 		      \item Interazione stateless.
 	      \end{itemize}
 \end{enumerate}
+
+\pagebreak
+
+\section{Lo strato di rete}
+\begin{figure}[!h]
+	\includegraphics[scale=0.2]{Immagini/Ip.png}
+	\centering
+	\caption{Lo strato di rete all'interno dello stack protocollare TCP/IP.}
+\end{figure}
+Nello stack protocollare TCP/IP \textbf{il livello rete} è collocato tra \textbf{il livello trasporto} e \textbf{il livello collegamento}, \textbf{offre} servizi al livello trasporto e ne \textbf{riceve} dal livello collegamento. Realizza una connessione logica fra host system
+diversi facenti parte di reti eterogenee. Si occupa di:
+\begin{itemize}
+	\item \textbf{Suddividere i dati in pacchetti}, \textbf{frammentandoli} nel caso in cui il payload sia troppo grande per entrare in un singolo pacchetto.\\
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.2]{Immagini/Ip_p.png}
+		      \centering
+		      \caption{Un pacchetto IP.}
+	      \end{figure}
+	\item \textbf{Instradare i pacchetti} così ottenuti dall'host sorgente all'host destinazione. La vastità di Internet, infatti, fa sì che con ogni probabilità sia possibile scegliere \textbf{più di un percorso}. Il livello di rete deve trovare \textbf{il migliore} tra questi.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.3]{Immagini/Ip_instr.png}
+		      \centering
+		      \caption{Il processo di instradamento in una rete priva di connessione.}
+	      \end{figure}
+	\item \textbf{Inoltrare i pacchetti}, ovvero trasferire il pacchetto arrivato al router sull’\textbf{appropriato} collegamento di uscita.
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.25]{Immagini/Ip_table.png}
+		      \centering
+		      \caption{Il processo d'inoltro in una rete priva di connessione. La tabella d'inoltro è il risultato del processo di instradamento.}
+	      \end{figure}
+\end{itemize}
+D'altro canto \textbf{il livello di rete non si occupa di}:
+\begin{itemize}
+	\item \textbf{Controllare gli errori nel payload dei pacchetti}; sebbene nel pacchetto sia presente un campo \textbf{checksum} la sua funzione è di rilevare errori \textbf{solo nell'intestazione}.
+	      Inoltre i pacchetti del livello rete possono essere \textbf{frammentati} da ciascun router a cui giungono, un eventuale controllo degli errori sul payload sarebbe molto \textbf{inefficiente}.
+	\item \textbf{Controllare il flusso}; il controllo di flusso è delegato del tutto agli strati superiori, in Internet il livello di rete non fornisce \textbf{pressoché} alcun meccanismo di controllo di flusso.
+	\item \textbf{Controllare la congestione}; al livello rete non è implementato alcun controllo della congestione.
+	\item \textbf{Controllare la qualità del servizio}; tutte le tecniche di controllo della qualità del servizio sono implementate \textbf{a livelli superiori}.
+	\item \textbf{Offrire sicurezza}; quando il livello di rete è stato progettato la sicurezza non era un problema.
+\end{itemize}
+Per la trasmissione dei dati è usata la tecnica di \textbf{packet switching}, sia con \textbf{approccio a datagramma} che \textbf{a circuito virtuale}, l'approccio dipende dalla tecnologia della rete.
+\begin{itemize}
+	\item \textbf{Approccio a datagramma}: offre un servizio \textbf{connection-less}, ogni datagramma è un'unità \textbf{indipendente} che viaggia sulla rete e il suo \textbf{inoltro} si basa \textbf{solamente} \textbf{sull'indirizzo di destinazione} contenuto nella sua \textbf{intestazione}. I datagrammi che compongono un messaggio \textbf{possono} viaggiare tutti sullo \textbf{stesso} percorso \textbf{o} seguire ognuno una strada completamente \textbf{diversa}. Il livello di rete di \textbf{\underline{Internet}} è stato progettato per essere in grado di fornire un servizio \textbf{connection-less}.
+
+	      \pagebreak
+
+	\item \textbf{Approccio a circuito virtuale}: offre un servizio conection-oriented. Viene
+	      stabilita una \textbf{connessione logica} prima dell'invio dei datagrammi che compongono il messaggio. \textbf{I datagrammi} seguono tutti lo \textbf{stesso percorso} all'interno della rete e oltre agli indirizzi sorgente e destinazione, utili nel caso i cui il datagramma debba attraversare una rete che non offre un servizio connection-oriented, contengono anche un'\textbf{etichetta di flusso} che identifica \textbf{il circuito virtuale} che a sua volta definisce \textbf{il percorso virtuale} che il datagramma deve seguire. \textbf{L'inoltro del datagramma di basa quindi sulla sua etichetta di flusso}. Per implementare un servizio \textbf{connection-oriented} si utilizza un processo composto da \textbf{tre} fasi:
+	      \begin{enumerate}
+		      \item \textbf{Setup}: creazione del circuito virtuale, configurazione dei router intermedi e creazione delle tabelle d'inoltro.
+		      \item \textbf{Data transfer}: trasferimento dei dati.
+		      \item \textbf{Teardown}: distruzione del circuito virtuale.
+	      \end{enumerate}
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.3]{Immagini/IP_conn.png}
+		      \centering
+		      \caption{Il processo d'istradamento in una rete connection-oriented.}
+	      \end{figure}
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.3]{Immagini/IP_conn_table.png}
+		      \centering
+		      \caption{Il processo d'inoltro in una rete connection-oriented.}
+	      \end{figure}
+\end{itemize}
+
+\pagebreak
+
+\subsection{Internet Protocol}
+Il \textbf{protocollo IP} è un protocollo di tipo \textbf{connection-less}, \textbf{sono} perciò \textbf{assenti} sia \textbf{il circuito virtuale che quello fisico} fra i due sistemi terminali. Adotta una \textbf{politica di invio} dei datagrammi di tipo \textbf{send and pray}, \textbf{senza} controllo degli errori, \textbf{non} garantisce il controllo di flusso e presenta una \textbf{politica di gestione della qualità} del servizio di tipo \textbf{best effort} ovvero con prestazioni estremamente \textbf{variabili}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.2]{Immagini/IPv4.png}
+	\centering
+	\caption{I protocolli di livello rete dello stack protocollare TCP/IP. In realtà il protocollo RSVP è un protocollo di livello trasporto.}
+\end{figure}
+
+Nel corso del tempo \textbf{i protocolli di livello rete} hanno avuto \textbf{diverse versioni}, di particolare interesse sono la \textbf{versione 4} e la \textbf{versione 6}.
+L'\textbf{IP} è \textbf{responsabile} della \textbf{suddivisione} in pacchetti, dell'\textbf{inoltro} e della \textbf{consegna} dei datagrammi. Sono inoltre presenti altri 4 \textbf{protocolli ausiliari}:
+\begin{enumerate}
+	\item L'\textbf{Internet Control Message Protocol} o \textbf{ICMP} aiuta a \textbf{gestire} alcuni \textbf{errori} che possono avvenire \textbf{nell'inoltro dei datagrammi}.
+	\item L'\textbf{Internet Group Management Protocol} o \textbf{IGMP} supporta l'IP nella gestione del \textbf{multicasting}.
+	\item L'\textbf{Open Shortest Path First} o \textbf{OSPF} è un protocollo di \textbf{routing}.
+	\item Il \textbf{Resource Reservation Protocol} o \textbf{RSVP} è un protocollo di \textbf{livello trasporto}, \textbf{non trasporta dati applicativi} bensì implementa un meccanismo, dal lato del ricevente, per riservare risorse lungo la rete.
+\end{enumerate}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/Ip_d.png}
+	\centering
+	\caption{La struttura di un datagramma IP.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Ip_datagram.png}
+	\centering
+	\caption{Un datagramma IP. I campi evidenziati in rosso riguardano la frammentazione dei datagrammi.}
+\end{figure}
+
+Un \textbf{datagramma IP} è un pacchetto di lunghezza variabile composto da due parti: \textbf{un'intestazione} o \textbf{header} e \textbf{un campo dati} o \textbf{payload}.
+L'intetazione è lunga da \textbf{20} a \textbf{60} byte e contiene le informazioni fondamentali per il \textbf{routing} e \textbf{la consegna} dei datagrammi.
+\begin{itemize}
+	\item \textbf{Numero di versione}: definisce la versione del protocollo IP, attualmente: \textbf{v4} o \textbf{v6}.
+	\item \textbf{Lunghezza dell'intestazione}: definisce la lunghezza totale dell'intestazione del datagramma misurata in \textbf{parole} formate da \textbf{4 byte} per via della lunghezza del campo stesso, ovvero 4 bit. L'effettiva lunghezza totale corrisponde al valore di questo campo \textbf{moltiplicato per 4}.
+	\item \textbf{Tipo di servizio}: campo riservato per i servizi differenziati.
+	\item \textbf{Lunghezza totale}: definisce la \textbf{lunghezza} totale del \textbf{datagramma}.
+	\item \textbf{Identificazione, Flag e Scostamento}: questi tre campi riguardano la \textbf{frammentazione} del datagramma IP che \textbf{avviene} quando la sua  \textbf{dimensione} è \textbf{maggiore} rispetto alla \textbf{capacità di trasporto del livello di collegamento sottostante}.
+	\item \textbf{Time To Live}: campo utilizzato per definire il \textbf{numero massimo di salti} (hops) che un datagramma può effettuare da un router all'altro. Il suo \textbf{scopo} è quello di \textbf{eliminare dalla rete} il traffico superfluo causato da \textbf{datagrammi instradati male}. È \textbf{pari} a circa \textbf{il doppio del numero massimo di salti tra due host qualsiasi} presenti su Internet. Ogni router decrementa il valore del campo di una unità, \textbf{quando è pari a 0} il prossimo \textbf{router} di \textbf{scarta il datagramma}.
+
+	      \pagebreak
+
+	      \textbf{Protocollo}: è il campo contenente un numero di 8 bit, \textbf{individua il protocollo che fa uso di IP}. I numeri sono assegnati \textbf{univocamente}. Quando il datagramma arriva a destinazione il valore di questo campo permette di individuare il protocollo a cui consegnare il payload del datagramma. Il campo fornisce \textbf{multiplexing alla sorgente} e \textbf{demultiplexing alla destinazione}. Per il livello rete ha quindi una funzione molto simile ai numeri di porta del livello trasporto.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.25]{Immagini/Ip_proto.png}
+		      \centering
+		      \caption{Multiplexing e demultiplexing utilizzando il valore del campo protocollo.}
+	      \end{figure}
+
+	\item \textbf{Checksum dell'intestazione}: il protocollo IP \textbf{non} si cura di \textbf{individuare} nè tanto meno di \textbf{correggere eventuali errori del payload dovuti alla trasmissione}. Tuttavia l'\textbf{intestazione} dei datagrammi viene \textbf{aggiunta}, durante il processo di incapsulamento, \textbf{al livello rete} ed è perciò \textbf{responsabilità dell'IP verificarne la correttezza}. Inoltre gli \textbf{errori} nell'\textbf{intestazione} posso comportare la consegna dei datagrammi a host e/o protocolli \textbf{sbagliati}. Tali ragioni giustificano la presenza del campo checksum per l'intestazione. \textbf{La checksum va ricalcolata in ogni router} a causa della possibile \textbf{variazione dei campi dell'intestazione} come il TTL o i campi relativi alla frammentazione.
+	\item \textbf{Indirizzi sorgente e destinazione}: contengono rispettivamente l'indirizzo dell'\textbf{host sorgente} e quello dell'\textbf{host destinatario}. L'host sorgente dovrebbe conoscere a priori il proprio indirizzo IP, mentre quello dell'host destinatario è noto al protocollo di livello superiore che sta usando l'IP. Il valore di questi campi deve rimanere \textbf{immutato} per tutta la durata della vita del datagramma per ovvie ragioni.
+	\item {\textbf{Opzioni}}: contiene opzioni che possono essere usate per il test o il debug della rete.
+	\item \textbf{Payload}: contiene \textbf{i dati trasportati dal datagramma}. Il \textbf{payload} è il pacchetto che deriva dagli altri protocolli che fanno uso del servizio offerto da IP, siano essi del livello di trasporto o del livello di rete, come ad esempio ICMP.
+\end{itemize}
+
+\pagebreak
+
+\subsubsection{Frammentazione}
+Per giungere a destinazione un \textbf{datagramma IP} potrebbe dover \textbf{attraversare varie reti},\textbf{ ognuna con caratteristiche differenti}. Supponiamo ad esempio che il datagramma sia \textbf{arrivato} a un \textbf{generico router}, a quel punto verrà \textbf{estratto dal frame di livello collegamento}, \textbf{elaborato}, \textbf{incapsulato in un altro frame} e poi \textbf{rispedito}. Il \textbf{formato} e la \textbf{dimensione} del frame in entrata nel router \textbf{dipendono} dalla \textbf{tecnologia fisica} e da quella di \textbf{collegamento} utilizzati per trasportare il frame, analogamente, formato e dimensione in uscita dipenderanno dalle caratteristiche di livello fisico e di livello collegamento della rete su cui il frame verrà inviato.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/MTU.png}
+	\centering
+	\caption{Maximum Transfer Unit o MTU.}
+\end{figure}
+
+Ogni protocollo di livello collegamento ha il suo formato di frame e ogni formato di frame ha il suo \textbf{MTU} che indica \textbf{la dimensione massima del payload che può essere incapsulato nel frame}. In altre parole la dimensione massima dell'intero datagramma IP deve essere minore o uguale all'MTU del livello di collegamento sul quale verrà inoltrato. Quando ciò non dovesse avvenire il datagramma viene \textbf{frammentato} in parti più piccole per poter essere trasportato. \textbf{\underline{N.B.}} I \textbf{frammenti} così ottenuti hanno tutti \textbf{una propria intestazione}, possono seguire \textbf{percorsi diversi} sulla rete e possono essere a loro volta frammentati da qualsiasi entità IP, tuttavia il \textbf{riassemblaggio} avviene solo all'host di destinazione, se manca qualche frammento l'intero datagramma viene scartato.
+
+L'host o il router che frammenta il datagramma IP deve, per l'intestazione di ogni frammento, cambiare i seguenti campi: \textbf{flag}, \textbf{scostamento} e \textbf{lunghezza totale} e copiare il resto dei campi del datagramma originale.
+\begin{itemize}
+	\item \textbf{Identificazione}: è un numero positivo di 16 bit associato al datagramma dall'host sorgente, \textbf{IP utilizza un contatore per etichettare i datagrammi}. La combinazione dell'\textbf{identificazione} e degli \textbf{indirizzi IP sorgente e destinazione} identifica il datagramma per un tempo ragionevolmente lungo. Il valore del campo \textbf{identificazione} viene copiato in tutti i frammenti. \textbf{Tutti i frammenti} di un messaggio hanno lo \textbf{stesso valore} per il campo \textbf{identificazione}.
+
+	      \pagebreak
+
+	\item \textbf I tre bit di {Flag} definiscono \textbf{tre flag} distinti:
+	      \begin{enumerate}
+		      \item Il \textbf{bit 0 è riservato}.
+
+		      \item Il \textbf{bit 1 do not fragment} vale 0 se il datagramma può essere frammentato e 1 se non deve essere frammentato, in tal caso il dispositivo \textbf{scarta} il datagramma se non è in grado di trasmetterlo lungo nessuna rete fisica a cui è collegato e invia un messaggio d'errore ICMP all'host sorgente.
+
+		      \item Il \textbf{bit 2 more fragments} vale: 0 se il frammento è l'ultimo del datagramma o 1 se non è l'ultimo e ci sono altri frammenti dopo di lui.
+	      \end{enumerate}
+
+	\item \textbf{Scostamento di frammentazione}: mostra la posizione relativa del frammento rispetto al datagramma originario.
+
+	      \textbf{Esprime l'offset dei dati del frammento nel datagramma originario misurato in unità di 8 byte}. I 13 bit del campo non consentono di rappresentare numeri maggiori di 8191 ed essendo la lunghezza massima del datagramma IP 65535 byte \textbf{la divisione per 8 è necessaria}.
+
+	      Ciò comporta che \textbf{l'host sorgente o i router che frammentano il datagramma debbano scegliere la dimensione dei frammenti in modo tale che sia un multiplo di 8}, ad eccezione dell'ultimo frammento.
+
+	      Nel caso in cui avvengano \textbf{multiple frammentazioni} lo \textbf{scostamento di frammentazione} è sempre \textbf{relativo al datagramma originario}.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.3]{Immagini/Ip_frag.png}
+		      \centering
+		      \caption{Un esempio di frammentazione, l'offset è espresso in unità di 8 byte.}
+	      \end{figure}
+
+\end{itemize}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/Ip_frag1.png}
+	\centering
+	\caption{I frammenti seguono un percorso alternativo.}
+\end{figure}
+
+\subsubsection{Indirizzamento}
+La versione 4 del protocollo IP, comunemente chiamata \textbf{IPv4}, \textbf{usa indirizzi a 32 bit} o \textbf{4 byte}, ciò comporta che lo spazio degli indirizzi abbia dimensione pari a 4.294.967.296 indirizzi possibili.
+
+Ogni host è connesso ad Internet attraverso \textbf{un'interfaccia di rete}, che marca il confine fra l'host ed il collegamento su cui vengono inviati i datagrammi. Ad ogni interfaccia \textbf{è assegnato un indirizzo IP}. \textbf{I router sono dispositivi intermedi che devono necessariamente essere connessi ad almeno due collegamenti e per questo motivo hanno almeno due interfacce di rete.}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Ip_not.png}
+	\centering
+\end{figure}
+
+Come gli indirizzi di ogni altra rete di comunicazione anche \textbf{gli indirizzi IPv4 hanno una struttura gerarchica} che si compone di \textbf{due parti}:
+
+\begin{enumerate}
+	\item \textbf{Prefisso} o \textbf{network ID}: identifica una rete IP su internet.
+	\item \textbf{Suffisso} o \textbf{host ID}: identifica l'host sulla rete.
+\end{enumerate}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/IPv4_add.png}
+	\centering
+\end{figure}
+
+\pagebreak
+
+\textbf{Originariamente} l'indirizzo IPv4 era stato progettato con un prefisso di \textbf{lunghezza fissa}, ma la necessità di identificare \textbf{reti di varie dimensioni} ha portato all'introduzione di un prefisso a \textbf{lunghezza variabile}. Sono state previste \textbf{tre lunghezze di prefissi} e l'intero \textbf{spazio degli indirizzi} è stato \textbf{diviso} in \textbf{cinque classi}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/IPv4_c_add.png}
+	\centering
+	\caption{Class addressing.}
+\end{figure}
+
+Nella \textbf{classe A} la lunghezza della parte di rete è \textbf{8 bit} ma poichè il primo bit, che è 0, identifica la classe si hanno solo \textbf{7 bit per identificare 128 reti} e \textbf{24 bit di suffisso per 16 milioni di host}. Gli indirizzi di classe A vanno dal 0.0.0.0 al 127.255.255.255.
+
+Nella \textbf{classe B} la lunghezza della parte di rete è di 16 bit ma poichè i primi due sono uguali a $(10)_{2}$ e identificano la classe si hanno \textbf{14 bit per identificare le reti}, circa 16000, e \textbf{16 bit per circa 64.000 host}. Gli indirizzi di classe B vanno dal 128.0.0.0 al 191.255.255.255.
+
+Nella \textbf{classe C} la lunghezza della parte di rete è di 24 bit, i primi tre bit identificano la classe e sono uguali a $(110)_{2}$. Si hanno \textbf{21 bit per le reti IP e 8 bit per 256 host}. Gli indirizzi di classe C vanno dal 192.0.0.0 al 223.255.255.255.
+
+La \textbf{classe D} è riservata per il \textbf{multicasting}. I suoi indirizzi vanno dal  224.0.0.0 al 239.255.255.255. La \textbf{classe E} è riservata per \textbf{uso futuro}. I suoi indirizzi vanno dal 240.0.0.0 al 255.255.255.255.
+
+Analizziamo alcuni indirizzi per fare un esempio:
+\textbf{15.10.10.90}: si tratta di un indirizzo di classe A, poiché il primo
+numero è compreso fra 0 e 127. Dunque i seguenti campi indicano l’host: 10.10.90 nella rete IP :15.
+
+\textbf{130.250.42.53}: si tratta di un indirizzo di classe B, poiché il primo
+numero è compreso fra 128 e 191. Dunque i primi due campi indicano la rete IP: 130.250, gli altri indicano l’host: 42.53.
+
+\textbf{196.234.12.14}: si tratta di un indirizzo di classe C, poiché il primo
+numero è compreso fra 192 e 223. Dunque i primi tre campi indicano la rete IP 196.234.12, e l’ultimo indica l’host: 14.
+
+\pagebreak
+
+L'\textbf{indirizzamento con classi}, sebbene consenta di risalire al prefisso senza l'aggiunta di ulteriori informazioni, \textbf{è diventato obsoleto} a causa dello \textbf{scorretto assegnamento degli indirizzi} e del \textbf{conseguente esaurimento} degli stessi. È chiaro che la \textbf{soluzione a lungo termine} sia di \textbf{adottare degli indirizzi più lunghi} (IPv6). Ciò comporterebbe però di modificare anche la \textbf{struttura dei datagrammi IP}.
+
+Per tale motivo e anche a causa dell'affermarsi degli \textbf{Internet Service Providers} durante gli anni '90, si è ideata, oltre alla soluzione a lungo termine, anche una \textbf{soluzione a breve termine} facente sempre uso \textbf{dell'indirizzo IPv4} ma \textbf{non dell'indirizzamento con classi}.
+
+\begin{flushleft}
+	\textit{Gli \textbf{ISP} sono organizzazioni che forniscono \textbf{accesso a Internet} a persone o altre organizzazioni il cui interesse è \textbf{solo} quello di utilizzare i servizi offerti ma \textbf{non} di far parte di Internet o di offrire a loro volta servizi. \textbf{Un ISP ottiene un insieme molto ampio di indirizzi e lo suddivide in gruppi}.}
+\end{flushleft}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Ip_classless.png}
+	\centering
+	\caption{Indirizzamento senza classi, con spazio degli indirizzi diviso in blocchi di lunghezza variabile.}
+\end{figure}
+
+Tale soluzione, chiamata \textbf{indirizzamento senza classi}, prevede che lo spazio delgi indirizzi venga suddiviso in blocchi di lunghezza variabile. Il \textbf{prefisso di un indirizzo individua il blocco (la rete) e il suffisso individua il dispositivo}.
+
+Un \textbf{prefisso grande} individua una \textbf{rete più piccola} e viceversa un \textbf{prefisso piccolo} individua una \textbf{rete più grande}.
+
+\textbf{Per individuare il prefisso}, data l'assenza delle classi, \textbf{è stata aggiunta all'indirizzo una barra slash "/" che separa l'indirizzo dalla lunghezza del prefisso}. Tale notazione è definita \textbf{CIDR} o \textbf{Class-less Inter Domain Routing}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.2]{Immagini/Ip_cidr.png}
+	\centering
+	\caption{CIDR.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Ip_inf_ex.png}
+	\centering
+	\caption{Estrazione delle informazioni nell'indirizzamento senza classi.}
+\end{figure}
+
+\begin{enumerate}
+	\item Il \textbf{numero degli indirizzi nel blocco} è N = $2^{32 - n}$.
+	\item Il \textbf{numero di host è dato da } $N - 2$, devo sottrarre l'indirizzo di rete e l'indirizzo di broadcast. \textit{[spiegazione avanti]}
+	\item Il \textbf{primo indirizzo} è \textbf{l'indirizzo di rete} ed è ricavato tenendo invariati i primi n bit e azzerando tutti gli altri.
+	\item L' \textbf{ultimo indirizzo} è \textbf{l'indirizzo di broadcast} ed è ricavato tenendo invariato i primi n bit e impostando ad 1 tutti gli altri.
+\end{enumerate}
+
+Un altro modo per ricavare il primo e l'ultimo indirizzo del blocco è usare la \textbf{maschera dell'indirizzo}, ovvero un numero di 32 bit in cui i \textbf{primi n bit} sono impostati a 1 e gli altri $32 - n$ a 0, con \textbf{n lunghezza del prefisso}.
+
+La \textbf{maschera dell'indirizzo} o \textbf{subnet mask} può essere utilizzata molto \textbf{efficientemente} da un un \textbf{programma} per ricavare le informazioni di un blocco usando tre operatori sui bit: \textbf{NOT}, \textbf{AND} e \textbf{OR}.
+
+\begin{enumerate}
+	\item Il \textbf{numero degli indirizzi nel blocco} è:
+	      \begin{center}
+		      $N = \textbf{NOT}(maschera) + 1$.
+	      \end{center}
+	\item Il \textbf{primo indirizzo del blocco} è:
+	      \begin{center}
+		      (qualsiasi indirizzo del blocco) \textbf{AND} (maschera)
+	      \end{center}
+	\item L'\textbf{ultimo indirizzo del blocco} è:
+	      \begin{center}
+		      (qualsiasi indirizzo del blocco) \textbf{OR} (\textbf{NOT}(maschera))
+	      \end{center}
+\end{enumerate}
+
+L'\textbf{indirizzo di rete} è usato per instradare i datagrammi.
+
+\pagebreak
+
+Esempio:\newline
+All'indirizzo IP: \textbf{150.217.8.42} è definita la netmask \textbf{255.255.255.0}.
+
+La rete o subnet effettiva ha indirizzo \textbf{150.217.8.0/24}.
+\begin{verbatim}
+Indirizzo IP 150.217.8.42 10010110 11011001 00001000 00101010
+Subnet Mask 255.255.255.0 11111111 11111111 11111111 00000000
+AND           150.217.8.0 10010110 11011001 00001000 00000000
+\end{verbatim}
+Gli indirizzi \textbf{150.193.4.1/22}, \textbf{150.193.8.18/22}, \textbf{150.193.11.3/22} appartengono alla stessa sottorete o subnet?
+\begin{verbatim}
+Indirizzo IP 150.193.4.1  10010110 11000001 00000100 00000001
+Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
+AND           150.217.8.0 10010110 11000001 00000100 00000000
+\end{verbatim}
+\begin{verbatim}
+Indirizzo IP 150.193.8.18 10010110 11000001 00001000 00010010
+Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
+AND           150.217.8.0 10010110 11000001 00001000 00000000
+\end{verbatim}
+\begin{verbatim}
+Indirizzo IP 150.193.11.3 10010110 11000001 00001011 00000011
+Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
+AND           150.217.8.0 10010110 11000001 00001000 00000000
+\end{verbatim}
+Il primo indirizzo \textbf{non} vi appartiene.
+
+Esiste un modo più adatto a noi esseri umani? Sì, basta che \textbf{confrontiamo i primi 22 bit degli indirizzi} per arrivare alla stessa conclusione.
+
+\begin{verbatim}
+Indirizzo IP 150.193.4.1  10010110 11000001 000001 | 00 00000001
+Indirizzo IP 150.193.8.18 10010110 11000001 000010 | 00 00010010
+Indirizzo IP 150.193.11.3 10010110 11000001 000010 | 11 00000011
+\end{verbatim}
+
+Altro esempio:\newline
+Indirizzo IP: \textbf{167.199.170.82/27}, maschera: \textbf{255.255.255.224}. Si ha che:
+\begin{verbatim}
+Primo indirizzo del blocco o i. di rete = (address) AND (mask)
+10100111 11000111 10101010 01010010 AND
+11111111 11111111 11111111 11100000
+10100111 11000111 10101010 01000000
+
+Ultimo indirizzo del blocco o i. di broadcast = (address) OR (NOT(mask))
+10100111 11000111 10101010 01010010 OR
+00000000 00000000 00000000 00011111
+10100111 11000111 10101010 01011111
+\end{verbatim}
+
+\pagebreak
+
+\subsubsection{Curiosità}
+Per quale motivo UDP e TCP si preoccupano di controllare l’integrità di informazioni di livello
+network se anche \textbf{IP usa un suo checksum}?
+
+Stando a \textbf{David Patrick Reed}, noto per essere l'ideatore del protocollo UDP nonché una delle principali menti dietro allo stack protocollare TCP/IP:
+
+\textit{As I was there in 1976, when we split TCP into IP, TCP, and other protocols, such as UDP, for the decision to separate the checksums and
+	to create a pseudo-header, here is the rationale, which is highly relevant.}
+
+\textit{TCP and UDP are end-to-end protocols.   In particular, the TCP
+	checksum is "end-to-end". It is a "private matter" between end points
+	implementing the TCP layer, guaranteeing end-to-end reliability, not
+	hop-by-hop reliability.}
+
+\textit{IP is a wrapper for TCP, which instructs the transport layer, the
+	gateways and routers, where the packet is to be transported, how big it
+	is, and how it may be fragmented in the process of delivery.}
+
+\textit{The Source Address, Destination address, length, etc. are part of the
+	meaning of the TCP frame - in that the end point machines use that
+	information in the TCP application.}
+
+\textit{Thus the function of source address, destination address,
+	etc. are "shared" because they are
+	meaningful to both layers IP and TCP. Rather than include the same
+	information twice in the packet format, the concept of a "virtual
+	header" was invented to encapsulate the idea that IP is not allowed to
+	change the SA and DA because they are meaningful.}
+
+\textit{Further, in the case of end-to-end encryption, in 1976 we had a complete
+	design by Steven T. Kent, my office mate, which was blocked by NSA from
+	being deployed, it is essential that all end-to-end meaning be
+	protected.The plan was to leave the source address and destination address in the clear, but  encrypt the rest of the TCP payload, including the checksum.  This would
+	protect against a man-in-the-middle attack that delivered valid packets
+	with an incorrect source address.}
+
+\textit{This was a careful design decision, wrecked irrevocably by the
+	terrorists who invented NAT, which doesn't allow end--to-end encryption,
+	because NAT is inherently a "man-in-the-middle" attack!}
+
+\textit{The rise of the middleboxen have now so thoroughly corrupted the
+	Internet protocol design that it's not surprising that the original
+	designs are difficult to decode.   If we actually had end-to-end
+	encrypted TCP, now impossible because of the NATs, we would have a much
+	more secure and safe Internet, while preserving its open character.
+	Instead we have a maze of twisty, disconnected passages, vulnerable to a
+	zillion hackers.}
+
+\pagebreak
+
+\subsubsection{Assegnazione dei blocchi di indirizzi}
+Uno dei \textbf{principali problemi} dell'\textbf{indirizzamento senza classi} è rappresentato dall'\textbf{assegnazione dei blocchi}. La responsabilità di questo compito ricade su un ente globale chiamato \textbf{ICANN} o \textbf{Internet Corporation for Names and Numbers}. L'\textbf{ICANN} non assegna gli indirizzi ai singoli utenti bensì \textbf{assegna grandi blocchi di indirizzi a ISP} o organizzazioni di dimensione comparabile.
+
+Per il corretto funzionamento del CIDR bisogna operare due restrizioni sui blocchi assegnati:
+\begin{enumerate}
+	\item Il \textbf{numero degli indirizzi assegnati N deve essere una potenza di 2}. N sarà uguale a $2^{32 - n}$ e $n = 32 - log_{2}N$. Se N non fosse una potenza di 2 n non sarebbe un numero intero.
+	\item Il blocco assegnato deve essere uno spazio libero \textbf{contiguo} e \textbf{il primo indirizzo deve essere divisibile per il numero degli indirizzi nel blocco}. La ragione è che il primo indirizzo deve essere composto dal prefisso seguito da $32 - n$ zeri e sarà uguale a: $(prefisso)_{10} \times N$
+\end{enumerate}
+Esempio:
+
+Supponiamo che un ISP richieda un blocco 190 indirizzi.
+
+Ne otterrà 256, poichè $2^{8}$ è la potenza di 2 immediatamente maggiore di 190.
+Supponiamo che ottenga il seguente blocco: \textbf{14.24.74.0/24}
+
+L'ISP vuole ora partizionare il blocco ottenuto in \textbf{tre sottoblocchi} da 120, 60 e 10 indirizzi,rispettivamente. Come può disegnare tali sottoblocchi?
+
+Partiamo dal sottoblocco più grande, quello da 120 indirizzi. La potenza di 2 maggiore di 120 è $2^{7} = 128$. Quindi $32 - 7 = 25$ bit per la rete. Il blocco è 14.24.74.0/25.	Il primo indirizzo 14.24.74.0 e l'ultimo sarà 14.24.74.127.
+\begin{alltt}
+	00001110.00011000.01001010.0\underline{0000000}
+\end{alltt}
+Secondo sottoblocco $60 < 2^{6} = 64$. Quindi $32 - 6 = 26$ bit per la rete. Il blocco è 14.24.74.128/26. Il primo indirizzo sarà 14.24.74.128 e l'ultimo sarà 14.24.74.191.
+\begin{alltt}
+	00001110.00011000.01001010.10\underline{000000}
+\end{alltt}
+Terzo sottoblocco $10 < 2^{4} = 16$. Quindi $32 - 4 = 28$ bit per la rete. Il blocco è 14.24.74.192/28. Il primo indirizzo sarà 14.24.74.192 e l'ultimo sarà 14.24.74.207
+\begin{alltt}
+	00001110.00011000.01001010.1100\underline{0000}
+\end{alltt}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Ip_es.png}
+	\centering
+	\caption{Il blocco dell'esempio di prima partizionato.\newline\small{\underline{ L'indirizzo dell'ultimo blocco in figura è sbagliato.}}}
+\end{figure}
+
+\subsubsection{Aggregazione degli indirizzi}
+Per contenere il numero degli indirizzi di rete è la possibile \textbf{aggregare gli indirizzi} in vari blocchi per ottenere un blocco più grande. L'instradamento può poi essere effettuato usando il prefisso del blocco aggregato in tempo molto minore.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Ip_aggr.png}
+	\centering
+	\caption{Un ISP ha assegnato a 4 organizzazione piccoli blocchi
+		di indirizzi. L’ISP aggrega i 4 blocchi in 1 singolo blocco e
+		annuncia al resto della rete solo il blocco aggregato. Sarà poi sua responsabilità inoltrare i datagrammi all'organizzazione corretta.}
+\end{figure}
+
+\pagebreak
+
+\subsubsection{Indirizzi speciali}
+
+\begin{itemize}
+	\item \textbf{0.0.0.0 this-host}, è usato quando un host ha necessità di inviare un
+	      datagramma ma non conosce il proprio indirizzo IP.
+	\item \textbf{127.0.0.1 loopback}, il datagramma con questo indirizzo di
+	      destinazione non lascia l’host locale. Per test e debug.
+	\item \textbf{255.255.255.255 limited broadcast}, usato quando un router o un
+	      host devono inviare un datagramma a tutti i dispositivi che si
+	      trovano all’interno della loro rete. I router bloccano la propagazione alla
+	      sola rete locale.
+	\item  \textbf{10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16,
+		      169.254.0.0/16}, quattro blocchi di indirizzi privati per reti locali.
+	\item \textbf{Blocco 224.0.0.0/4}, indirizzi multicast.
+\end{itemize}
+
+
+\subsubsection{DHCP}
+Una volta che un blocco è stato assegnato a un'organizzazione l'amministratore di rete può assegnare \textbf{manualmente} gli indirizzi ai singoli host o router. L'assegnazione degli indirizzi può \textbf{però anche essere automatizzata} mediante il protocollo \textbf{DHCP} o \textbf{Dynamic Host Configuration Protocol}. Il DHCP è un programma \textbf{client-server} di \textbf{livello applicazione}, viene usato per \textbf{assegnare indirizzi IP} permanentemente agli host e ai router di una rete, o anche temporaneamente, a richiesta degli host.
+
+Quest'ultima funzione è particolarmente \textbf{utile nel caso in cui} ad esempio si voglia fornire un servizio a 4000 persone avendo però solo 1000 indirizzi, assumendo che non più di un quarto delle persone si connetta contemporaneamente.
+
+\textbf{Oltre} all'indirizzo IP \textbf{DHCP} fornisce all'host anche il \textbf{prefisso della propria rete}, \textbf{l'indirizzo del router di dafault} e \textbf{l'indirizzo IP del server dei nomi di dominio}. Illustriamone il funzionamento:
+
+\begin{enumerate}
+	\item Il \textbf{client DHCP} dell'host che vuole entrare in rete crea un messaggio \textbf{DCHPDISCOVER} nel quale imposta, non avendo altre informazioni, solo il campo \textbf{transaction id}.
+	      Il messaggio viene incapsulato in un datagramma UDP con p.s 68 e p.d. 67 e successivamente incapsulato in un datagramma IP con i.s 0.0.0.0 e i.d.d. 255.255.255.255.
+
+
+	\item Il \textbf{server DHCP} risponde un un messaggio \textbf{DCHPOFFER} con all'interno l'indirizzo IP offerto al client, l'indirizzo IP del server e un \textbf{lease time}, il tempo a disposizione dell'host per usare l'indirizzo IP assegnatogli. Il messaggio di risposta viene incapsulato in un datagramma UDP che a sua volta viene incapsulato in un datagramma IP.
+
+	      \pagebreak
+
+	      L'i.d.d. è ancora l'indirizzo di broadcast in modo tale che \textbf{anche gli altri server DCHP ricevano l'offerta e nel caso ne inviino una migliore} qual'ora possano.
+
+	\item Il client, che potrebbe aver ricevuto più offerte, a questo punto sceglie l'alternativa migliore e invia un messaggio \textbf{DHCPREQUEST} al server che l'ha proposta.
+
+	      \textbf{Tutti i campi noti del messaggio vengono impostati}, il messaggio viene incapsulato in un datagramma UDP e il datagramma UDP in un datagramma IP.
+
+	      L'i.d.d. è sempre quello di broadcast \textbf{per comunicare agli altri server che la loro offerta non è stata accettata}.
+
+	\item Il server a questo punto, se l'indirizzo IP offerto è ancora valido, risponde con un messaggio DHCPACK altrimenti con un messaggio DHCPNACK. L'i.d.d. è sempre il broadcast \textbf{per comunicare agli altri server che la richiesta è stata o meno soddisfatta}.
+\end{enumerate}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/DHCP.png}
+	\centering
+	\caption{Funzionamento del DHCP.}
+\end{figure}
+
+\pagebreak
+
+\subsubsection{Inoltro dei datagrammi IP}
+Inoltrare un datagramma significa \textbf{collocarlo nel giusto percorso} che lo porterà a destinazione.
+
+Per \textbf{forwarding diretto} s'intende l'invio di un datagramma che ha come destinazione un host nella stessa rete del mittente. Il datagramma \textbf{non esce dalla rete} e l'invio è \textbf{diretto} sul destinatario, non viene interpellata nessun'altra entità. L'indirizzo di destinazione al livello collegamento è quello del destinatario stesso.
+
+Per \textbf{forwarding indiretto} s'intende l'invio di un datagramma che ha come destinazione un \textbf{host di un'altra rete} rispetto a quella del mittente. Nell'inoltro si interpellano varie altre entità chiamate \textbf{routers}. L'indirizzo di destinazione al livello link è quello del router.
+
+È bene far presente che in entrambi i casi le condizioni necessarie affinché tutto funzioni sono che \textbf{esista un collegamento diretto a livello link tra tutti gli host che appartengono a una stessa sottorete} e \textbf{ogni host coinvolto abbia un indirizzo IP corretto, cioè con uguale newtowrk ID  e con host ID univoco nella sottorete}.
+
+Le \textbf{due condizioni insieme} diventano condizione \textbf{necessaria e sufficiente} perché la comunicazione \textbf{funzioni}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Ip_net.png}
+	\centering
+	\caption{Esempio di rete IP.}
+\end{figure}
+
+Come detto in precedenza, ogni host connesso a una rete IP è dotato di un interfaccia di rete e ad ogni interfaccia di rete è associato un indirizzo IP \textbf{univoco}.
+
+Il \textbf{router è un dispositivo intermedio} che svolge funzioni di instradamento al livello IP ed è dotato di almeno due interfacce di rete.
+
+Quando un \textbf{host} deve inviare un datagramma, o un \textbf{router} deve inoltrarne uno ricevuto, fanno entrambi riferimento alla loro \textbf{tabella d'inoltro} per ricavare il nodo della rete successivo a cui inviare il datagramma.
+
+Nell'indirizzamento senza classi una \textbf{tabella d'inoltro deve includere quattro informazioni}: \textbf{la maschera}, \textbf{l'indirizzo di rete}, \textbf{il numero dell'interfaccia} e \textbf{l'indirizzo IP del router successivo}. Le prime due informazioni sono spesso combinate.
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Ip_ex.png}
+	\centering
+	\caption{Una configurazione di hosts.}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Ip_ex1.png}
+	\centering
+	\caption{La tabella d'inoltro del router R1.}
+\end{figure}
+
+Il \textbf{modulo d'inoltro si occupa di effettuare le ricerche nella tabella}. La ricerca \textbf{avviene nel modo seguente}: per ogni riga gli \textbf{n} bit a sinistra dell'indirizzo di destinazione, che costituiscono il \textbf{prefisso}, sono lasciati \textbf{invariati} e i \textbf{restanti settati a zero}. Se l'indirizzo di rete risultante \textbf{combacia} con l'indirizzo presente nella riga allora anche le informazioni delle altre due colonne, relative alla riga, vengono estratte. \textbf{Altrimenti la ricerca continua}.
+
+Supponiamo che R1 debba inoltrare un datagramma con il seguente indirizzo di destinazione: \textbf{180.70.65.140}.
+Il router esegue i seguenti passaggi:
+\begin{enumerate}
+	\item La maschera del primo indirizzo nella tabella, \textbf{/26}, è applicata all'indirizzo di destinazione. Il risultato è 180.70.65.128, che non combacia con 180.70.65.192.
+	\item Successivamente la maschera del secondo indirizzo nella tabella, \textbf{/25}, è applicata all'indirizzo di destinazione. Il risultato è 180.70.65.128, che combacia con 180.70.65.128, quindi l'indirizzo del salto e il numero di interfaccia vengono estratti e usati per inoltrare il datagramma.
+\end{enumerate}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.28]{Immagini/Ip_dir.png}
+	\centering
+\end{figure}\begin{figure}[!h]
+	\includegraphics[scale=0.28]{Immagini/Ip_dir1.png}
+	\centering
+\end{figure}\begin{figure}[!h]
+	\includegraphics[scale=0.28]{Immagini/Ip_dir2.png}
+	\centering
+	\caption{Inoltro diretto negli host.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Ip_indir.png}
+	\centering
+\end{figure}\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Ip_indir1.png}
+	\centering
+\end{figure}\begin{figure}[!h]
+	\includegraphics[scale=0.32]{Immagini/Ip_indir2.png}
+	\centering
+	\caption{Inoltro indiretto negli host.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.2]{Immagini/Ip_forw.png}
+	\centering
+\end{figure}
+
+L'\textbf{indirizzamento con classi} permette al router di avere una tabella di indirizzamento contenente \textbf{una riga per ogni rete esterna} alla rete a cui appartiene il router.
+
+Utilizzando un \textbf{indirizzamento senza classi} si verifica inevitabilmente un \textbf{aumento delle righe}, poichè lo spazio degli indirizzi è diviso in blocchi più piccoli delle classi, con un conseguente \textbf{aumento del tempo richiesto per effettuare l'operazione di ricerca}.
+
+Per attenuare questo problema, come detto in precedenza, è stato ideato il meccanismo di \textbf{aggregazione degli indirizzi}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Ip_aggre.png}
+	\centering
+	\caption{Inoltro e aggregazione degli indirizzi.}
+\end{figure}
+
+Il vantaggio è osservabile in figura: il router R2 ha una tabella di indirizzamento molto più corta del router R1, qualunque datagramma con indirizzo di destinazione compreso tra 140.24.7.0 e 140.24.7.255 verrà inviato a R1 che si occuperà poi di consegnarlo alla rete appropriata. In questo caso gli indirizzi dal 140.24.7.0 al 140.24.7.255 sono stati \textbf{aggregati} in un unico blocco.
+
+\textbf{\underline{N.B.}} L'aggregazione è possibile solo con blocchi \textbf{contigui}.
+
+\pagebreak
+\textbf{Un'altra soluzione} possibile per risolvere il \textbf{problema della dimensione eccessiva della tabelle di inoltro} è quella di implementare una \textbf{gerarchia delle tabelle}.
+
+Attualmente Internet ha una struttura gerarchica essendo divisa in \textbf{dorsali}, \textbf{ISP nazionali}, \textbf{ISP regionali} e \textbf{ISP locali}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.55]{Immagini/Internet_Concept.png}
+	\centering
+\end{figure}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Ip_g_add.png}
+	\centering
+	\caption{Routing gerarchico con ISP.}
+\end{figure}
+
+In figura un ISP regionale, a cui è stato assegnato un blocco di 16.384 indirizzi a partire dal 120.14.64.0,  ha deciso di dividerlo in 4 sotto blocchi, ciascuno con
+4096 indirizzi.
+
+Ognuno di questi blocchi è stato poi assegnato a un ISP locale che ha a sua volta effettuato una divisione in sotto blocchi di 512 indirizzi.
+
+Il \textbf{vantaggio}, similmente prima, è che il resto di \textbf{Internet non è consapevole di tale divisione}.
+Tutti i singoli clienti degli ISP locali sono \textbf{noti} al resto della rete mediante l'indirizzo 120.14.64.0: \textbf{in ogni router del mondo vi è una sola riga per tutti questi clienti}.
+
+\pagebreak
+
+\subsubsection{NAT}
+Il \textbf{NAT} o \textbf{Network Address Translation} è una tecnologia che \textbf{consente} a una \textbf{rete privata} di usare una serie di \textbf{indirizzi privati} per la comunicazione \textbf{interna} e \textbf{almeno} un \textbf{indirizzo globale} per la \textbf{comunicazione con il resto del mondo}.
+
+L'\textbf{accesso a Internet} è realizzato tramite un router abilitato alla \textbf{NAT}, il traffico in ingresso e in uscita hanno come \textbf{indirizzo di destinazione} e \textbf{indirizzo sorgente l'indirizzo IP del router in questione}.
+
+Ciò si effettua nel seguente modo: tutti i \textbf{datagrammi in uscita} dalla rete privata passano attraverso il router NAT che \textbf{sostituisce l'indirizzo IP sorgente} del datagramma \textbf{con l'indirizzo NAT globale del router}. Analogamente tutti i \textbf{datagrammi in entrata} passano a loro volta attraverso il router NAT che \textbf{sostituisce l'indirizzo IP destinazione} del datagramma, ovvero l'indirizzo NAT globale del router, con \textbf{l'indirizzo privato appropriato}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Ip_nat.png}
+	\centering
+	\caption{Datagrammi in entrata ed uscita da un router NAT.}
+\end{figure}
+
+A prima vista il processo di traduzione degli indirizzi potrebbe sembrare complesso ma non lo è affatto. Partiamo dalla struttura della tabella d'inoltro del router NAT.
+
+Quando il router sostituisce l'indirizzo sorgente nel datagramma in uscita \textbf{prende nota del suo indirizzo di destinazione} e inserisce nella sua tabella d'inoltro la riga con il \textbf{seguente valore}:
+
+\begin{center}
+	\textbf{[ indirizzo sorgente privato | indirizzo destinazione ]}
+\end{center}
+
+Quando dalla destinazione giungerà la risposta, il router sarà in grado di \textbf{indirizzare correttamente il datagramma} verso l'host della rete privata \textbf{utilizzando tale associazione}.
+
+\textbf{\underline{N.B.}} Il meccanismo NAT prevede che sia \textbf{sempre} la rete privata ad iniziare la comunicazione.
+
+Se il router NAT ha un \textbf{solo indirizzo IP globale solo un host per volta potrà comunicare con l'esterno}. Se si desidera far comunicare \textbf{k hosts} contemporaneamente basterà dotare il router NAT di \textbf{k indirizzi}.
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=1.7]{Immagini/Ip_nat_tr.png}
+	\centering
+	\caption{Traduzione NAT.}
+\end{figure}
+
+Supponiamo adesso che \textbf{due host sulla stessa rete privata} debbano accedere \textbf{contemporaneamente} al server HTTP in esecuzione sull'host esterno di indirizzo 25.8.3.2.
+
+Con una tabella d'inoltro composta da \textbf{sole due colonne non sarebbe possibile}, \textbf{non ci sono abbastanza informazioni} per indirizzare correttamente i datagrammi, si deve per forza tenere traccia del numero di porta. Se si aggiungono altre \textbf{tre colonne} alla tabella d'indirizzamento del router NAT, contenenti rispettivamente i \textbf{numeri di porta sorgente} (privata)\textbf{ e destinazione} (esterna), e \textbf{il protocollo di trasporto} si \textbf{elimina} ogni possibile \textbf{ambiguità}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=1.5]{Immagini/Ip_nat_1.png}
+	\centering
+	\caption{Tabella di traduzione a cinque colonne. I due host possono ora connettersi contemporaneamente al server HTTP.}
+\end{figure}
+
+\textbf{\underline{N.B.}} Il meccanismo appena descritto funziona solo se i numeri di \textbf{porta privati} dei due host che accedono al server sono \textbf{scelti in modo univoco dal router NAT}.
+
+Infatti è la \textbf{combinazione} (porta privata - indirizzo di destinazione), in tal caso, ad \textbf{individuare gli host} sulla rete privata.
+
+\pagebreak
+
+\subsubsection{ICMP}
+L'\textbf{ICMP} o \textbf{Internet Control Message Protocol} è un protocollo di livello \textbf{rete} pensato per \textbf{sopperire alle mancanze del protocollo IP} circa:
+
+\begin{itemize}
+	\item \textbf{Segnalazione e correzione degli errori}.
+	\item \textbf{Invio di richieste sullo stato di un sistema remoto}.
+\end{itemize}
+
+Sebbene sia un protocollo del livello di rete, i \textbf{messaggi ICMP} non vengono trasportati dal livello collegamento, bensì \textbf{vengono prima incapsulati all'interno di datagrammi IP} per poi essere passati al livello di collegamento. I pacchetti ICMP vengono instradati dai router \textbf{prima} dei pacchetti IP ordinari.
+
+\textbf{\underline{N.B.}} \textbf{ICMP non corregge gli errori}, si limita a \textbf{segnalarli}. La vera a e propria correzione è lasciata ai protocolli di livello più alto.
+
+I \textbf{messaggi ICMP} si dividono in \textbf{due categorie}: \textbf{messaggi di segnalazione errore} e \textbf{messaggio di interrogazione}. I \textbf{primi} sono usati dai routers o dagli hosts \textbf{per segnalare possibili errori} incontrati durante l'elaborazione dei datagrammi IP, \textbf{i secondi} permettono ad un host o ad un amministratore di rete di \textbf{chiedere informazioni ad un router o ad un host}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=1.3]{Immagini/ICMP.png}
+	\centering
+	\caption{La struttura dei messaggi ICMP.}
+\end{figure}
+
+I \textbf{messaggi di errore sono sempre inviati alla sorgente originale} poichè le uniche informazioni presenti nel \textbf{datagramma IP} sono l'indirizzo sorgente e l'indirizzo di destinazione.
+
+\textbf{I messaggi di errore contengono l'intestazione originale del datagramma IP che li ha generati e i primi 8 byte del loro payload}. I primi 8 byte del payload, infatti, contengono \textbf{informazioni sui numeri di porta}, per i protocolli TCP e UDP, \textbf{e i numeri di sequenza}, per il protocollo TCP. Sono informazioni necessarie per informare la sorgente dell'errore.
+
+\pagebreak
+
+Per snellire il processo di segnalazione degli errori \textbf{ICMP segue le seguenti regole}:
+
+\begin{itemize}
+	\item Per i \textbf{datagrammi IP frammentati}, i messaggi ICMP sono relativi al \textbf{solo}
+	      frammento numero 0.
+	\item I messaggi ICMP \textbf{non} sono mai inviati in risposta a pacchetti IP con un indirizzo mittente che \textbf{non} rappresenti un host unico e.g. 0.0.0.0, 127.0.0.1 e indirizzi IP speciali.
+	\item I messaggi ICMP non sono \textbf{mai} inviati in risposta a messaggi di errore ICMP, ma possono essere inviati in risposta a \textbf{messaggi ICMP di interrogazione}.
+\end{itemize}
+
+\textbf{I messaggi di richiesta ICMP} invece possono essere utilizzati \textbf{senza una particolare relazioni con un datagramma IP} e son sempre incapsulati in datagrammi IP.
+
+Sono usati per \textbf{verificare il funzionamento di un host o un router} sulla rete, per \textbf{trovare il tempo necessario a un datagramma per raggiungere la destinazione} e molto altro ancora...
+
+Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa sui messaggi di interrogazione IMCP.
+
+\begin{itemize}
+
+	\item Il programma \texttt{ping} è usato da un host per \textbf{verificare il funzionamento di un altro host}.
+
+	      Si basa in particolare sui \textbf{messaggi di richiesta e risposta eco dell’ICMP}. Un host invia una richiesta eco, tipo 8 e codice 0,  a un altro host che, se attivo, può rispondere con una risposta eco, tipo 0 e codice 0.
+
+	      \textbf{Fornisce anche una misura dell’RTT} e in maniera molto grossolana, \textbf{può anche misurare l’affidabilità e la congestione del router tra due host} inviando una sequenza di messaggi richiesta-risposta.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=2.2]{Immagini/PING.png}
+		      \centering
+		      \caption{Il comando \texttt{ping}.}
+	      \end{figure}
+
+	      \pagebreak
+
+	\item Il comando \texttt{traceroute} è  utilizzato per \textbf{tracciare il percorso di un
+		      datagramma dalla sorgente alla destinazione} tramite l’identificazione dell’indirizzo IP di tutti i router che vengono visitati lungo il percorso.
+
+	      Solitamente il programma viene impostato per un \textbf{massimo di 30 salti}, che sono quasi sempre sufficienti per raggiungere la destinazione.
+
+	      Il programma \texttt{traceroute} ha un funzionamento \textbf{molto diverso da} \texttt{ping}. \texttt{ping} è basato su \textbf{due messaggi interrogazione}. \texttt{traceroute} è invece \textbf{implementato per mezzo di due messaggi di segnalazione degli errori: tempo scaduto e
+		      destinazione non raggiungibile.}
+
+	      Sebbene sia un programma di livello applicazione ne esiste \textbf{solo il client}, non esiste un programma \texttt{traceroute} server. Non è infatti necessario raggiungere il livello applicazione dell'host destinatario.
+
+	      \texttt{traceroute} opera nel seguente modo: genera un \textbf{datagramma UDP}, usando un numero di porta che con alta probabilità non è in uso nell'host destinatario, che verrà poi incapsulato in un datagramma IP con un valore\textbf{ TTL pari a  1}.
+
+	      Il \textbf{primo router sul percorso verso la destinazione scarta questo datagramma IP} e invia un messaggio \textbf{errore ICMP di tempo scaduto}.
+
+	      Tramite l'indirizzo IP  sorgente contenuto nel datagramma IP che trasportava il messaggio di errore ICMP, adesso \texttt{traceroute} conosce l'indirizzo IP del primo router. Invia quindi un altro datagramma UDP all'interno di un datagramma IP con \textbf{TTL stavolta impostato a 2} e così via.
+
+	      In totale verranno inviati \underline{$n + 1$} datagrammi IP,\textbf{ \underline{$n$} saranno scartati dai router intermedi} e \textbf{\underline{l'ultimo} verrà scartato dall'host destinatario}.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=2.2]{Immagini/Traceroute.png}
+		      \centering
+		      \caption{Traceroute.}
+	      \end{figure}
+
+	      La maggior parte dei programmi \texttt{traceroute} invia \textbf{tre messaggi a ogni dispositivo}, con lo stesso valore di TTL, per poter \textbf{effettuare una stima del round-trip-time}.
+
+	      \pagebreak
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=1.7]{Immagini/Traceroute1.png}
+		      \centering
+		      \caption{Il procedimento descritto in precedenza.}
+	      \end{figure}
+
+ 	      L'\textbf{ultimo datagramma IP} viene scartato dall'host inviando un messaggio ICMP diverso da tempo scaduto, ovvero, di \textbf{destinazione non raggiungibile}, non essendoci nessuna applicazione in ascolto sulla \textbf{porta specificata}. Ricevuto il messaggio di destinazione non raggiungibile \texttt{traceroute} riconosce che la destinazione finale è stata \textbf{raggiunta}.
+\end{itemize}
+
 \end{document}
 
 
