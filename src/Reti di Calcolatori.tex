@@ -2397,8 +2397,8 @@ L'intetazione è lunga da \textbf{20} a \textbf{60} byte e contiene le informazi
 		      \caption{Multiplexing e demultiplexing utilizzando il valore del campo protocollo.}
 	      \end{figure}
 
-	\item \textbf{Checksum dell'intestazione}: il protocollo IP \textbf{non} si cura di \textbf{individuare} nè tanto meno di \textbf{correggere eventuali errori del payload dovuti alla trasmissione}. Tuttavia l'\textbf{intestazione} dei datagrammi viene \textbf{aggiunta}, durante il processo di incapsulamento, \textbf{al livello rete} ed è perciò \textbf{responsabilità dell'IP verificarne la correttezza}. Inoltre gli \textbf{errori} nell'\textbf{intestazione} posso comportare la consegna dei datagrammi a host e/o protocolli \textbf{sbagliati}. Tali ragioni giustificano la presenza del campo checksum per l'intestazione. \textbf{La checksum va ricalcolata in ogni router} a causa della possibile \textbf{variazione dei campi dell'intestazione} come il TTL o i campi relativi alla frammentazione.
-	\item \textbf{Indirizzi sorgente e destinazione}: contengono rispettivamente l'indirizzo dell'\textbf{host sorgente} e quello dell'\textbf{host destinatario}. L'host sorgente dovrebbe conoscere a priori il proprio indirizzo IP, mentre quello dell'host destinatario è noto al protocollo di livello superiore che sta usando l'IP. Il valore di questi campi deve rimanere \textbf{immutato} per tutta la durata della vita del datagramma per ovvie ragioni.
+	\item \textbf{Checksum dell'intestazione}: il protocollo IP \textbf{non} si cura di \textbf{individuare} nè tanto meno di \textbf{correggere eventuali errori del payload dovuti alla trasmissione}. Tuttavia l'\textbf{intestazione} dei datagrammi viene \textbf{aggiunta}, durante il processo di incapsulamento, \textbf{al livello rete} ed è perciò \textbf{responsabilità dell'IP verificarne la correttezza}. Inoltre gli \textbf{errori} nell'\textbf{intestazione} possono comportare la consegna dei datagrammi a host e/o protocolli \textbf{sbagliati}. Tali ragioni giustificano la presenza del campo checksum per l'intestazione. \textbf{La checksum va ricalcolata in ogni router} a causa della possibile \textbf{variazione dei campi dell'intestazione} come il TTL o i campi relativi alla frammentazione.
+	\item \textbf{Indirizzi sorgente e destinazione}: contengono rispettivamente l'indirizzo dell'\textbf{host sorgente} e quello dell'\textbf{host destinatario}. L'host sorgente dovrebbe conoscere a priori il proprio indirizzo IP, mentre quello dell'host destinatario è noto al protocollo di livello superiore che sta usando l'IP. Il valore di questi campi \textbf{non dovrebbe cambiare} per tutta la durata della vita del datagramma per ovvie ragioni.
 	\item {\textbf{Opzioni}}: contiene opzioni che possono essere usate per il test o il debug della rete.
 	\item \textbf{Payload}: contiene \textbf{i dati trasportati dal datagramma}. Il \textbf{payload} è il pacchetto che deriva dagli altri protocolli che fanno uso del servizio offerto da IP, siano essi del livello di trasporto o del livello di rete, come ad esempio ICMP.
 \end{itemize}
@@ -2414,21 +2414,21 @@ Per giungere a destinazione un \textbf{datagramma IP} potrebbe dover \textbf{att
 	\caption{Maximum Transfer Unit o MTU.}
 \end{figure}
 
-Ogni protocollo di livello collegamento ha il suo formato di frame e ogni formato di frame ha il suo \textbf{MTU} che indica \textbf{la dimensione massima del payload che può essere incapsulato nel frame}. In altre parole la dimensione massima dell'intero datagramma IP deve essere minore o uguale all'MTU del livello di collegamento sul quale verrà inoltrato. Quando ciò non dovesse avvenire il datagramma viene \textbf{frammentato} in parti più piccole per poter essere trasportato. \textbf{\underline{N.B.}} I \textbf{frammenti} così ottenuti hanno tutti \textbf{una propria intestazione}, possono seguire \textbf{percorsi diversi} sulla rete e possono essere a loro volta frammentati da qualsiasi entità IP, tuttavia il \textbf{riassemblaggio} avviene solo all'host di destinazione, se manca qualche frammento l'intero datagramma viene scartato.
+Ogni protocollo di livello collegamento ha il suo formato di frame e ogni formato di frame ha il suo \textbf{MTU} che indica \textbf{la dimensione massima del payload che può essere incapsulato nel frame}. In altre parole la dimensione massima dell'intero datagramma IP deve essere minore o uguale all'MTU del livello di collegamento sul quale verrà inoltrato. Quando ciò non dovesse avvenire il datagramma viene \textbf{frammentato} in parti più piccole per poter essere trasportato. \textbf{\underline{N.B.}} I \textbf{frammenti} così ottenuti hanno  \textbf{una propria intestazione}, possono seguire \textbf{percorsi diversi} sulla rete e possono essere a loro volta frammentati da qualsiasi entità IP, tuttavia il \textbf{riassemblaggio} avviene solo all'host di destinazione, se manca qualche frammento l'intero datagramma viene scartato.
 
 L'host o il router che frammenta il datagramma IP deve, per l'intestazione di ogni frammento, cambiare i seguenti campi: \textbf{flag}, \textbf{scostamento} e \textbf{lunghezza totale} e copiare il resto dei campi del datagramma originale.
 \begin{itemize}
-	\item \textbf{Identificazione}: è un numero positivo di 16 bit associato al datagramma dall'host sorgente, \textbf{IP utilizza un contatore per etichettare i datagrammi}. La combinazione dell'\textbf{identificazione} e degli \textbf{indirizzi IP sorgente e destinazione} identifica il datagramma per un tempo ragionevolmente lungo. Il valore del campo \textbf{identificazione} viene copiato in tutti i frammenti. \textbf{Tutti i frammenti} di un messaggio hanno lo \textbf{stesso valore} per il campo \textbf{identificazione}.
+	\item \textbf{Identificazione}: è un numero positivo di 16 bit associato al datagramma dall'host sorgente, \textbf{IP utilizza un contatore per etichettare i datagrammi}. La combinazione dell'\textbf{identificazione} e degli \textbf{indirizzi IP sorgente e destinazione} identifica il datagramma per un tempo ragionevolmente lungo. Il valore del campo \textbf{identificazione} viene copiato in tutti i frammenti, quindi \textbf{tutti i frammenti} di un messaggio hanno lo \textbf{stesso valore} per il campo \textbf{identificazione}.
 
 	      \pagebreak
 
-	\item \textbf I tre bit di {Flag} definiscono \textbf{tre flag} distinti:
+	\item \textbf {I tre bit di Flag} definiscono \textbf{tre flag} distinti:
 	      \begin{enumerate}
 		      \item Il \textbf{bit 0 è riservato}.
 
-		      \item Il \textbf{bit 1 do not fragment} vale 0 se il datagramma può essere frammentato e 1 se non deve essere frammentato, in tal caso il dispositivo \textbf{scarta} il datagramma se non è in grado di trasmetterlo lungo nessuna rete fisica a cui è collegato e invia un messaggio d'errore ICMP all'host sorgente.
+		      \item Il \textbf{bit 1, do not fragment,} vale 0 se il datagramma può essere frammentato e 1 se non deve essere frammentato, in tal caso il dispositivo \textbf{scarta} il datagramma se non è in grado di trasmetterlo lungo nessuna rete fisica a cui è collegato e invia un messaggio d'errore ICMP all'host sorgente.
 
-		      \item Il \textbf{bit 2 more fragments} vale: 0 se il frammento è l'ultimo del datagramma o 1 se non è l'ultimo e ci sono altri frammenti dopo di lui.
+		      \item Il \textbf{bit 2, more fragments,} vale 0 se il frammento è l'ultimo del datagramma o 1 se non è l'ultimo e ci sono altri frammenti dopo di lui.
 	      \end{enumerate}
 
 	\item \textbf{Scostamento di frammentazione}: mostra la posizione relativa del frammento rispetto al datagramma originario.
@@ -2452,7 +2452,7 @@ L'host o il router che frammenta il datagramma IP deve, per l'intestazione di og
 \begin{figure}[!h]
 	\includegraphics[scale=0.25]{Immagini/Ip_frag1.png}
 	\centering
-	\caption{I frammenti seguono un percorso alternativo.}
+	\caption{I frammenti potrebbero seguire un percorso alternativo.}
 \end{figure}
 
 \subsubsection{Indirizzamento}
@@ -2497,7 +2497,7 @@ La \textbf{classe D} è riservata per il \textbf{multicasting}. I suoi indirizzi
 
 Analizziamo alcuni indirizzi per fare un esempio:
 \textbf{15.10.10.90}: si tratta di un indirizzo di classe A, poiché il primo
-numero è compreso fra 0 e 127. Dunque i seguenti campi indicano l’host: 10.10.90 nella rete IP :15.
+numero è compreso fra 0 e 127. Dunque i seguenti campi indicano l’host: 10.10.90 nella rete IP: 15.
 
 \textbf{130.250.42.53}: si tratta di un indirizzo di classe B, poiché il primo
 numero è compreso fra 128 e 191. Dunque i primi due campi indicano la rete IP: 130.250, gli altri indicano l’host: 42.53.
@@ -2581,11 +2581,11 @@ Subnet Mask 255.255.255.0 11111111 11111111 11111111 00000000
 AND           150.217.8.0 10010110 11011001 00001000 00000000
 \end{verbatim}
 Gli indirizzi \textbf{150.193.4.1/22}, \textbf{150.193.8.18/22}, \textbf{150.193.11.3/22} appartengono alla stessa sottorete o subnet?
-\begin{verbatim}
+\begin{alltt}
 Indirizzo IP 150.193.4.1  10010110 11000001 00000100 00000001
 Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
-AND           150.217.8.0 10010110 11000001 00000100 00000000
-\end{verbatim}
+AND           150.217.8.0 10010110 11000001 00000\underline{1}00 00000000
+\end{alltt}
 \begin{verbatim}
 Indirizzo IP 150.193.8.18 10010110 11000001 00001000 00010010
 Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
@@ -2600,11 +2600,11 @@ Il primo indirizzo \textbf{non} vi appartiene.
 
 Esiste un modo più adatto a noi esseri umani? Sì, basta che \textbf{confrontiamo i primi 22 bit degli indirizzi} per arrivare alla stessa conclusione.
 
-\begin{verbatim}
-Indirizzo IP 150.193.4.1  10010110 11000001 000001 | 00 00000001
+\begin{alltt}
+Indirizzo IP 150.193.4.1  10010110 11000001 00000\underline{1} | 00 00000001
 Indirizzo IP 150.193.8.18 10010110 11000001 000010 | 00 00010010
 Indirizzo IP 150.193.11.3 10010110 11000001 000010 | 11 00000011
-\end{verbatim}
+\end{alltt}
 
 Altro esempio:\newline
 Indirizzo IP: \textbf{167.199.170.82/27}, maschera: \textbf{255.255.255.224}. Si ha che:
@@ -2748,19 +2748,17 @@ Quest'ultima funzione è particolarmente \textbf{utile nel caso in cui} ad esemp
 \textbf{Oltre} all'indirizzo IP \textbf{DHCP} fornisce all'host anche il \textbf{prefisso della propria rete}, \textbf{l'indirizzo del router di dafault} e \textbf{l'indirizzo IP del server dei nomi di dominio}. Illustriamone il funzionamento:
 
 \begin{enumerate}
-	\item Il \textbf{client DHCP} dell'host che vuole entrare in rete crea un messaggio \textbf{DCHPDISCOVER} nel quale imposta, non avendo altre informazioni, solo il campo \textbf{transaction id}.
-	      Il messaggio viene incapsulato in un datagramma UDP con p.s 68 e p.d. 67 e successivamente incapsulato in un datagramma IP con i.s 0.0.0.0 e i.d.d. 255.255.255.255.
+	\item Il \textbf{client DHCP} dell'host che vuole entrare in rete crea un messaggio \textbf{DCHPDISCOVER} nel quale imposta, non avendo altre informazioni, solo il campo \textbf{transaction id} ad identificare la richiesta.
+	      \textbf{Tutti i messaggi DCHP vengono incapsulati in un datagramma UDP} con p.s 68 (client) e p.d. 67 (server) \textbf{ed esso, successivamente, in un datagramma IP}. In questo caso l' i.s vale 0.0.0.0 e i.d.d. 255.255.255.255.
 
 
-	\item Il \textbf{server DHCP} risponde un un messaggio \textbf{DCHPOFFER} con all'interno l'indirizzo IP offerto al client, l'indirizzo IP del server e un \textbf{lease time}, il tempo a disposizione dell'host per usare l'indirizzo IP assegnatogli. Il messaggio di risposta viene incapsulato in un datagramma UDP che a sua volta viene incapsulato in un datagramma IP.
+	\item Il \textbf{server DHCP} risponde un un messaggio \textbf{DCHPOFFER} contenente l'indirizzo IP offerto al client, l'indirizzo IP del server e un \textbf{lease time}, il tempo a disposizione dell'host per usare l'indirizzo IP assegnatogli.
 
 	      \pagebreak
 
 	      L'i.d.d. è ancora l'indirizzo di broadcast in modo tale che \textbf{anche gli altri server DCHP ricevano l'offerta e nel caso ne inviino una migliore} qual'ora possano.
 
-	\item Il client, che potrebbe aver ricevuto più offerte, a questo punto sceglie l'alternativa migliore e invia un messaggio \textbf{DHCPREQUEST} al server che l'ha proposta.
-
-	      \textbf{Tutti i campi noti del messaggio vengono impostati}, il messaggio viene incapsulato in un datagramma UDP e il datagramma UDP in un datagramma IP.
+	\item Il \textbf{client}, che potrebbe aver ricevuto più offerte, a questo punto \textbf{sceglie l'alternativa migliore} e invia un messaggio \textbf{DHCPREQUEST} al server che l'ha proposta.
 
 	      L'i.d.d. è sempre quello di broadcast \textbf{per comunicare agli altri server che la loro offerta non è stata accettata}.
 
@@ -2864,7 +2862,7 @@ Utilizzando un \textbf{indirizzamento senza classi} si verifica inevitabilmente 
 Per attenuare questo problema, come detto in precedenza, è stato ideato il meccanismo di \textbf{aggregazione degli indirizzi}.
 
 \begin{figure}[!h]
-	\includegraphics[scale=0.35]{Immagini/Ip_aggre.png}
+	\includegraphics[scale=0.37]{Immagini/Ip_aggre.png}
 	\centering
 	\caption{Inoltro e aggregazione degli indirizzi.}
 \end{figure}
@@ -2899,6 +2897,22 @@ Tutti i singoli clienti degli ISP locali sono \textbf{noti} al resto della rete 
 
 \pagebreak
 
+La \textbf{tabella d'inoltro} viene ordinata dalla maschera più lunga alla maschera più corta, secondo il principio della \textbf{Longest Matching Mask}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.47]{Immagini/Ip_lmm.png}
+	\centering
+	\caption{Longest Mask Matching.}
+\end{figure}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Ip_int.png}
+	\centering
+	\caption{L'indirizzo IP delle interfacce di un router appartiene al blocco che individua le sottoreti con cui si interfaccia.}
+\end{figure}
+
+\pagebreak
+
 \subsubsection{NAT}
 Il \textbf{NAT} o \textbf{Network Address Translation} è una tecnologia che \textbf{consente} a una \textbf{rete privata} di usare una serie di \textbf{indirizzi privati} per la comunicazione \textbf{interna} e \textbf{almeno} un \textbf{indirizzo globale} per la \textbf{comunicazione con il resto del mondo}.
 
@@ -2924,7 +2938,7 @@ Quando dalla destinazione giungerà la risposta, il router sarà in grado di \te
 
 \textbf{\underline{N.B.}} Il meccanismo NAT prevede che sia \textbf{sempre} la rete privata ad iniziare la comunicazione.
 
-Se il router NAT ha un \textbf{solo indirizzo IP globale solo un host per volta potrà comunicare con l'esterno}. Se si desidera far comunicare \textbf{k hosts} contemporaneamente basterà dotare il router NAT di \textbf{k indirizzi}.
+Se il router NAT ha un \textbf{solo indirizzo IP globale solo un host per volta potrà comunicare con un determinato host esterno}. Come fare se si desidera far comunicare \textbf{più hosts} contemporaneamente?
 
 \pagebreak
 
@@ -2934,7 +2948,7 @@ Se il router NAT ha un \textbf{solo indirizzo IP globale solo un host per volta 
 	\caption{Traduzione NAT.}
 \end{figure}
 
-Supponiamo adesso che \textbf{due host sulla stessa rete privata} debbano accedere \textbf{contemporaneamente} al server HTTP in esecuzione sull'host esterno di indirizzo 25.8.3.2.
+Supponiamo che \textbf{due host sulla stessa rete privata} debbano accedere \textbf{contemporaneamente} al server HTTP in esecuzione sull'host esterno di indirizzo 25.8.3.2.
 
 Con una tabella d'inoltro composta da \textbf{sole due colonne non sarebbe possibile}, \textbf{non ci sono abbastanza informazioni} per indirizzare correttamente i datagrammi, si deve per forza tenere traccia del numero di porta. Se si aggiungono altre \textbf{tre colonne} alla tabella d'indirizzamento del router NAT, contenenti rispettivamente i \textbf{numeri di porta sorgente} (privata)\textbf{ e destinazione} (esterna), e \textbf{il protocollo di trasporto} si \textbf{elimina} ogni possibile \textbf{ambiguità}.
 
@@ -2985,7 +2999,7 @@ Per snellire il processo di segnalazione degli errori \textbf{ICMP segue le segu
 	\item I messaggi ICMP non sono \textbf{mai} inviati in risposta a messaggi di errore ICMP, ma possono essere inviati in risposta a \textbf{messaggi ICMP di interrogazione}.
 \end{itemize}
 
-\textbf{I messaggi di richiesta ICMP} invece possono essere utilizzati \textbf{senza una particolare relazioni con un datagramma IP} e son sempre incapsulati in datagrammi IP.
+\textbf{I messaggi di richiesta ICMP} invece possono essere utilizzati \textbf{senza una particolare relazione con un datagramma IP} e son sempre incapsulati in datagrammi IP.
 
 Sono usati per \textbf{verificare il funzionamento di un host o un router} sulla rete, per \textbf{trovare il tempo necessario a un datagramma per raggiungere la destinazione} e molto altro ancora...
 
@@ -3041,8 +3055,78 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 		      \caption{Il procedimento descritto in precedenza.}
 	      \end{figure}
 
- 	      L'\textbf{ultimo datagramma IP} viene scartato dall'host inviando un messaggio ICMP diverso da tempo scaduto, ovvero, di \textbf{destinazione non raggiungibile}, non essendoci nessuna applicazione in ascolto sulla \textbf{porta specificata}. Ricevuto il messaggio di destinazione non raggiungibile \texttt{traceroute} riconosce che la destinazione finale è stata \textbf{raggiunta}.
+	      L'\textbf{ultimo datagramma IP} viene scartato dall'host inviando un messaggio ICMP diverso da tempo scaduto, ovvero, di \textbf{destinazione non raggiungibile}, non essendoci nessuna applicazione in ascolto sulla \textbf{porta specificata}.
+
+	      Ricevuto il messaggio di destinazione non raggiungibile \texttt{traceroute} riconosce che la destinazione finale è stata \textbf{raggiunta}.
+
 \end{itemize}
+
+\subsubsection{Esercizi}
+\begin{enumerate}
+	\item Il sistema autonomo di una grande azienda è logicamente diviso in due sottosistemi: un sottosistema che usa indirizzi IP pubblici nel blocco 113.141.0.0/21, e uno che usa indirizzi IP privati nel blocco 192.168.0.0/16. Quali sono le maschere di rete, in notazione decimale puntata, usate nel sistema autonomo?
+
+	      \textbf{Soluzione}: Ponendo uguali a uno i bit della maschera e azzerando gli altri, otteniamo:
+	      \begin{alltt}
+		      \centering
+		      /21 -> 11111111 11111111 11111000 00000000
+		      255.255. 248.0
+		      /16 -> 11111111 11111111 00000000 00000000
+		      255.255.0.0
+	      \end{alltt}
+
+	      \pagebreak
+
+	\item Un router IP connette tre sotto reti: 100.100.100.0/24, 111.99.99.0/24 e
+	      200.200.200.0/24,, con MTU (Maximum Transfer Unit) pari a 900, 1000, e
+	      1400, rispettivamente.
+
+	      I datagrammi gestiti dal router rispettano il formato IPV4, in particolare
+	      contengono i campi IP-S (indirizzo sorgente), IP-D (indirizzo destinazione), L
+	      (lunghezza del datagramma, inclusa l’intestazione), Id (identificatore del
+	      datagramma), F (flag di frammentazione) e O (offset).
+
+	      Si considerino i seguenti datagrammi ricevuti dal router:
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Ip_es2.png}
+		      \centering
+	      \end{figure}
+
+	      Per ognuno di questi datagrammi dire da quale sotto rete è stato ricevuto, e
+	      quali datagrammi il router invia in uscita specificandone anche la sotto rete di
+	      destinazione. \textit{Nella frammentazione fare molta attenzione ai 20 byte d'intestazione}.
+
+
+	      \textbf{Soluzione}:
+	      Il datagramma D1 è ricevuto dalla sotto rete: 100.100.100.0/24 ed è inviato sulla sotto rete: 200.200.200.0/24 e \textbf{non} è frammentato in uscita.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Ip_es2_1.png}
+		      \centering
+	      \end{figure}
+
+	      Il datagramma D2:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Ip_es2_2.png}
+		      \centering
+	      \end{figure}
+
+	      Per il datagramma D3 si ha:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Ip_es2_3.png}
+		      \centering
+	      \end{figure}
+
+	      Infine per D4:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Ip_es2_3.png}
+		      \centering
+	      \end{figure}
+\end{enumerate}
+
+\pagebreak
 
 \end{document}
 
