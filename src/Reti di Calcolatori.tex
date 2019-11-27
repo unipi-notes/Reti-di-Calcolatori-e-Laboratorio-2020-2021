@@ -13,7 +13,7 @@
 \usepackage{multicol}
 
 
-\lstset{tabsize = 2}
+\lstset{tabsize = 2, mathescape}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definizione}[section]
@@ -54,7 +54,7 @@ Idea chiave: \underline{suddivisone in sottoproblemi.}
 \begin{figure}[!h]
 	\includegraphics[scale=0.8]{Immagini/Modelli_Strat.png}
 	\centering
-	\caption{Modello stratificato}
+	\caption{Modello stratificato.}
 \end{figure}
 
 \pagebreak
@@ -1239,8 +1239,7 @@ Con il protocollo \textbf{SMTP} o \textbf{simple mail transfer protocol}. Il pro
 	\centering
 \end{figure}
 Il \textbf{protocollo SMTP} definisce come deve avvenire l'interazione, per mezzo di \textbf{comandi} e \textbf{risposte}, tra \textbf{client e server MTA}. I comandi sono \textbf{inviati} dal \textbf{client MTA} al \textbf{server MTA} e viceversa le risposte.
-I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textbf{coppia} di \textbf{caratteri}: \textbf{ritorno a capo e fine linea}.\newline
-\textbf{La connessione tra client MTA e server MTA è una sola ed è bidirezionale}.\newline
+I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textbf{coppia} di \textbf{caratteri}: \textbf{ritorno a capo e fine linea}. \textbf{La connessione tra client MTA e server MTA è una sola ed è bidirezionale}.\newline
 \begin{itemize}
 	\item I \textbf{comandi} sono composti da una \textbf{keyword} e da \textbf{uno} o \textbf{più argomenti}.
 	      \begin{table}[h!]
@@ -1274,6 +1273,7 @@ I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textb
 				      421             & servizio non disponibile                 \\
 				      450             & mailbox non disponibile                  \\
 				      502             & comando non disponibile                  \\
+				      550 			  & user uknown                              \\
 			      \end{tabular}
 		      \end{center}
 	      \end{table}
@@ -2455,7 +2455,7 @@ L'host o il router che frammenta il datagramma IP deve, per l'intestazione di og
 	\caption{I frammenti potrebbero seguire un percorso alternativo.}
 \end{figure}
 
-\subsubsection{Indirizzamento}
+\subsubsection{Indirizzi}
 La versione 4 del protocollo IP, comunemente chiamata \textbf{IPv4}, \textbf{usa indirizzi a 32 bit} o \textbf{4 byte}, ciò comporta che lo spazio degli indirizzi abbia dimensione pari a 4.294.967.296 indirizzi possibili.
 
 Ogni host è connesso ad Internet attraverso \textbf{un'interfaccia di rete}, che marca il confine fra l'host ed il collegamento su cui vengono inviati i datagrammi. Ad ogni interfaccia \textbf{è assegnato un indirizzo IP}. \textbf{I router sono dispositivi intermedi che devono necessariamente essere connessi ad almeno due collegamenti e per questo motivo hanno almeno due interfacce di rete.}
@@ -2582,9 +2582,9 @@ AND           150.217.8.0 10010110 11011001 00001000 00000000
 \end{verbatim}
 Gli indirizzi \textbf{150.193.4.1/22}, \textbf{150.193.8.18/22}, \textbf{150.193.11.3/22} appartengono alla stessa sottorete o subnet?
 \begin{alltt}
-Indirizzo IP 150.193.4.1  10010110 11000001 00000100 00000001
-Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
-AND           150.217.8.0 10010110 11000001 00000\underline{1}00 00000000
+	Indirizzo IP 150.193.4.1  10010110 11000001 00000100 00000001
+	Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
+	AND           150.217.8.0 10010110 11000001 00000\underline{1}00 00000000
 \end{alltt}
 \begin{verbatim}
 Indirizzo IP 150.193.8.18 10010110 11000001 00001000 00010010
@@ -2601,9 +2601,9 @@ Il primo indirizzo \textbf{non} vi appartiene.
 Esiste un modo più adatto a noi esseri umani? Sì, basta che \textbf{confrontiamo i primi 22 bit degli indirizzi} per arrivare alla stessa conclusione.
 
 \begin{alltt}
-Indirizzo IP 150.193.4.1  10010110 11000001 00000\underline{1} | 00 00000001
-Indirizzo IP 150.193.8.18 10010110 11000001 000010 | 00 00010010
-Indirizzo IP 150.193.11.3 10010110 11000001 000010 | 11 00000011
+	Indirizzo IP 150.193.4.1  10010110 11000001 00000\underline{1} | 00 00000001
+	Indirizzo IP 150.193.8.18 10010110 11000001 000010 | 00 00010010
+	Indirizzo IP 150.193.11.3 10010110 11000001 000010 | 11 00000011
 \end{alltt}
 
 Altro esempio:\newline
@@ -3074,8 +3074,6 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 		      255.255.0.0
 	      \end{alltt}
 
-	      \pagebreak
-
 	\item Un router IP connette tre sotto reti: 100.100.100.0/24, 111.99.99.0/24 e
 	      200.200.200.0/24,, con MTU (Maximum Transfer Unit) pari a 900, 1000, e
 	      1400, rispettivamente.
@@ -3127,6 +3125,300 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 \end{enumerate}
 
 \pagebreak
+
+\subsection{Struttura di un router}
+\begin{flushleft}
+	\textit{Com'è fatto un router?}
+\end{flushleft}
+
+Un router è \textbf{uno switch di terzo livello} composto da \textbf{quattro} componenti principali:
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Router_struc.png}
+	\centering
+	\caption{La struttura di un router.}
+\end{figure}
+
+\begin{itemize}
+	\item \textbf{Porte di input}:
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/In_port.png}
+		      \centering
+	      \end{figure}
+
+	      Le porte di input svolgono diverse funzioni chiavi: sono il punto di sbocco nel router del collegamento fisico, decapsulano i frame in entrata e ne verificano la correttezza, consegnano i frame contenenti le informazioni dei protocolli di routing al processore di routing e, specialmente, nei router moderni, \textbf{effettuano il lookup nella forwarding table}.
+
+	      Per far ciò sono dotate di un \textbf{processore di livello fisico} che analizza il segnale e lo traduce in bit, un \textbf{processore di livello link} che opera al livello di frame e un \textbf{buffer} per memorizzare i pacchetti in attesa di essere inoltrati alla switch fabric.
+
+	      \pagebreak
+
+	\item \textbf{Porte di output}:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.3]{Immagini/Out_port.png}
+		      \centering
+	      \end{figure}
+
+	      Le \textbf{porte di output} memorizzano i pacchetti ricevuti dalla switch fabric e li trasmettono poi sul collegamento in uscita. In sostanza svolgono lo stesso lavoro delle porte di input ma al contrario.
+
+	      Se il collegamento dovesse essere bidirezionale le porte di output saranno accoppiate con delle porte di input.
+
+	\item \textbf{Switch fabric}:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.25]{Immagini/Switch_f.png}
+		      \centering
+		      \caption{Cross-bar switch, gli switch sono disposti a forma di matrice.}
+	      \end{figure}
+
+	      La \textbf{switch fabric} connette le porte di input e le porte di output. La velocità con cui vengono trasmessi i datagrammi  dalle porte di input a quelle di output influisce sulla dimensione delle code di input/output e sul ritardo complessivo nella consegna del datagramma.
+
+	\item \textbf{Processore di routing}:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.25]{Immagini/Rout_tab.png}
+		      \centering
+		      \caption{Le tabelle d'instradamento sono il risultato dell'esecuzione degli algoritmi d'instradamento.}
+	      \end{figure}
+
+	      Il \textbf{processore di routing} esegue i protocolli di routing e costruisce ed aggiorna la tabella d'inoltro.
+
+	      Le tabelle d'instradamento sono simili alle tabelle d'inoltro ma sono entità separate, una tabella d'instradamento infatti può contenere molteplici percorsi verso uno stesso router, una d'inoltro invece \textbf{solo uno}.
+
+	      La tabella d'instradamento può essere creata \textbf{dinamicamente} mediante i protocolli di routing ma anche \textbf{staticamente} tramite l'aggiunta da parte dell'amministratore del router di \textbf{routes statiche}.
+
+\end{itemize}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/Forw_tab2.png}
+	\centering
+	\caption{La forwarding table e il forwarding engine compongono la parte decisionale del router o data plane. La parte di controllo o control plane invece comprende i protocolli di routing e il routing engine che vanno ad alimentare la routing table.}
+\end{figure}
+
+\begin{flushleft}
+	Alcune precisazioni:
+\end{flushleft}
+
+Una volta costruita, la \textbf{tabella d'inoltro} viene \textbf{copiata} e \textbf{inoltrata} a tutte le porte in modo tale che possano automaticamente effettuare la decisione di forwarding.
+
+\theoremstyle{definition}
+\begin{definition}
+	Il \textbf{control plane} fornisce le informazione necessarie al \textbf{data plane} o \textbf{forwarding plane} per creare e aggiornale le tabelle d'inoltro in base ai cambiamenti di stato nella topologia della rete.
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}
+	Il \textbf{data plane} è la parte del router che si occupa di inoltrare il traffico da un'interfaccia all'altra.
+\end{definition}
+
+\pagebreak
+
+\subsection{Routing}
+Il processo attraverso il quale si calcola il percorso da seguire per consegnare un datagramma è detto \textbf{routing}.
+
+Il \textbf{routing} si distingue in due tipi: quando il datagramma deve essere consegnato a \textbf{un solo destinatario} si parlerà di \textbf{routing unicast}, quando ci sono più destinatari invece di \textbf{routing multicast}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Graph.png}
+	\centering
+	\caption{Una internet può essere rappresentata come un grafo pesato.}
+\end{figure}
+
+L'astrazione di rappresentare Internet come un grafo pesato consente di riassumere l'obbiettivo del processo di routing con una \textbf{domanda chiave}:
+\begin{flushleft}
+	\textit{Qual è il percorso di costo minimo tra due nodi?}
+\end{flushleft}
+Per rispondervi ogni router dovrà trovare il \textbf{percorso di costo minimo} tra \textbf{sè stesso} e \textbf{gli altri routers}.
+
+In una rete con N routers ci sono $N \times (N - 1)$ percorsi minimi totali, poiché per ogni router ce ne sono $N - 1$ verso tutti gli altri escluso sè stesso.
+
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{algoritmo di routing} è un algoritmo che, dato un insieme di routers interconnessi, trova il \textbf{percorso di costo minimo}, nel caso di un grafo pesato, o, alternativamente, il percorso più breve da un router sorgente a un router destinazione.
+\end{definition}
+
+Gli \textbf{algoritmi di routing} possono essere divisi secondo i seguenti criteri:
+\begin{itemize}
+	\item \textbf{Statici}: l'operatore aggiorna \textbf{manualmente} le righe della tabella di routing. Sono usati per reti di piccole dimensioni.
+	\item \textbf{Dinamici}: sono algoritmi che aggiornano \textbf{dinamicamente} la tabella di routing in base ai cambiamenti nella topologia della rete e al traffico.
+	\item \textbf{Decentralizzati}: gli algoritmi di routing locali \textbf{non} possiedono l'intera \textbf{conoscenza} della \textbf{topologia della rete}. Possiedono solo le informazioni relative ai costi dei cammini verso i nodi adiacenti al nodo sorgente.
+
+	      \pagebreak
+
+	      Il cammino di costo minimo viene calcolato \textbf{iterativamente} e in modo \textbf{distribuito}.
+	\item \textbf{Globali}: ricevono in input la \textbf{conoscenza completa} circa la topologia della rete. Il cammino di costo minimo può essere calcolato in modo \textbf{centralizzato} (e.g. da un server) o \textbf{distribuito}.
+\end{itemize}
+
+\subsubsection{Equazione di Bellman-Ford}
+
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{albero di costo minimo} è un albero con il router sorgente che fa da radice e che visita tutti gli altri nodi dell'albero seguendo sempre il percorso meno costoso tra quelli possibili.
+\end{definition}
+
+Nel \textbf{distance vector routing} ogni nodo crea il proprio \textbf{albero di costo minimo} con le sole informazioni che possiede circa i nodi a lui vicini. Gli \textbf{alberi incompleti} così ottenuti vengono inoltrati da ogni nodo ai suoi vicini. Dopo un certo numero di iterazioni l'algoritmo \textbf{converge} restituendo l'\textbf{albero di costo minimo}.
+
+Il fulcro del \textbf{distance vector routing} è l'\textbf{equazione di Bellman-Ford}:
+
+{\centering $ \displaystyle D_{xy} =  min(D_{xy},(C_{xz} + D_{zy}))$ \par }
+
+Quest'equazione viene usata per trovare il cammino di costo minimo tra un nodo sorgente X e un nodo destinazione Y attraverso i nodi intermedi.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/Bell.png}
+	\centering
+	\caption{Rappresentazione grafica.}
+\end{figure}
+
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{vettore distanza} è un array monodimensionale che rappresenta un albero di costo minimo.
+\end{definition}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/Vect.png}
+	\centering
+\end{figure}
+
+\pagebreak
+
+Descriviamo ora il \textbf{distance vector algorithm}:
+
+\begin{enumerate}
+	\item Ogni nodo invia una copia del proprio vettore distanza
+	      a ciascuno dei suoi vicini.
+	\item Quando un nodo x riceve un nuovo vettore distanza DV, da qualcuno dei sui vicini, lo salva e usa la formula di Bellman-Ford per aggiornare in proprio vettore distanza come segue:
+	      \begin{center}
+		      $\displaystyle D_{xy} = min \{c(x,v) + D_{vy}\} \ \forall v \in N_{eighbor}(x)$
+	      \end{center}
+	      \begin{enumerate}
+		      \item Dove $D_{xy}$ è pari alla stima del costo minimo dal nodo x al nodo y, x mantiene il vettore distanza $D_{x} = [D_{xy} \ \forall y \in N]$.
+		      \item Il nodo x conosce il costo verso ciascun vicino v: c(x,v).
+		      \item Ogni nodo mantiene i vettori distanza dei suoi vicini. Per ogni
+		            vicino v, il generico nodo x mantiene $D_{v} = [D_{vy}  \ \forall y \in N ]$.
+	      \end{enumerate}
+	\item Tutti i nodi continuano a cambiare i propri DV in
+	      maniera asincrona, finché ciascuna stima dei costi $D_{xy}$ converge al costo minimo $d_{x}(y)$.
+\end{enumerate}
+L'algoritmo è \textbf{decentralizzato} e \textbf{dinamico}: è \textbf{iterativo} e \textbf{asincrono}, viene eseguito da ogni nodo in modo indipendente, e ogni iterazione locale è causata da:
+
+\begin{itemize}
+	\item Il \textbf{cambio del costo di uno dei collegamenti locali}.
+	\item La \textbf{ricezione da qualche vicino di un vettore distanza aggiornato}.
+\end{itemize}
+
+Ogni nodo notifica i suoi vicini solo quando il proprio DV cambia; i vicini avvisano i vicini \textbf{solo se necessario}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.24]{Immagini/DV_al.png}
+	\centering
+	\caption{L'algoritmo schematizzato.}
+\end{figure}
+
+\pagebreak
+
+\begin{flushleft}
+	\textbf{Esempio}:
+\end{flushleft}
+
+Sia questa la \textbf{configurazione iniziale} dei vettori distanza dei nodi di una rete.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.33]{Immagini/DV_es.png}
+	\centering
+	\caption{Configurazione iniziale.}
+\end{figure}
+
+Supponiamo si susseguano i due eventi:
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.32]{Immagini/DV_es1.png}
+	\includegraphics[scale=0.32]{Immagini/DV_es2.png}
+\end{figure}
+
+Si osservi come cambiano i distance vectors.
+
+\pagebreak
+
+Pseudocodice del \textbf{distance vector routing}:
+
+\begin{lstlisting}
+Distance_Vector_routing() {
+	
+	// Inizializzazione: 
+	// creazione dei vettori 
+	// istanza iniziali del nodo
+	
+	D[me_stesso] = 0;
+	
+	for(y = 1 to N) {
+		
+		if($y \in nodi\_vicini$) 
+			
+			D[y] = c[me_stesso][y];
+			
+		else $D[y] = \infty$;
+	}
+	
+	speidisci il vettore {D[1], ..., D[n]} a tutti i vicini;
+	
+	repeat(sempre) {
+	
+	// Aggiornamento:
+	// usare il vettore ricevuto 
+	// dal nodo vicino per aggiornare
+	// quello locale
+	
+		wait(un vettore D_w da un vicino w o un qualsiasi 
+			cambiamento negli archi);
+			
+		for (y = 1 to N) 
+			
+			D[y] = min_v [ c[me_stesso][v]+Dv[y] ];
+		
+		
+		if (cambiamento nel vettore) 
+			
+				speidisci il vettore {D[1], ..., D[n]} a tutti i vicini;
+	
+	}
+}
+\end{lstlisting}
+
+\pagebreak
+
+C'è però un \textbf{problema}, con il routing basato su distance vectors i decrementi di costo si diffondono rapidamente tra i nodi mentre i \textbf{peggioramenti} del costo si diffondono molto più \textbf{lentamente}. Ad esempio in caso di guasto:
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.32]{Immagini/C2i.png}
+	\caption{Count to infinity.}
+\end{figure}
+
+Supponiamo che due i due routers in figura, A e B, siano collegati alla rete X. Se improvvisamente dovesse saltare il collegamento tra X e A, e A aggiornasse il suo DV con il peggioramento del costo, ma non inviasse \textbf{immediatamente} a B il suo DV aggiornato e anzi B lo inviasse ad A, A crederebbe che B abbia trovato un altro modo per raggiungere X. Di conseguenza A aggiornerebbe il suo DV e lo invierebbe a B, che lo aggiornerebbe a sua volta e così via, fino ad arrivare a un costo pari a \textbf{infinito}.
+
+Questo scenario è chiamato \textbf{count to infinity}.
+
+Una possibile soluzione a questo problema è chiamata \textbf{split orizon}: consiste nel non inoltrare le informazioni circa il cammino di costo minore attraverso l'interfaccia dalla quale le si hanno ricevute. Ad esempio: se B ritiene che il costo minore per raggiungere X passi da A, non invierà ad A tale informazione, ovvero $D_{B}[X]$.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.5]{Immagini/split-horizon.jpg}
+	\caption{Split horizon.}
+\end{figure}
+
+\pagebreak
+
+Un'altra soluzione è chiamata \textbf{poisoned reverse}: consiste, nell'inviare, attraverso l'interfaccia da cui si hanno ricevuto informazioni circa un percorso, al posto del reale costo, il valore infinito. Nel nostro esempio quindi B invierà ad A $D_{B}[X] = \infty$, avendo ottenuto l'informazione circa il cammino di costo minore verso X dall'interfaccia che dà verso A. 
+
+\textbf{\underline{N.B.}} Poisoned reverse non risolve completamente il problema del count to infinity, se infatti avessimo un guasto che coinvolge \textbf{tre o più nodi} tale strategia si rivelerebbe inefficace.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.4]{Immagini/Three_nodes.png}
+	\caption{Instabilità a tre nodi.}
+\end{figure}
 
 \end{document}
 
