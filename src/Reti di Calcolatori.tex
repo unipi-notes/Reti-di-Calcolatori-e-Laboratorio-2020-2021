@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{alltt}
 \usepackage{multicol}
+\usepackage{amsmath}
 
 
 \lstset{tabsize = 2, mathescape}
@@ -33,7 +34,7 @@
 \section{Modalità d'esame}
 Email docente: federica.paganelli@unipi.it\newline
 Modalità d'esame: per il \textbf{modulo di teoria prova scritta} (compitini o appello) e orale (facoltativo) e per il \textbf{modulo di laboratorio} sono previsti \textbf{progetto e orale}. \newline
-\textbf{\underline{N.B.} Si accede alla prova orale di laboratorio solo dopo aver passato lo scritto.}
+\textbf{\underline{N.B.} Non ci sono vincoli di precedenza tra la prova di Reti e quella di Laboratorio.}
 
 \section{Cenni di modelli stratificati}
 Sono architetture di comunicazione a strati. \newline
@@ -1273,7 +1274,7 @@ I \textbf{comandi} e \textbf{le risposte} terminano tutti con la medesima \textb
 				      421             & servizio non disponibile                 \\
 				      450             & mailbox non disponibile                  \\
 				      502             & comando non disponibile                  \\
-				      550 			  & user uknown                              \\
+				      550             & user uknown                              \\
 			      \end{tabular}
 		      \end{center}
 	      \end{table}
@@ -1437,8 +1438,28 @@ L'\textbf{ICANN}, ovvero \textbf{Internet Corporation for Assigned Names and Num
 	La \textbf{combinazione} di \textbf{indirizzo IP} e \textbf{numero di porta} è detta \textbf{socket address}.
 \end{definition}
 Quando un processo applicativo deve inviare un messaggio a un altro processo applicativo, lo passa al livello trasporto insieme a una \textbf{coppia} di \textbf{socket address}, uno che identifica il \textbf{processo stesso} e uno che identifica il \textbf{processo destinatario}. Il \textbf{protocollo di trasporto} riceve questi dati e vi aggiunge la propria \textbf{intestazione}, \textbf{incapsulando} il tutto in un \textbf{pacchetto}. Questi pacchetti sono chiamati \textbf{segmenti} nel \textbf{protocollo TCP} e \textbf{datagrammi utente} nel \textbf{protocollo UDP}. L'\textbf{incapsulamento} avviene dal lato del \textbf{mittente} e il \textbf{decapsulamento} avviene dal lato del \textbf{ricevente}.
-\newline\newline
+
 Il metodo con cui un entità riceve informazioni da più di una sorgente è chiamato \textbf{multiplexing}, viceversa con \textbf{demultiplexing} si fa riferimento a un'entità che trasmette informazioni a più di un destinatario. Il \textbf{livello di trasporto} effettua \textbf{multiplexing} sul versante \textbf{mittente}, raccogliendo i messaggi da varie socket e incapsulandoli, e \textbf{demultiplexing} su quello del \textbf{destinatario}, consegnando i vari pacchetti in ingresso al socket appropriato.
+
+La \textbf{socket UDP} è identificata dalla coppia \textbf{IP e porta}. Nel caso di \textbf{demultiplexing senza connessione}, lo strato di trasporto dell'host ricevente consegna il segmento UDP alla socket identificata da IP e porta destinazione. I datagrammi con IP e/o porta mittente differenti ma stessi IP e porta destinatari vengono consegnati alla \textbf{stessa socket}.
+
+La \textbf{socket TCP} è invece identificata da \textbf{quattro parametri}: \textbf{indirizzo IP di origine, numero di porta di origine, indirizzo IP di destinazione e numero di porta di destinazione}. Lo strato di trasporto dell'host ricevente usa questi quattro parametri per inviare il segmento alla \textbf{socket appropriata}, consentendo a un host che fa da server di supportare più socket contemporanee. (\textit{e.g. un server web può così avere socket differenti per ogni client!})
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/app_trans_net_int.png}
+	\includegraphics[scale=0.3]{Immagini/no_conn_demul.png}
+	\centering
+	\caption{Demultiplexing in assenza di connessione}
+\end{figure}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/conn_demul.png}
+	\centering
+	\caption{Demultiplexing in presenza di connessione}
+\end{figure}
+
 \begin{flushleft}
 	\textit{Come garantire un controllo del flusso?}
 \end{flushleft}
@@ -1645,7 +1666,7 @@ Il \textbf{segmento consiste} di un'\textbf{intestazione} di dimensione compresa
 		      \centering
 		      \caption{I flags di controllo e il loro significato.}
 	      \end{figure}
-	\item \textbf{Dimensione della finestra}: contiene la dimensione della finestra di ricezione di cui di cui dispone l'entità, la dimensione massima è di 65535 byte, legata ai 16 bit che compongono il campo. È solitamente indicato con RWND o receiving window ed è determinato dal ricevente, il mittente deve rispettare le sue indicazioni.
+	\item \textbf{Dimensione della finestra}: contiene la dimensione della finestra di ricezione di cui dispone l'entità, la dimensione massima è di 65535 byte, legata ai 16 bit che compongono il campo. È solitamente indicato con RWND o receiving window ed è determinato dal ricevente, il mittente deve rispettare le sue indicazioni.
 	\item \textbf{Checksum}: contiene il \textbf{checksum}, è calcolato da TCP con le stesse modalità descritte per UDP, tuttavia è \textbf{obbligatoriamente richiesto} per i datagrammi TCP. Lo pseudoheader ha lo stesso scopo descritto per UDP, però il \textbf{campo proto vale 6}.
 	\item \textbf{Puntatore urgente}: è rilevante se il flag \textbf{URG} è attivato. Contiene la cifra da sommare al numero di sequenza del segmento per ottenere il numero dell'ultimo bit urgente della sezione dati.
 	\item \textbf{Opzioni}: contiene da 0 a 40 byte di informazioni opzionali.
@@ -3122,6 +3143,74 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 		      \includegraphics[scale=0.4]{Immagini/Ip_es2_3.png}
 		      \centering
 	      \end{figure}
+
+	      \pagebreak
+
+	\item Una rete aziendale che contiene 8000 hosts e quattro server : web, email, ftp e DNS, adotta al suo interno indirizzi privati del gruppo 192.168.0.0/16, ed usa per i suoi \textbf{router NAT 6} degli indirizzi pubblici del gruppo 114.113.87.24/29.
+
+	      Dire, giustificando la risposta, qual è il numero massimo di connessioni TCP uscenti da AS e relative agli host che possono essere contemporaneamente attive nell’AS.
+
+
+	      \textbf{Soluzione}:
+	      Il \textbf{numero massimo} di connessioni TCP relative agli host può essere limitato dagli host o dai router NAT.
+
+	      I numeri di porta utilizzabili da ogni entità, host o router, è al massimo 65536,
+	      ovvero tutti i numeri di porta, a cui bisogna sottrarre 1024, i numeri di porta noti, cioè 64512.
+
+	      Dato che gli host sono 8000, con almeno 8000 indirizzi IP, il limite è dato dai router NAT. In particolare, ogni indirizzo IP pubblico dei router NAT deve avere assegnata una porta.
+
+	      Gli indirizzi pubblici sono 6, ed il numero delle porte per ciascuno di essi è
+	      65536, tutti i numeri di porta, meno 1024 porte, cioè 64512.
+
+	      Pertanto, in totale si possono avere al massimo $64512 \times 6 = 387062$ possibili connessioni TCP uscenti dall'AS e relative agli hosts.
+
+	\item Cosa succede se un client FTP sotto NAT invia
+	      RETR e il suo router NAT non accetta richieste di connessioni TCP?
+
+	      \textbf{Soluzione}: Il router NAT blocca le connessioni in ingresso
+	      perchè non ha una entry nella tabella.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Natp.png}
+		      \includegraphics[scale=0.31]{Immagini/Natp1.png}
+		      \centering
+	      \end{figure}
+
+	      Come ovviare? Con \textbf{FTP in passive mode}, il client inizierà entrambe le connessioni: \textbf{dati} e \textbf{controllo}.
+
+
+	      \pagebreak
+
+	\item In una applicazione P2P come può un peer chiedere di
+	      utilizzare una certa porta per poter essere contattato?
+
+	      \textbf{Solzuione}: Ogni applicazione \textbf{peer to peer} si basa infatti sulla possibilità di ogni perr A di essere in grado di iniziare una connessione TCP con un altro perr B. Se il peer B è sotto un ruter NAT, \textbf{non può accettare connessioni TCP e di conseguenza fare da server}.
+
+	      Esistono vari meccanismi per far fronte a ciò:
+
+	      \begin{enumerate}
+		      \item Configurare \textbf{staticamente} il router NAT in modo tale che inoltri le richieste di connessioni che gli arrivano a una porta su un determinato server. Questo meccanismo è chiamato anche \textbf{port forwarding}.
+
+		      \item  \textbf{Internet Gateway Device} o \textbf{IGD Protocol}. Permette agli host sotto NAT di effettuare \textbf{automaticamente} l'operazione di port forwarding utilizzando dei \textbf{lease times} per le porte.
+
+		            \begin{figure}[!h]
+			            \includegraphics[scale=0.35]{Immagini/Natp2.png}
+			            \centering
+		            \end{figure}
+
+		      \item \textbf{Connection reversal}:  Il problema descritto sopra può essere evitato se peer A non è sotto NAT. In questo caso, A può contattare B attraverso un peer intermedio C, il quale a sua volta non è sotto NAT e con B ha stabilito una connessione TCP.
+
+		            A può quindi chiedere a B, tramite il peer C, di iniziare una connessione TCP verso se stesso. Una volta che la connessione diretta tra di loro è stata stabilita A e B possono scambiarsi messaggi.
+
+		            \begin{figure}[!h]
+			            \includegraphics[scale=0.5]{Immagini/Natp3.png}
+			            \centering
+		            \end{figure}
+	      \end{enumerate}
+
+	      \pagebreak
+
+
 \end{enumerate}
 
 \pagebreak
@@ -3249,7 +3338,7 @@ Gli \textbf{algoritmi di routing} possono essere divisi secondo i seguenti crite
 	\item \textbf{Globali}: ricevono in input la \textbf{conoscenza completa} circa la topologia della rete. Il cammino di costo minimo può essere calcolato in modo \textbf{centralizzato} (e.g. da un server) o \textbf{distribuito}.
 \end{itemize}
 
-\subsubsection{Equazione di Bellman-Ford}
+\subsubsection{DVR ed Equazione di Bellman-Ford}
 
 \theoremstyle{definition}
 \begin{definition}
@@ -3410,20 +3499,899 @@ Una possibile soluzione a questo problema è chiamata \textbf{split orizon}: con
 
 \pagebreak
 
-Un'altra soluzione è chiamata \textbf{poisoned reverse}: consiste, nell'inviare, attraverso l'interfaccia da cui si hanno ricevuto informazioni circa un percorso, al posto del reale costo, il valore infinito. Nel nostro esempio quindi B invierà ad A $D_{B}[X] = \infty$, avendo ottenuto l'informazione circa il cammino di costo minore verso X dall'interfaccia che dà verso A. 
+Un'altra soluzione è chiamata \textbf{poisoned reverse}: consiste, nell'inviare, attraverso l'interfaccia da cui si hanno ricevuto informazioni circa un percorso, al posto del reale costo, il valore infinito. Nel nostro esempio quindi B invierà ad A $D_{B}[X] = \infty$, avendo ottenuto l'informazione circa il cammino di costo minore verso X dall'interfaccia che dà verso A.
 
 \textbf{\underline{N.B.}} Poisoned reverse non risolve completamente il problema del count to infinity, se infatti avessimo un guasto che coinvolge \textbf{tre o più nodi} tale strategia si rivelerebbe inefficace.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.4]{Immagini/Three_nodes.png}
+	\includegraphics[scale=0.35]{Immagini/Three_nodes.png}
 	\caption{Instabilità a tre nodi.}
 \end{figure}
 
+\subsubsection{LSR ed Algoritmo di Dijkstra}
+Il \textbf{link state algorithm} è un algoritmo di routing \textbf{globale}, la topologia della rete deve essere infatti \textbf{nota} ad ogni nodo. Calcola \textbf{iterativamente} il cammino di costo minimo da un nodo di origine verso tutti gli altri nodi della rete. La mappa completa della rete posseduta da ogni nodo si chiama \textbf{Link State Database} ed è unica per l'intera rete. I nodi la usano per creare il proprio \textbf{albero di costo minimo}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.62]{Immagini/LSDB.png}
+\end{figure}
+
+\pagebreak
+
+L' \textbf{LSDB} viene creato attraverso un'operazione detta \textbf{flooding}, durante la quale ogni nodo invia a tutti i suoi vicini un \textbf{Link State Packet}, contenente una coppia di informazioni: l' \textbf{identità del nodo vicino} e \textbf{il costo del collegamento}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.45]{Immagini/Flooding.png}
+	\caption{Flooding.}
+\end{figure}
+
+
+L'\textbf{LSP} viene inviato attraverso ogni interfaccia del nodo.
+
+Quando un nodo riceve un \textbf{LSP} da una delle sue interfacce ne confronta il \textbf{numero di sequenza} con quello che eventualmente ha già, se dovesse risultare più vecchio lo \textbf{scarta}, altrimenti, se invece dovesse risultare più recente, scarta la vecchia copia, qualora sia presente, memorizza la nuova e ne invia una copia a tutte le sue interfacce tranne quella da cui l'ha ricevuta.
+
+Con tutti gli \textbf{LSP} ricevuti ogni nodo è in grado di crearsi la sua copia dell' \textbf{LSDB}.
+
+Per crearsi poi il proprio albero di costo minimo utilizzando l'\textbf{LSBD} ogni nodo dovrà utilizzare l' \textbf{algoritmo di Dijkstra}.
+
+Prima di presentarlo mostriamo un po' di \textbf{notazione}:
+\begin{itemize}
+	\item \textbf{c(x,y)}: indica il costo del collegamento dal nodo x al
+	      nodo y, è pari ad $\infty$ se i due nodi non sono adiacenti.
+	\item \textbf{D(v)}: costo del cammino dal nodo origine al nodo
+	      destinazione v per quanto riguarda l’iterazione corrente.
+	\item \textbf{p(v)}: immediato predecessore del nodo v lungo il
+	      cammino.
+	\item \textbf{N'}: sottoinsieme di nodi per cui il cammino a
+	      costo minimo dall’origine è definitivamente noto.
+\end{itemize}
+
+\pagebreak
+
+\begin{verbatim}
+1 N' = {u}
+2 Per tutti i nodi v : se v e u sono vicini
+3 allora D(v) = c(u,v)
+4 altrimenti D(v) = inf
+5
+6 Loop: finché tutti i nodi non sono in N'
+7 	trova w non in N' tale che D(w) sia minimo
+8 	aggiungi w a N'
+9 	aggiorna D(v) per tutti v adiacenti a w e non in N' :
+10 	D(v) = min( D(v), D(w) + c(w,v) )
+11
+12 	#il nuovo costo verso v è il vecchio costo verso v oppure il
+13 	#costo del cammino minimo noto verso w più il costo da w a v 
+\end{verbatim}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.3]{Immagini/Dk2.png}
+	\includegraphics[scale=0.3]{Immagini/Dk.png}
+\end{figure}
+
+
+\begin{itemize}
+	\item \textbf{Complessità dei messaggi}:
+	      \begin{itemize}
+		      \item \textbf{LS}: con n nodi ed E
+		            archi, comporta l’invio di
+		            $O(n \times E)$ messaggi.
+		      \item \textbf{DV}: ha un tempo di convergenza variabile.
+	      \end{itemize}
+	\item \textbf{Velocità di convergenza}:
+	      \begin{itemize}
+		      \item \textbf{LS}: ha complessità $O(n^2)$. Può subire oscillazioni di velocità.
+		      \item \textbf{DV}: può convergere lentamente, presentare cicli d’instradamento e può
+		            verificarsi il problema del \textbf{count to infinity}.
+	      \end{itemize}
+	\item \textbf{Robustezza}: cosa avviene se
+	      un router funziona male?
+	      \begin{itemize}
+		      \item \textbf{LS}: un router può comunicare via
+		            broadcast un costo sbagliato solo
+		            per qualcuno dei suoi archi
+		            ma non per tutti gli altri. I nodi si occupano di calcolare
+		            \textbf{soltanto} le proprie tabelle.
+		      \item \textbf{DV}:  un nodo può comunicare
+		            cammini a costo minimo
+		            errati a tutte le destinazioni. La tabella di ciascun nodo può
+		            essere usata dagli altri. Un calcolo errato si può
+		            \textbf{diffondere} per l’intera rete.
+	      \end{itemize}
+\end{itemize}
+
+\pagebreak
+
+\subsection{Routing gerarchico}
+\begin{figure}[!h]
+	\includegraphics[scale=0.85]{Immagini/Internet_Concept.png}
+	\centering
+	\caption{Un modello concettuale di Internet.}
+\end{figure}
+
+La visione di \textbf{Internet} come una rete costituita da un insieme di router omogenei e
+interconnessi è semplicistica e molto lontana dalla realtà. Come già visto in precedenza la topologia di Internet si è evoluta nel corso degli anni, assumendo attualmente una struttura \textbf{gerarchica} con dorsali multiple gestite da aziende private.
+
+Sopracitate dorsali sono connesse da infrastrutture fisiche chiamate \textbf{peering points}.
+
+Nella topologia attuale di Internet i router sono organizzati in \textbf{sistemi autonomi} o \textbf{AS}.
+
+\theoremstyle{definition}
+\begin{definition}
+	Un \textbf{AS} è un gruppo connesso di una o più reti IP gestite da uno o più
+	operatori che adottano le \textbf{stesse politiche di routing} verso gli altri AS.
+	In genere un AS è gestito da un ISP o da un’azienda.
+\end{definition}
+
+Gli AS decidono autonomamente i protocolli e le politiche di routing che
+intendono adottare al loro interno. I protocolli di routing \textbf{interni} ad un AS sono detti \textbf{Interior Gateway Protocol} o \textbf{IGP}. I protocolli di routing tra \textbf{AS diversi} sono detti invece \textbf{Exterior Gateway Protocol} o \textbf{EGP}.
+
+I router interni a un AS sono sotto uno stesso controllo amministrativo e usano lo \textbf{stesso} protocollo IGP, i più comuni sono il \textbf{RIP} e l'\textbf{OSPF}.
+
+Esistono numerosi protocolli di routing IGP e ogni AS è libero di sceglierne uno. Invece per gli EGP è d'obbligo che se ne abbia \textbf{solamente} uno che gestisca il routing tra gli AS: il \textbf{BGP} o \textbf{Border Gateway Protocol}.
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.37]{Immagini/ASes.png}
+	\centering
+\end{figure}
+
+Ad ogni AS, piccolo o grande che sia, viene assegnato un un numero identificativo univoco di 16 bit dall'ICANN: l'\textbf{autonomous system number} o \textbf{ASN}.
+
+Gli AS tuttavia non sono classificati in base alla loro dimensione ma in base al \textbf{modo in cui sono collegati agli altri AS}. Possiamo avere:
+
+\begin{itemize}
+	\item \textbf{AS stub}: sono gli AS collegati solo a un altro AS. Gli unici dati che vi passano attraverso sono dati che hanno come destinazione o sorgente l'AS stesso.
+	\item \textbf{AS multihomed}: come AS stub ma sono collegati a più di un altro AS.
+	\item\textbf{ AS di transito}: sono AS che sono collegati ad altri AS e consentono il transito del traffico dati. Le \textbf{dorsali} e i \textbf{network providers} sono esempi di AS di transito.
+\end{itemize}
+
+Gli INTRA-AS o IGP routing protocols determinano \textbf{autonomamente} rotte per le
+destinazioni interne ad un AS:
+
+\begin{itemize}
+	\item \textbf{Routing Information Protocol} o \textbf{RIP}: basato su DV.
+	\item \textbf{Open Shortest Path First} o \textbf{OSPF}: basato su LS.
+\end{itemize}
+
+Gli INTRA-AS e gli INTER-AS routing protocols determinano \textbf{collaborativamente} le rotte per le destinazioni esterne ad un AS.
+
+\begin{itemize}
+	\item \textbf{Border Gateway Protocol} o \textbf{BGP}: è lo standard \textit{de facto}. Consente di conoscere le destinazioni raggiungibili attraverso sistemi
+	      autonomi \textbf{vicini}. Propaga le informazioni di raggiungibilità ai router interni del proprio AS e determina percorsi buoni verso le sottoreti di destinazione.
+\end{itemize}
+
+\pagebreak
+
+\subsubsection{RIP}
+Il \textbf{RIP} o \textbf{Routing Information Protocol} è un protocollo IGP, ogni router di un AS che ne fa uso implementa il \textbf{DV algorithm}.
+
+I costi sono misurati in \textbf{hops}. Un \textbf{hop}, o salto, non indica però il numero di router da attraversare bensì il numero di \textbf{sottoreti interne all'AS}.
+
+I \textbf{costi} indicano quindi il \textbf{numero di sottoreti che il pacchetto deve attraversare} per andare dal router sorgente al router di destinazione, \textbf{esclusa} la sottorete sorgente.
+
+In RIP il \textbf{costo massimo di un percorso} è di \textbf{15 hops}, il che significa che il valore 16 rappresenta l'$\infty$ del \textbf{poisoned reverse}, per questa ragione è possibile utilizzare RIP solamente negli AS il cui \textbf{diametro non supera i 15 hops}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/RIP.png}
+	\includegraphics[scale=0.4]{Immagini/RIPtab.png}
+	\centering
+\end{figure}
+
+La terza colonna delle tabelle d'inoltro non è necessaria per inoltrare il pacchetto ma viene usata per \textbf{aggiornare} la tabella d'inoltro quando ci sono modifiche nel percorso.
+
+RIP è implementato per mezzo di un \textbf{processo demone}: \texttt{routed}, sempre attivo in ascolto sulla porta nota \textbf{520 UDP}.
+
+Il \textbf{protocollo RIP} lavora a livello applicazione ma crea tabelle d'inoltro per il livello rete, si basa su una coppia di processi, un client e un server che si scambiano messaggi di richiesta e risposta.
+
+I \textbf{messaggi di richiesta} vengono inviati dai router \textbf{appena accesi} o dai router che hanno delle voci \textbf{scadute} in memoria e possono riguardare delle voci specifiche o tutte quelle disponibili.
+
+I \textbf{messaggi di risposta} possono essere \textbf{sollecitati}, nel caso in cui vengano inviati come risposta a un messaggio di richiesta, o \textbf{non sollecitati}, nel caso in cui vengano inviati periodicamente ogni \textbf{30 secondi}.
+A pagina seguente ne troviamo il funzionamento.
+
+\pagebreak
+
+\begin{enumerate}
+	\item Un nodo invia la sua tabella di inoltro.
+	\item Il nodo R riceve dal vicino V $D_{v}[y]$ e pone
+	      $D_{R}[y] = 1 + D_{V}[y]$
+	\item Il nuovo percorso viene inserito nella tabella se:
+	      \begin{itemize}
+		      \item Non è presente nella tabella.
+		      \item Se $D_{Rold}[y] \geq 1 + D_{V}[y]$ e $nextHop_{Rold}[y] \neq V$, ovvero il costo ricevuto è inferiore a quello del vecchio percorso e il nextHop corrispondente è diverso.
+		      \item Se $nextHop_{Rold}[y] = V$, il percorso era già noto essendo stato già
+		            annunciato dal router V ma il costo è incrementato o diminuito.
+	      \end{itemize}
+\end{enumerate}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{Immagini/RIP_ex.png}
+\end{figure}
+
+\pagebreak
+
+\subsubsection{OSPF}
+L'\textbf{Open Shortest Path First} o \textbf{OSPF} è un protocollo di routing \textbf{IGP} basato sull'instradamento \textbf{link state}. L'OSPF è un protocollo \textbf{aperto} e la sua specifica è disponibile all'interno dell'RFC 2328.
+
+Le \textbf{metriche} del costo degli archi (e.g. throughput, RTT, affidabilitàn hops ecc...) e del costo massimo sono \textbf{decise dall'amministratore}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.45]{Immagini/OSPF.png}
+	\includegraphics[scale=0.45]{Immagini/OSPF1.png}
+\end{figure}
+
+L'OSPF al contrario del RIP è progettato per operare in AS di \textbf{tutte le dimensioni}. Per evitare che l'operazione di \textbf{flooding}, prevista dal \textbf{LS algorithm}, generi un volume di traffico molto grande in AS di elevate dimensioni OSPF usa un altro livello di gerarchia: l'\textbf{area}. Un AS molto vasto può quindi essere diviso in aree, ognuna con un ID, che saranno poi collegate da un'area detta \textbf{back-bone area} o \textbf{area dorsale}, con ID = 0, il cui compito è quello di collegare tra di loro le varie aree, in modo tale che tutti i router, appartenenti a varie aree, possano costruire l'LSDB.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.45]{Immagini/Area.png}
+\end{figure}
+
+I messaggi OSPF viaggiano all'interno di datagrammi IP con campo \textbf{proto} impostato a \textbf{89}. \textbf{\underline{N.B.}} RIP era un processo applicativo UDP.
+
+\pagebreak
+
+\subsubsection{BGP}
+Il \textbf{Border Gateway Protocol} o \textbf{BGP} è l'unico protocollo EGP attualmente utilizzato in Internet, consente la comunicazione tra AS differenti.
+
+Ne esistono \textbf{due varianti} chiamate rispettivamente \textbf{external BGP} ed \textbf{internal BGP}. La prima è installata \textbf{solo} sui router di confine dell'AS, la seconda su tutti i router dell'AS, \textbf{compresi} quelli di confine. In totale quindi i router di confine dovranno eseguire \textbf{tre} protocolli: \textbf{eBGP}, \textbf{iBGP} e un protocollo IGP e i router non di confine invece \textbf{due}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.25]{Immagini/ieBGP.png}
+\end{figure}
+
+Due router che comunicano tramite BGP creano una \textbf{connessione TCP semipermanente} alla porta nota \textbf{179} e vengono chiamati \textbf{peer BGP} o \textbf{speaker BGP}. La variante \textbf{external BGP} permette a due router di confine di AS diversi di formare coppie di speaker BGP e di scambiarsi messaggi. Le connessioni TCP instaurate da BGP vengono definite \textbf{sessioni}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.35]{Immagini/eBGP.png}
+	\caption{In figura i messaggi di aggiornamento eBGP, il numero corrisponde al router che li ha mandati. Le informazioni circa le reti interne al proprio AS vengono ricavate dalla \textbf{tabella d'inoltro intradominio}.}
+\end{figure}
+
+\pagebreak
+
+Sussistono però ancora \textbf{due} problemi fondamentali:
+
+\begin{enumerate}
+	\item Alcuni router di confine non sanno come instradare un pacchetto a un AS che non è vicino, nella figura precedente ad esempio R5 non sa come raggiungere nè AS4 nè AS3.
+	\item Nessuno dei router interni sa come inoltrare un pacchetto a un AS esterno.
+\end{enumerate}
+
+La versione interna del BGP risolve questi problemi.
+
+\textbf{iBGP} viene eseguito tra tutte le coppie di router, se un AS ha un solo router non ci può essere nessuna sessione iGBP, e utilizza anch'esso connessini TCP sulla porta 179. Se ci sono n router in un AS ci saranno  $ \binom{n}{2} = \frac{(n \times (n - 1))}{2}$ connessioni TCP.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.4]{Immagini/iBGP.png}
+	\caption{In figura i messaggi di aggiornamento iBGP, il numero corrisponde al router che li ha mandati. Le informazioni circa le reti degli altri AS vengono propagate dai router di confine ai router interni.}
+\end{figure}
+
+Il router R1 in figura dopo aver ricevuto il messaggio d'aggiornamento da R2 combina tali informazioni circa la raggiungibilità di AS3 a quelle che già possedeva circa AS1 e invia un nuovo messaggio d'aggiornamento a R5. R5 adesso saprà come raggiungere AS1 e AS3.
+
+Ogni router combina le informazioni ricevute tramite \textbf{iBGP} e \textbf{eBGP}, questo processo continua fino alla \textbf{convergenza}.
+
+Le informazioni ottenute con entrambe le versioni di BGP non sono usate di per sè per l'instradamento dei pacchetti ma sono \textbf{inserite} all'interno delle tabelle d'inoltro intra-dominio.
+
+\pagebreak
+
+Le tabelle d'inoltro così ottenute diventerebbero \textbf{enormi} nel caso della Internet globale.
+
+Per questo motivo BGP utilizza i prefissi, in formato CIDR, come identificatori della destinazione e consente l'aggregazione di tali prefissi, anche se uno o più prefissi aggregati richiedono un percorso separato è comunque possibile aggregarli usando il principio della \textbf{longest matching mask}.
+
+I \textbf{protocolli di routing IGP} associano ad una destinazione \textbf{solo due} informazioni, costo e next hop.
+
+Per il routing inter-domain solo due attributi \textbf{non bastano}, vengono aggiunte informazioni aggiuntive chiamate \textbf{attributi del percorso}.
+
+Le rotte inter-domain sono quindi \textbf{identificate} dal \textbf{prefisso} e \textbf{dagli attributi}.
+
+I due attributi più importanti sono:
+
+\begin{itemize}
+	\item \textbf{AS\_PATH}: esprime la sequenza degli AS attraversati nel path pubblicizzato
+	      dall’advertisement (\textbf{messaggio d'aggiornamento}).
+
+	      Usato per scegliere tra più percorsi per lo stesso prefisso e scartare advertisement già ricevuti.
+
+	\item \textbf{NEXT\_HOP}: indica l’interfaccia del gateway da usare per il prefisso
+	      \textbf{pubblicizzato}. Nell'esempio precedente R1 pubblicizzava ad R5 il prefisso relativo alle reti di AS3.
+
+	      Di seguito un estratto dell'RFC 1163:
+
+	      \textit{"The NEXT\_HOP path attribute defines the IP address of the border router that should be used as the next hop to the
+		      networks listed in the UPDATE message.}
+
+	      \textit{This border router must
+		      belong to the same AS as the BGP peer that advertises it."}
+\end{itemize}
+
+Un \textbf{gateway router} usa delle regole chiamate \textbf{politiche di importazione} per accettare o rifiutare un advertisement.
+
+Un gateway infatti può ricevere più rotte per lo stesso prefisso.
+
+Riportiamo di seguito la \textbf{sequenza di regole principale} per la scelta dei percorsi:
+
+\begin{enumerate}
+	\item Attributo di preferenza locale: \textbf{LOCAL-PREF}, è scelta da
+	      amministratore o impostato dai router dell’AS.
+
+	      Vengono
+	      selezionati i percorsi con i valori più alti per questo attributo. \textit{(e.g. per evitare di passare dalla rete di un competitore)}
+	\item \textbf{ AS\_PATH} più breve.
+	\item Interfaccia \textbf{NEXT\_HOP} più vicina.
+\end{enumerate}
+
+\pagebreak
+
+\subsection{IPv6}
+
+Sebbene con l'utilizzo di routers NAT e di indirizzi privati si sia riusciti ad allungare la vita di Ipv4, sarà inevitabile il passaggio, nell'immediato futuro, agli \textbf{indirizzi IPv6}.
+
+Lo scopo principale di IPv6 è sostanzialmente quello di \textbf{aumentare} la dimensione dello spazio degli indirizzi, un indirizzo IPv6 infatti è composto da 128 bit, contro i 32 dell'IPv4. Lo spazio degli indirizzi di IPv6 è più grande di quello di IPv4 di $2^{96}$ volte.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.45]{Immagini/IPv6.png}
+\end{figure}
+
+L'incremento del numero totale degli indirizzi possibili non è però l'unico vantaggio ad essere apportato da IPv6:
+
+\begin{itemize}
+	\item \textbf{Miglior formato dell'intestazione}: in un indirizzo IPv6 le opzioni sono \textbf{separate} dall'intestazione di base e sono collocate tra essa e i dati.
+	\item \textbf{Frammentazione del pacchetto gestita dal router mittente}: in modo tale da alleggerire il carico di lavoro sui routers intermedi. Il protocollo ICMP è usato per ottenere informazioni circa l'MTU.
+	\item \textbf{Velocizzazione dell'operazione di forwarding}: ottenuta impostando un lunghezza fissa dell'intestazione, fissata a 40 byte, ed \textbf{eliminando} la checksum.
+	\item \textbf{Classe di traffico ed etichetta di flusso}: sono campi dell'intestazione di base del datagramma IPv6 utilizzati per la \textbf{differenziazione del traffico}. Permettono di caratterizzare il pacchetto e applicarvi delle politiche. Facilitano quindi la gestione della \textbf{qualità del servizio}, aspetto molto importante per gli ISP. Il campo classe di traffico sostituisce il campo Type Of Service di IPv4. L'etichetta di flusso permette di gestire i dati in viaggio sotto forma di un \textbf{flusso di datagrammi}.
+\end{itemize}
+
+L'adozione dell'IPv6 comporta però non solo che si debba \textbf{ridisegnare} il formato dei datagrammi UDP e dei segmenti TCP, che si debbano \textbf{modificare} alcuni protocolli ausiliari come ad esempio ICMP ma \textbf{soprattutto} che si debbano far \textbf{coesistere} IPv4 e IPv6 fino al completamento della transizione.
+
+\pagebreak
+
+Presentiamo di seguito una strategia chiamata \textbf{Dual Stack}.
+
+La \textbf{strategia Dual Stack} prevede che fino al completamento della transizione tutti gli host abbiano \textbf{due pile di protocolli} per la comunicazione in rete e di conseguenza due interfacce.
+
+Ma come consentire ad un host di ricevere un pacchetto IPv6 ed inoltrarlo verso una rete IPv4, oppure di inoltrare un pachetto IPv6 attraverso una rete IPv4?
+
+Con il \textbf{tunnelling}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.45]{Immagini/Tunnelling.png}
+\end{figure}
+
+Il tunnelling consiste nell'incapsulare i datagrammi IPv6 dentro un datagramma IPv4.
+
+In sostanza si dota il datagramma IPv6 di un header IPv4, consentendone quindi il transito sulle reti IPv4. \textbf{\underline{N.B.}} Da notare il primo e l'ultimo router del percorso IPv4.
+
+\subsection{Esercizi}
+
+
+\begin{enumerate}
+	\item In una rete i cui router utilizzano il protocollo distance vector con
+	      poisoned reverse, il router R è collegato solo a un router V, il costo del
+	      collegamento R-V è 3 e R ha calcolato che la sua distanza minima per
+	      Z è 8.
+
+	      Indicare, giustificando la risposta,in che modo R aggiorna il
+	      suo vettore delle distanze se V gli comunica che la sua nuova distanza
+	      da Z è 7.
+
+	      \textbf{Soluzione}:
+	      \begin{figure}[!h]
+		      \centering
+		      \includegraphics[scale=0.45]{Immagini/Sol_rout.png}
+	      \end{figure}
+
+	      \pagebreak
+
+	      \begin{figure}[!h]
+		      \centering
+		      \includegraphics[scale=0.45]{Immagini/Rout_imm.png}
+	      \end{figure}
+
+	\item Sia data la rete con topologia raffigurata in figura e si
+	      ipotizzi che sia in uso l’algoritmo di distance vector.
+	      Tutti i distance vector sono stati calcolati in tutti i nodi
+	      e ad un certo istante il link da E a B va giù (guasto).
+	      Approssimativamente quanti messaggi distance vector
+	      il node E manderà a seguito del guasto del link?
+
+	      \textbf{Soluzione}:
+	      \begin{figure}[!h]
+		      \centering
+		      \includegraphics[scale=0.4]{Immagini/Sol_rout1.png}
+	      \end{figure}
+
+	      \begin{figure}[!h]
+		      \centering
+		      \includegraphics[scale=0.45]{Immagini/Rout_imm.png}
+	      \end{figure}
+	\item Data la rete con topologia raffigurata in figura, mostrare l’evoluzione
+	      dell’algoritmo di Dijkstra per il calcolo
+	      del cammino a costo minimo dal nodo
+	      E a tutte le destinazioni.
+
+	      \textbf{Soluzione}:
+	      \begin{figure}[!h]
+		      \centering
+		      \includegraphics[scale=0.4]{Immagini/Sol_rout2.png}
+	      \end{figure}
+
+	      \pagebreak
+
+	      \begin{figure}[!h]
+		      \centering
+		      \includegraphics[scale=1.3]{Immagini/Eserout.png}
+	      \end{figure}
+	\item Consideriamo il sistema autonomo AS0 in figura, in cui B ed E sono gli unici
+	      due gateway e i cui nodi utilizzano OSPF come protocollo di routing intra-AS
+	      e non utilizzano alcuna preferenza locale per BGP.
+
+	      Supponiamo che al tempo t, sia B che E comunichino agli altri router di AS0
+	      la raggiungibilità di due sistemi autonomi esterni AS1 e AS2.
+
+	      In particolare, B
+	      trasmette un advertisement di AS1 con $|AS-PATH| = 8$ e uno di AS2 con $|AS-PATH| = 6$, mentre E trasmette un advertisement di AS1 e uno di AS2 entrambi con $|AS-PATH| = 8$.
+
+	      Indicare, giustificando la risposta,  su quale collegamento A, C, D e F
+	      inoltrano i pacchetti destinati ad AS1 e ad AS2 dopo avere ricevuto tutti gli
+	      advertisement sopra menzionati.
+
+	      \textbf{Soluzione}:
+
+	      Dato che i nodi non utilizzano alcuna preferenza locale, per AS2 sceglieranno tutti il percorso pubblicizzato da B poiché ha $|AS-PATH|$ minore di quello pubblicizzato da E e inoltreranno quindi i pacchetti destinati ad AS2 nel modo seguente:
+
+	      A sul collegamento AC,\newline
+	      C sul collegamento CB,\newline
+	      D sul collegamento DB,\newline
+	      F sul collegamento FD.\newline
+
+	      Nel caso di AS1, dato che i percorsi pubblicizzati da B ed E hanno uguale $|AS-PATH|$, ogni nodo sceglierà il percorso pubblicizzato dal gateway meno distante:
+
+	      A sul collegamento AC,\newline
+	      C sul collegamento CB,\newline
+	      D sul collegamento DB o DF,\newline
+	      F sul collegamento FE.
+
+	      \pagebreak
+\end{enumerate}
+
+\section{Lo strato di collegamento}
+Nello stack protocollare TCP/IP lo \textbf{strato di collegamento} si trova sotto lo strato di rete.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.2]{Immagini/Ip.png}
+	\centering
+	\caption{Lo strato di collegamento dello stack protocollare TCP/IP.}
+\end{figure}
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.58]{Immagini/Link.png}
+	\centering
+	\caption{Comunicazione a livello di collegamento.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.55]{Immagini/Link1.png}
+	\centering
+\end{figure}
+
+Abbiamo visto, in precedenza, come la comunicazione nei livelli di applicazione, trasporto e rete fosse \textbf{end-to-end}, nel livello di collegamento invece è da \textbf{nodo a nodo}.
+
+In questa sezione ci riferiremo agli host e ai router con \textbf{nodi} e alle reti nel mezzo con \textbf{collegamenti}.
+
+I collegamenti possono essere di \textbf{due tipi}:
+
+\begin{itemize}
+	\item \textbf{Punto-punto}: è un collegamento dedicato solo a \textbf{due dispositivi}. (\textit{e.g. telefonata da fisso}).
+	\item \textbf{Broadcast}: è collegamento \textbf{condiviso tra più dispositivi}.
+	      Quando un nodo trasmette un frame, il canale lo diffonde e tutti gli altri nodi ne ricevono una copia.
+\end{itemize}
+
+Il livello di collegamento può essere quindi diviso in \textbf{due} sottolivelli:
+il \textbf{Data Link Control} o \textbf{DLC} e il \textbf{Medium Access Control} o \textbf{MAC}. Nei collegamenti punto-punto troviamo \textbf{solo} il DLC mentre in quelli broadcast troviamo \textbf{entrambi}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/DLCMAC.png}
+	\centering
+\end{figure}
+
+Le unità di dati scambiate dai protocolli di livello collegamento saranno invece chiamate \textbf{frame}, e vengono mosse da un nodo a ad un altro nodo ad esso adiacente su un singolo link di comunicazione. Un frame contiene un \textbf{campo dati}, un'\textbf{intestazione} ed un eventuale \textbf{trailer} e può essere gestito da \textbf{diversi} protocolli, per ogni collegamento attraversato: per esempio potrebbe essere gestito da Ethernet sul primo collegamento, da PPP sull’ultimo e da un protocollo WAN nel collegamento intermedio.
+
+I \textbf{servizi} erogati dai protocolli del livello di link
+possono essere \textbf{differenti}, ad esempio infatti, non tutti i protocolli forniscono un servizio di consegna affidabile.
+
+\pagebreak
+
+Il sottolivello DLC si occupa delle procedure necessarie per la comunicazione di due nodi adiacenti, \textbf{indipendentemente} dal fatto che il collegamento sia punto-punto o broadcast, e offre i seguenti servizi:
+
+\begin{itemize}
+	\item \textbf{Framing}: i protocolli del livello collegamento incapsulano i datagrammi del livello di rete all’interno di un \textbf{frame}. Consente di \textbf{separare} i vari messaggi durante la trasmissione da una sorgente a una destinazione. Per identificare origine e destinatario sono utilizzati indirizzi MAC, \textbf{diversi} rispetto agli indirizzi IP.
+
+	      Normalmente si predilige la \textbf{suddivisione} di un frame in frames più piccoli, anche se fosse possibile trasmettere un unico frame. Ciò \textbf{facilita} il \textbf{controllo degli errori}, se c'è un errore su un singolo bit infatti non si dovrà ritrasmettere tutto il frame ma solo il frame che lo contiene, e il \textbf{controllo di flusso}.
+	\item \textbf{Consegna affidabile}: è considerata non necessaria nei collegamenti che presentano un basso numero di errori sui bit (e.g. \textit{fibra ottica, cavo coassiale e doppino intrecciato}), è spesso utilizzata invece nei collegamenti soggetti a elevati tassi di errori. (\textit{e.g. collegamenti wireless})
+	\item \textbf{Controllo di flusso}: il nodo mittente evita di saturare il nodo ricevente. I concetti di fondo sono gli stessi del livello trasporto.
+	\item \textbf{Rilevazione degli errori}: Gli errori, al livello collegamento, sono causati dall’\textbf{attenuazione del segnale e da rumore
+		      elettromagnetico}. Il nodo ricevente individua la presenza di errori grazie all’inserimento all’interno del frame, da parte del nodo mittente, di \textbf{bit di controllo dell' errore}.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/DLCerrors.png}
+		      \centering
+	      \end{figure}
+
+	      Gli \textbf{errori} possono essere di \textbf{due} tipi: \textbf{a raffica} o \textbf{su singolo bit}. Quelli a raffica sono più comuni in quanto la durata del rumore è quasi sempre maggiore di un singolo bit.
+	\item \textbf{Correzione degli errori}: il nodo ricevente determina anche il punto in cui si è verificato l’errore, e lo corregge.
+\end{itemize}
+
+\pagebreak
+
+\subsection{Indirizzamento}
+
+Un \textbf{indirizzo di livello collegamento} o \textbf{MAC address} è associato alla scheda di rete del dispositivo ed è \textbf{permanente}.
+
+Per le LAN Ethernet (IEEE 802) l'indirizzo è lungo \textbf{6 byte}, gli indirizzi possibili sono $2^{48}$ ed è espresso in notazione esadecimale: 1A-63-F9-BD-06-9B. L'indirizzo di \textbf{broadcast} è: FF-FF-FF-FF-FF-FF.
+
+L'\textbf{IEEE}, o Institute of Electrical and Electronics Engineers, definisce ed assegna \textbf{i primi 24 bit} detti anche \textbf{OUI} o \textbf{Organization Unique Identifier}, mentre i rimanenti 24 bit vengono gestiti dalle aziende ed assegnati a livello \textbf{locale}. Quando una società vuole costruire schede di rete compra un blocco di spazio di indirizzi per garantirne l'\textbf{univocità}.
+
+Come detto poco prima, gli \textbf{indirizzi MAC} hanno una struttura \textbf{piatta} e sono \textbf{immutabili}, al contrario degli \textbf{indirizzi IP} che hanno una struttura \textbf{gerarchica} e sono \textbf{mutabili} (\textit{ma pur sempre univoci}).
+
+Quando una scheda di rete spedisce un frame, vi inserisce l'indirizzo MAC della scheda di destinazione. Nel caso di reti LAN broadcast, tutte le schede attestate sulla rete controllano l'indirizzo destinazione e passano i dati allo strato superiore \textbf{solo se riconoscono il proprio indirizzo MAC nell'intestazione}. Se una scheda trasmittente vuole che \textbf{tutte} le schede di rete passino i dati agli strati superiori, immette nel campo indirizzo destinazione: FF-FF-FF-FF-FF-FF, ovvero
+l'\textbf{indirizzo broadcast}.
+
+\subsection{ARP}
+
+Normalmente, all’\textbf{accensione}, una macchina conosce il suo \textbf{indirizzo MAC}, il suo \textbf{indirizzo IP}, la rete locale a cui appartiene e il suo indirizzo alfanumerico.  Supponiamo che voglia comunicare con un'altra macchina distante un certo numero di routers. La macchina mittente conosce l'indirizzo IP della macchina destinataria e l'indirizzo IP del router di default della sua rete locale. Ogni router tranne l'ultimo ricava l'indirizzo del router successivo dalla propria \textbf{tabella d'inoltro}. L'ultimo router conosce l'indirizzo IP dell'host di destinazione, tuttavia l'indirizzo IP non è sufficiente per la trasmissione di un frame lungo un collegamento, è necessario conoscere l'\textbf{indirizzo di collegamento del nodo successivo}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/ARP.png}
+	\centering
+	\caption{Posizione dell'ARP nello stack protocollare TCP/IP.}
+\end{figure}
+
+\pagebreak
+
+L'\textbf{ARP} o \textbf{Address Resolution Protocol} è un protocollo ausiliario di livello rete, il suo scopo è quello di individuare l'indirizzo di collegamento associato ad un indirizzo IP.
+
+Ogni volta che un host o un router vuole sapere l'indirizzo di collegamento di un altro host o router all'interno della sua rete invia, in \textbf{broadcast}, un pacchetto di richiesta ARP contenente il \textbf{proprio indirizzo IP}, il \textbf{proprio indirizzo di collegamento} e l'indirizzo IP dell'host o del router di cui vuole conoscere il MAC address.
+
+Ogni nodo nella rete locale riceve ed elabora il pacchetto di richiesta ARP. Il nodo che riconosce il proprio indirizzo IP restituisce un pacchetto di risposta ARP che contiene il
+proprio indirizzo IP e il proprio indirizzo MAC. La risposta viene inviata in \textbf{unicast} direttamente al nodo che ha inviato la richiesta.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.37]{Immagini/ARP_fun.png}
+	\includegraphics[scale=0.3]{Immagini/ARP_pkt.png}
+	\centering
+	\caption{Funzionamento e formato del pacchetto ARP.}
+\end{figure}
+
+\pagebreak
+
+\begin{itemize}
+	\item \textbf{Hardware Type}: indica protocollo di livello di collegamento usato.
+	      (\textit{e.g. Ethernet 1})
+	\item \textbf{Protocol Type}: indica protocollo di livello superiore usato. (\textit{e.g. IP})
+	\item \textbf{Source Hardware Address e Source Protocol Address}:
+	      contengono rispettivamente gli \textbf{indirizzi del nodo mittente a livello link e al livello rete}. Entrambi i campi sono di lunghezza variabile, da qui gli altri campi: Hardware Length e Protocol Length.
+	\item \textbf{Destination Hardware Address e Destinaztion Protocol Address}: sono rispettivamente il MAC address che si vuole conoscere, il campo è \textbf{vuoto nelle richieste}, e l'indirizzo di rete del ricevente.
+\end{itemize}
+
+Ogni host e ogni router ha una \textbf{tabella ARP} che contiene le corrispondenze tra indirizzi IP e indirizzi MAC dei dispositivi interni alla propria sottorete.
+Tuttavia è bene precisare che la tabella ARP non contiene necessariamente le corrispondenze per tutti i nodi della sottorete. Una entry della tabella ha il seguente formato:
+
+\begin{center}
+	\textbf{\large(Indirizzo IP - Indirizzo MAC - TTL)}
+\end{center}
+
+Il \textbf{TTL} o time to live indica quando bisognerà eliminare una
+data voce nella tabella, il valore tipo è di \textbf{20 minuti}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.25]{Immagini/ARP_tab.png}
+	\centering
+	\caption{Tabella ARP.}
+\end{figure}
+
+\textbf{ARP} è un protocollo \textbf{plug-and-play}: la tabella ARP di una macchina viene
+costituita \textbf{automaticamente} e non deve essere configurata dall’amministratore del sistema.
+
+Mostriamo ora un \textbf{esempio} di \textbf{forwarding diretto}:
+
+\begin{enumerate}
+	\item A vuole inviare un datagramma a B, e l’indirizzo MAC di B non è nella
+	      tabella ARP di A. Allora trasmette in un pacchetto broadcast il messaggio di richiesta
+	      ARP, contenente l’indirizzo IP di B e con indirizzo MAC del destinatario
+	      l'indirizzo di broadcast \textbf{FF-FF-FF-FF-FF-FF}.
+	\item Tutte le macchine della LAN ricevono una richiesta ARP.
+	\item B riceve il pacchetto ARP, e risponde ad A comunicandogli il proprio indirizzo MAC.
+	\item Il frame con la riposta ARP viene inviato all’indirizzo MAC di A.
+\end{enumerate}
+
+\pagebreak
+
+E uno di \textbf{forwarding indiretto}: consideriamo l'invio di un datagramma da A a B attraverso il router R, ipotizzando che A conosca l'indirizzo IP di B.
+
+Mostriamo in figura la configurazione:
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/ARP_example.png}
+	\centering
+\end{figure}
+
+Nel router R ci sono \textbf{due} tabelle ARP, \textbf{una per ogni rete LAN} con cui esso si interfaccia.
+
+\begin{enumerate}
+	\item A crea un datagramma con origine A e destinazione B.
+	\item A usa ARP per ottenere l’indirizzo MAC di R.
+	\item A richiede alla scheda di rete di inviare un frame all’indirizzo MAC di
+	      destinazione di R, il frame contiene il datagramma IP da A a B.
+	\item La scheda di rete di A invia il frame.
+	\item La scheda di rete di R riceve il fram.
+	\item R estrae il datagramma IP dal frame Ethernet, e vede che la sua destinazione è B.
+	\item R usa ARP per ottenere l’indirizzo MAC di B.
+	\item R crea un frame contenente il datagramma IP da A a B e lo invia a B.
+\end{enumerate}
+
+Mostriamo ora, attraverso un esempio più articolato, cosa succede quando dal computer di Gaia, nella figura a pagina seguente, viene inviata una richiesta HTTP al server di Gabriele contenente la URL:
+
+\begin{center}
+	\textit{http://dagabriele.biz/prodotti}
+\end{center}
+
+Lavoreremo sotto le ipotesi che il computer di Gaia e quello di Gabriele appartengano a due reti LAN \textbf{diverse} e la connessione TCP tra il client HTTP di Gaia e il server HTTP di Gabriele sia già aperta.
+
+\pagebreak
+
+La figura sotto mostra la configurazione su cui lavoreremo.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{Immagini/ARPexample.png}
+	\centering
+\end{figure}
+
+La figura sopra mostra il flusso di pacchetti generati dal computer di Gaia: viene usato il \textbf{client HTTP} per soddisfare la richiesta, tuttavia egli non conosce l'indirizzo IP del server HTTP di Gabriele, contatta quindi il \textbf{resolver DNS} del computer di Gaia.
+
+Il resolver DNS ottiene l'indirizzo IP richiesto e lo comunica al client HTTP che a sua invia la richiesta HTTP in un \textbf{segmento TCP}. La connessione TCP è già stata instaurata. Il segmento viene quindi consegnato al livello rete e incapsulato in un \textbf{datagramma IP}.
+
+Lo strato di rete consulta la sua \textbf{tabella d'inoltro} e ne ricava che dovrà inviare il datagramma al router R1.
+
+Non conoscendone però il MAC address, usa \textbf{ARP} per ricavarlo, e a quel punto, passa il datagramma al livello di collegamento che lo incapsula in un frame e lo invia sul collegamento verso R1.
+
+\pagebreak
+
+Descriviamo ora le attività interne al \textbf{router R1}:
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/ARPexample1.png}
+	\centering
+\end{figure}
+
+Il router R1 \textbf{decapsula} il frame e il suo livello di rete, dopo aver effettuato il look-up nella tabella d'inoltro, determina che il datagramma IP deve essere inviato all'host con indirizzo IP N$_{B}$.
+
+Il \textbf{MAC address} relativo non è però noto e viene ricavato tramite ARP. Il datagramma viene quindi passato al livello di collegamento, incapsulato in un frame e inviato verso il \textbf{server HTTP} di Gabriele.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.35]{Immagini/Router_model.png}
+	\centering
+\end{figure}
+
+Infine il nel server HTTP di Gabriele, in figura alla pagina successiva:
+
+Dal frame ricevuto dal suo livello di collegamento viene estratto il datagramma IP.
+
+Il datagramma viene quindi passato al livello di rete e vi viene estratto il segmento TCP, contenente la \textbf{richiesta HTTP}, che viene a sua volta passato al livello trasporto, il quale estrae i dati applicativi, ovvero la richiesta HTTP, e li consegna alla socket in ascolto sulla porta nota \textbf{80}.
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.53]{Immagini/ARPexample2.png}
+	\centering
+\end{figure}
+
+\subsection{Ethernet}
+L'\textbf{ETHERNET} è la tecnologia che detiene una posizione dominante nel mercato
+delle LAN cablate. È stata la prima LAN ad alta velocità con vasta diffusione, essendo più semplice e meno costosa di token ring, FDDI e ATM.
+
+Si è mantenuta inoltre sempre al passo dei tempi con il tasso trasmissivo pari a 10 Mbps (Ethernet Standard), 100Mbps, 1 Gbps, 10 Gbps.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{Immagini/Original.png}
+	\centering
+	\caption{Il progetto originale di Bob Metcalfe che portò allo standard Ethernet.}
+\end{figure}
+
+\pagebreak
+
+Per quel che concerne la topologia delle reti Ethernet fino alla metà degli anni '90 la tipologia più diffusa era quella a bus con cavo coassiale.
+Tuttavia quasi tutte le odierne reti Ethernet sono progettate con topologia a \textbf{stella}, al centro della quale è collocato un \textbf{hub (switch)} o \textbf{commutatore}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.37]{Immagini/Star_lan.png}
+	\centering
+\end{figure}
+
+L’adattatore trasmittente incapsula i datagrammi IP in un
+pacchetto Ethernet che ha la seguente struttura:
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Ethernet_pkt.png}
+	\centering
+\end{figure}
+
+I campi hanno i seguenti valori:
+
+\begin{itemize}
+	\item \textbf{Preamble}: I pacchetti Ethernet iniziano con un campo di otto byte: sette hanno i bit 10101010 e l’ultimo è 10101011. Il loro unico scopo è quello di notificare gli adattatori dei riceventi dell'arrivo del frame e sincronizzarne gli orologi con quello del trasmittente. Viene aggiunto al livello fisico e non fa propriamente parte del frame.
+	\item \textbf{Dati}: L’unità massima di trasferimento o \textbf{MTU} varia da 46 byte ad un max di 1500 byte. Se il datagramma IP è più grande allora deve essere
+	      frammentato prima di essere immesso sul collegamento. Se il campo dati è più piccolo il campo dati deve essere riempito o \textbf{stuffed}.
+	\item \textbf{Indirizzo di destinazione}: è un campo composto da 6 byte.  Quando un adattatore riceve un pacchetto con indirizzo di
+	      destinazione corrispondente al proprio indirizzo MAC o
+	      l’indirizzo broadcast (\textit{e.g. un pacchetto ARP}), estrae il
+	      contenuto del campo dati. I pacchetti con altri indirizzi MAC vengono \textbf{ignorati}.
+	\item \textbf{Tipo}: è un campo lungo \textbf{due byte}, consente a Ethernet di supportare vari protocolli di rete (\textit{i.e. IP, ARP}). In gergo questo campo consente a Ethernet di \textit{multiplexare} i protocolli.
+	\item \textbf{Controllo CRC}: consente all’adattatore ricevente di rilevare la
+	      presenza di un errore nei bit del pacchetto.
+\end{itemize}
+
+\pagebreak
+
+Descriviamo brevemente di seguito l'evoluzione di Ethernet:
+
+\begin{itemize}
+	\item \textbf{Fast Ethernet}:
+	      \begin{itemize}
+		      \item Velocità: 100 Mbps.
+		      \item Mantiene invariati il formato e le dimensione sia minima che massima del frame.
+		      \item La dimensione minima immutata e la trasmissione 10 volte più veloce danno origine a una rete più corta. Per fronte a ciò descriviamo \textbf{due} soluzioni possibili:
+
+		            un hub passivo con topologia a stella oppure usare un commutatore a livello link, dotato di buffer, e una connessione full-duplex per ogni host, in modo tale da \textbf{evitare collisioni}.
+	      \end{itemize}
+	\item \textbf{Gigabit Ethernet (802.3z)}:
+	      \begin{itemize}
+		      \item 1000 Mbps = 1 Gbps.
+		      \item Vengono mantenute invariate la lunghezza sia minima che massima del frame.
+		      \item Lo switch è posto al centro della stella e tutti i nodi sono collegati ai suoi raggi per evitare le collisioni.
+	      \end{itemize}
+	\item \textbf{10-Gigabit Ethernet (802.3ae)}:
+	      \begin{itemize}
+		      \item Pensata per le \textbf{MAN} o \textbf{Metropolitan Area Networks}.
+		      \item È un'estensione della tecnologia, la velocità trasferimento e la distanza di copertura massima.
+	      \end{itemize}
+\end{itemize}
+
+\subsection{Esercizi}
+
+\begin{enumerate}
+	\item Indicare, giustificando la risposta, se, e in che modo, frame Ethernet possono essere trasportati in pacchetti ARP o viceversa.
+
+	      \textbf{Soluzione}:
+	      I pacchetti ARP vengono trasportati nella parte dati dei frame Ethernet specificando ARP nel campo Type del preambolo, se l’host che esegue ARP appartiene a una rete Ethernet. Il viceversa non può invece avvenire dato che ARP è un servizio a livello di rete.
+
+	\item Supponiamo che un cliente HTTP in esecuzione su un host A invii una
+	      richiesta X a un server HTTP su un host B.
+
+	      Supponendo che N sia un router
+	      NAT e che R non lo sia, indicare i valori dei campi contenenti informazioni
+	      di addressing negli header di livello datalink, rete e trasporto contenuti nel
+	      frame che trasporta il messaggio X trasmesso da A e nel frame trasmesso,
+	      in risposta, da B.
+
+	      \pagebreak
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Eser.png}
+		      \centering
+	      \end{figure}
+
+	      \textbf{Soluzione}:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Eser_sol.png}
+		      \centering
+	      \end{figure}
+
+	\item Un Router R0 ha costruito la tabella di instradamento mostrata sotto. Il router può
+	      consegnare pacchetti direttamente alle interfacce 0 e 1, oppure può inviare
+	      pacchetti ai router R2, R3 o R4.
+
+	      Descrivere le azioni del router quando deve
+	      inoltrare un pacchetto indirizzato a ognuna delle seguenti destinazioni:
+
+	      \begin{itemize}
+		      \item 170.210.49.8
+		      \item 170.210.50.11
+		      \item 170.210.50.140
+	      \end{itemize}
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Eser1.png}
+		      \centering
+	      \end{figure}
+
+	      \pagebreak
+
+	      \textbf{Soluzione}:
+
+	      Per ciascun pacchetto il router controlla se l’indirizzo di destinazione appartiene a una o più delle sottoreti nella tabella di forwarding.
+	      170.210.49.8 appartiene alla rete 170.210.49.0/25:
+
+	      [][][]00001000 [][][]000000000
+
+	      non traduco in binario i primi 3 ottetti in quanto la maschera è 25 bit e i primi tre ottetti sono uguali. Il forwarding è diretto. Il router inoltra il pacchetto all’host destinatario tramite la sua interfaccia Eth0.
+
+
+	      170.210.50.11 appartiene alla rete 170.210.50.0/25:
+
+	      [][][]00001011 [][][] 00000000
+
+	      Il forwarding è indiretto. Il router inoltra il pacchetto al router R2 tramite la sua interfaccia Eth1.
+
+	      170.210.50.140 non appartiene a nessuna delle reti in tabella, viene quindi applicata la entry di default: il router invia il pacchetto a R4 tramite l’interfaccia S1
+		      [][][]10001100.
+
+	\item Giulia ha una piccola impresa. Chiede al suo ISP di darle un blocco di indirizzi per 1200 host. L’ISP alloca un sottoblocco dal range di indirizzi 192.1.* che possiede e dice a Maggie di utilizzare i
+	      seguenti blocchi di indirizzi:
+
+	      \begin{multicols}{2}
+		      \begin{itemize}
+			      \item 192.1.0.0/24
+			      \item 192.1.1.0/24
+			      \item 192.1.2.0/24
+			      \item 192.1.3.0/24
+			      \item 192.1.4.0/24
+		      \end{itemize}
+	      \end{multicols}
+
+	      Come buona pratica, Maggie sa che deve annunciare il minimo numero possibile di rotte per coprire esattamente I suoi indirizzi IP.
+	      \begin{enumerate}
+		      \item Usando CIDR, qual è l’insieme più piccolo di indirizzi di rete che è possibile usare per annunciare la raggiungibilità delle reti di Maggie? Usare la notazione /n per indicare l’indirizzo di rete.
+
+		            Maggie usa anche un secondo ISP. I router della rete di Maggie annunciano le rotte ad entrambi gli ISP (senza applicare la buona pratica di cui sopra). Come risultato un router remoto in rete produce la seguente tabella di forwarding.
+
+		            \begin{figure}[!h]
+			            \includegraphics[scale=0.35]{Immagini/Eser2.png}
+			            \centering
+		            \end{figure}
+
+		      \item Quale next hop usa il router per inoltrare un pacchetto destinato a 192.1.0.1?
+	      \end{enumerate}
+
+	      \pagebreak
+
+	      \textbf{Soluzione}:
+
+	      a) 192.1.0.0/22 e 192.1.4.0/24
+
+
+	      b) C’è corrispondenza (match) con la prima e la seconda riga,
+	      applicando il principio del longest prefix match, dovrebbe usare 1.2.3.5
+
+	      \textbf{\underline{N.B.}} Attenzione ai casi in cui ci sono match multipli! Vale il criterio del \textbf{longest prefix}.
+
+	\item Indicare le differenze principali tra IPv6 e IPv4
+	      e relative motivazioni principali.
+
+	      \textbf{Una possibile soluzione}:
+
+	      \begin{itemize}
+		      \item IPv6 usa indirizzi IP a 128 bit mentre IPv4 usa indirizzi IP a 32 bit, per
+		            aumentare lo spazio degli indirizzi
+		      \item IPv6 non implementa la frammentazione ai nodi intermedi, questa viene
+		            implementata al nodo mittente, per velocizzare elaborazione e forwarding
+		            pacchetti
+		      \item In IPv6 non viene eseguita la checksum, come sopra per velocizzare
+		            elaborazione e forwarding pacchetti
+		      \item IPv6 ha un header di lunghezza fissa (40 byte), mentre in IPv4 l’header ha
+		            lunghezza variabile (lunghezza min 20 byte), per velocizzare elaborazione
+		            header
+		      \item Introdotta \textbf{flow label} per identificare datagram appartenenti allo stesso flow da trattare eventualmente secondo politiche di Quality Of Service, trattamento differenziato del traffico, ecc...
+	      \end{itemize}
+\end{enumerate}
+
 \end{document}
-
-
-
-
-
-
