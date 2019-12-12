@@ -2960,12 +2960,12 @@ Quando dalla destinazione giungerà la risposta, il router sarà in grado di \te
 \pagebreak
 
 \begin{figure}[!h]
-	\includegraphics[scale=0.4]{Immagini/Ip_nat_tr.png}
+	\includegraphics[scale=0.37]{Immagini/Ip_nat_tr.png}
 	\centering
 	\caption{Traduzione NAT.}
 \end{figure}
 
-\textbf{Critiche} al NAT:
+Per approfondire i problemi legati al NAT consultare \hyperref[sec:NATproblems]{gli esercizi 4 e 5 alla fine della sezione}. Critiche al NAT:
 
 \begin{figure}[!h]
 	\includegraphics[scale=0.55]{Immagini/Ip_nat_crit.png}
@@ -3152,7 +3152,7 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 	      65536, tutti i numeri di porta, meno 1024 porte, cioè 64512.
 
 	      Pertanto, in totale si possono avere al massimo $64512 \times 6 = 387062$ possibili connessioni TCP uscenti dall'AS e relative agli hosts.
-
+	\label{sec:NATproblems}
 	\item Cosa succede se un client FTP sotto NAT invia
 	      RETR e il suo router NAT non accetta richieste di connessioni TCP?
 
