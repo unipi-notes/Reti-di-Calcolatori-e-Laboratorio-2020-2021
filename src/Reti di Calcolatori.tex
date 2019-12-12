@@ -2947,41 +2947,30 @@ Ciò si effettua nel seguente modo: tutti i \textbf{datagrammi in uscita} dalla 
 	\caption{Datagrammi in entrata ed uscita da un router NAT.}
 \end{figure}
 
-A prima vista il processo di traduzione degli indirizzi potrebbe sembrare complesso ma non lo è affatto. Partiamo dalla struttura della tabella d'inoltro del router NAT.
+Per spiegare il meccanismo di traduzione NAT si osservi in primis la struttura della tabella d'inoltro del router NAT.
 
-Quando il router sostituisce l'indirizzo sorgente nel datagramma in uscita \textbf{prende nota del suo indirizzo di destinazione} e inserisce nella sua tabella d'inoltro la riga con il \textbf{seguente valore}:
+Quando il router sostituisce l'indirizzo sorgente nel datagramma in uscita \textbf{prende nota del suo indirizzo di destinazione e della porta sorgente} e inserisce nella sua tabella d'inoltro la riga con il \textbf{seguente valore}:
 
 \begin{center}
-	\textbf{[ indirizzo sorgente privato | indirizzo destinazione ]}
+	\textbf{[ ind. sorgente privato, porta | ind. destinazione, porta ]}
 \end{center}
 
 Quando dalla destinazione giungerà la risposta, il router sarà in grado di \textbf{indirizzare correttamente il datagramma} verso l'host della rete privata \textbf{utilizzando tale associazione}.
 
-\textbf{\underline{N.B.}} Il meccanismo NAT prevede che sia \textbf{sempre} la rete privata ad iniziare la comunicazione.
-
-Se il router NAT ha un \textbf{solo indirizzo IP globale solo un host per volta potrà comunicare con un determinato host esterno}. Come fare se si desidera far comunicare \textbf{più hosts} contemporaneamente?
-
 \pagebreak
 
 \begin{figure}[!h]
-	\includegraphics[scale=1.7]{Immagini/Ip_nat_tr.png}
+	\includegraphics[scale=0.4]{Immagini/Ip_nat_tr.png}
 	\centering
 	\caption{Traduzione NAT.}
 \end{figure}
 
-Supponiamo che \textbf{due host sulla stessa rete privata} debbano accedere \textbf{contemporaneamente} al server HTTP in esecuzione sull'host esterno di indirizzo 25.8.3.2.
-
-Con una tabella d'inoltro composta da \textbf{sole due colonne non sarebbe possibile}, \textbf{non ci sono abbastanza informazioni} per indirizzare correttamente i datagrammi, si deve per forza tenere traccia del numero di porta. Se si aggiungono altre \textbf{tre colonne} alla tabella d'indirizzamento del router NAT, contenenti rispettivamente i \textbf{numeri di porta sorgente} (privata)\textbf{ e destinazione} (esterna), e \textbf{il protocollo di trasporto} si \textbf{elimina} ogni possibile \textbf{ambiguità}.
+\textbf{Critiche} al NAT:
 
 \begin{figure}[!h]
-	\includegraphics[scale=1.5]{Immagini/Ip_nat_1.png}
+	\includegraphics[scale=0.55]{Immagini/Ip_nat_crit.png}
 	\centering
-	\caption{Tabella di traduzione a cinque colonne. I due host possono ora connettersi contemporaneamente al server HTTP.}
 \end{figure}
-
-\textbf{\underline{N.B.}} Il meccanismo appena descritto funziona solo se i numeri di \textbf{porta privati} dei due host che accedono al server sono \textbf{scelti in modo univoco dal router NAT}.
-
-Infatti è la \textbf{combinazione} (porta privata - indirizzo di destinazione), in tal caso, ad \textbf{individuare gli host} sulla rete privata.
 
 \pagebreak
 
