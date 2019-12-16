@@ -3152,7 +3152,7 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 	      65536, tutti i numeri di porta, meno 1024 porte, cioè 64512.
 
 	      Pertanto, in totale si possono avere al massimo $64512 \times 6 = 387062$ possibili connessioni TCP uscenti dall'AS e relative agli hosts.
-	\label{sec:NATproblems}
+	      \label{sec:NATproblems}
 	\item Cosa succede se un client FTP sotto NAT invia
 	      RETR e il suo router NAT non accetta richieste di connessioni TCP?
 
@@ -3173,7 +3173,7 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 	\item In una applicazione P2P come può un peer chiedere di
 	      utilizzare una certa porta per poter essere contattato?
 
-	      \textbf{Solzuione}: Ogni applicazione \textbf{peer to peer} si basa infatti sulla possibilità di ogni perr A di essere in grado di iniziare una connessione TCP con un altro perr B. Se il peer B è sotto un ruter NAT, \textbf{non può accettare connessioni TCP e di conseguenza fare da server}.
+	      \textbf{Solzuione}: Ogni applicazione \textbf{peer to peer} si basa infatti sulla possibilità di ogni peer A di essere in grado di iniziare una connessione TCP con un altro peer B. Se il peer B è sotto un router NAT, \textbf{non può accettare connessioni TCP e di conseguenza fare da server}.
 
 	      Esistono vari meccanismi per far fronte a ciò:
 
@@ -3478,7 +3478,7 @@ Supponiamo che due i due routers in figura, A e B, siano collegati alla rete X. 
 
 Questo scenario è chiamato \textbf{count to infinity}.
 
-Una possibile soluzione a questo problema è chiamata \textbf{split orizon}: consiste nel non inoltrare le informazioni circa il cammino di costo minore attraverso l'interfaccia dalla quale le si hanno ricevute. Ad esempio: se B ritiene che il costo minore per raggiungere X passi da A, non invierà ad A tale informazione, ovvero $D_{B}[X]$.
+Una possibile soluzione a questo problema è chiamata \textbf{split orizon}: prevede che la tabella inviata da un router ad un suo vicino contenga solamente una riga per ogni destinazione raggiungibile passando per un router \textbf{diverso da quello a cui sta inviando la tabella}. Ad esempio: se B ritiene che il costo minore per raggiungere X passi da A, non invierà ad A tale informazione, ovvero $D_{B}[X]$.
 
 \begin{figure}[!h]
 	\centering
