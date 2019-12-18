@@ -2801,7 +2801,7 @@ Per \textbf{forwarding diretto} s'intende l'invio di un datagramma che ha come d
 
 Per \textbf{forwarding indiretto} s'intende l'invio di un datagramma che ha come destinazione un \textbf{host di un'altra rete} rispetto a quella del mittente. Nell'inoltro si interpellano varie altre entità chiamate \textbf{routers}. L'indirizzo di destinazione al livello link è quello del router.
 
-È bene far presente che in entrambi i casi le condizioni necessarie affinché tutto funzioni sono che \textbf{esista un collegamento diretto a livello link tra tutti gli host che appartengono a una stessa sottorete} e \textbf{ogni host coinvolto abbia un indirizzo IP corretto, cioè con uguale newtowrk ID  e con host ID univoco nella sottorete}.
+È bene far presente che in entrambi i casi le condizioni necessarie affinché tutto funzioni sono che \textbf{esista un collegamento diretto a livello link tra tutti gli host che appartengono a una stessa sottorete} e \textbf{ogni host coinvolto abbia un indirizzo IP corretto, cioè con uguale network ID  e con host ID univoco nella sottorete}.
 
 Le \textbf{due condizioni insieme} diventano condizione \textbf{necessaria e sufficiente} perché la comunicazione \textbf{funzioni}.
 
@@ -4237,22 +4237,70 @@ Descriviamo brevemente di seguito l'evoluzione di Ethernet:
 	      \begin{itemize}
 		      \item Velocità: 100 Mbps.
 		      \item Mantiene invariati il formato e le dimensione sia minima che massima del frame.
-		      \item La dimensione minima immutata e la trasmissione 10 volte più veloce danno origine a una rete più corta. Per fronte a ciò descriviamo \textbf{due} soluzioni possibili:
+		      \item La dimensione minima immutata e la trasmissione dieci volte più veloce implicano che la rete sia più piccola. Descriviamo \textbf{due} soluzioni possibili per far fronte a ciò:
 
-		            un hub passivo con topologia a stella oppure usare un commutatore a livello link, dotato di buffer, e una connessione full-duplex per ogni host, in modo tale da \textbf{evitare collisioni}.
+		            O si introduce un hub passivo con topologia a stella oppure si usa un commutatore a livello link, dotato di buffer, e una connessione full-duplex per ogni host, in modo tale da \textit{evitare le collisioni}.
 	      \end{itemize}
 	\item \textbf{Gigabit Ethernet (802.3z)}:
 	      \begin{itemize}
-		      \item 1000 Mbps = 1 Gbps.
+		      \item Velocità: 1000 Mbps o 1 Gbps.
 		      \item Vengono mantenute invariate la lunghezza sia minima che massima del frame.
 		      \item Lo switch è posto al centro della stella e tutti i nodi sono collegati ai suoi raggi per evitare le collisioni.
 	      \end{itemize}
 	\item \textbf{10-Gigabit Ethernet (802.3ae)}:
 	      \begin{itemize}
 		      \item Pensata per le \textbf{MAN} o \textbf{Metropolitan Area Networks}.
-		      \item È un'estensione della tecnologia, la velocità trasferimento e la distanza di copertura massima.
+		      \item È un'estensione della tecnologia, incrementa la velocità trasferimento e la distanza di copertura massima.
 	      \end{itemize}
 \end{itemize}
+
+\subsection{Dispositivi di interconnessione}
+In questa sezione passeremo brevemente in rassegna vari tipi di dispositivi di interconnessione.
+\subsubsection{Repeater e hub}
+I \textbf{repeaters} sono dispositivi di interconnessione di \textbf{livello 1} e operano solo a livello fisico. Il loro funzionamento consiste nel ricevere un segnale e rigenerarlo.
+
+In passato venivano usati per collegare segmenti di Ethernet con topologia a bus.
+
+Un \textbf{hub} non è altro che repeater multi porta.
+
+È importante precisare che nè i repeaters nè gli hubs hanno \textbf{capacità di filtraggio}, infatti come detto poco prima, operando solo a livello fisico \textbf{non hanno nessuna informazione circa gli indirizzi di collegamento} presenti nell'intestazione dei frame, il che vuol dire che inviano sempre il segnale su ogni loro porta.
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.55]{Immagini/Hub.png}
+	\centering
+\end{figure}
+
+\subsubsection{Switch di livello link}
+
+Gli switch sono dispositivi di interconnessione di \textbf{livello 2}. Operano sia a livello fisico \textbf{rigenerando segnale} che a livello link \textbf{verificando gli indirizzi MAC} contenuti nei frames ed \textbf{hanno capacità di filtraggio}.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.45]{Immagini/Switch.png}
+	\centering
+\end{figure}
+
+Posseggono una tabella detta \textbf{tabella di commutazione} che usano per effettuare il filtraggio dei datagrammi. Tale tabella viene costruita con l'ausilio di una \textbf{tecnologia di autoapprendimento} mediante il seguente procedimento: gli indirizzi destinazione dei frame vengono usati per determinare su quale interfaccia dello switch inoltrare il frame, quelli sorgente invece sono usati per aggiungere voci alla tabella di commutazione.
+
+Tale processo potrebbe richiedere molto tempo, ad esempio, se da una stazione non dovesse esser trasmesso nessun frame essa non avrebbe mai una voce nella tabella di commutazione. Gli \textbf{switch, al contrario dei routers, non modificano gli indirizzi MAC} nell'intestazione dei frames.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{Immagini/Comm_table.png}
+	\centering
+\end{figure}
+
+A pagina seguente è presente una simulazione del processo di apprendimento.
+
+\pagebreak
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.4]{Immagini/Apprendimento.png}
+	\centering
+\end{figure}
+
+\subsubsection{Router}
+Il \textbf{router} è un dispositivo di interconnessione di \textbf{livello 3}, opera sia a \textbf{livello fisico}, rigenerando segnale, sia a \textbf{livello link}, verificando gli indirizzi MAC contenuti nei frames che a \textbf{livello network}, verificando gli indirizzi IP dei datagrammi. I routers sono diversi da ogni tipologia di dispositivi di interconnessione incontrata fin'ora, ecco \textbf{tre grandi differenze}:  essi \textbf{hanno un indirizzo MAC e un indirizzo IP per ogni loro interfaccia}, operano \textbf{solo sui frames il cui indirizzo destinazione di livello link è l’indirizzo link dell’interfaccia su cui sono ricevuti} e, inoltre, \textbf{cambiano gli indirizzi link} contenuti nei frames che inoltrano.
 
 \subsection{Esercizi}
 
@@ -4381,6 +4429,96 @@ Descriviamo brevemente di seguito l'evoluzione di Ethernet:
 		            header
 		      \item Introdotta una \textbf{flow label} per identificare i datagrams appartenenti allo stesso flow da trattare, eventualmente, secondo simili politiche di Quality Of Service, trattamento differenziato del traffico, ecc...
 	      \end{itemize}
+
+	\item Un router NAT è dotato di 6 interfacce di rete
+	      a cui sono associati 4 indirizzi IP pubblici: 113.205.94.1, 113.205.94.2, 113.205.94.3, 113.205.94.4 e 2 indirizzi privati: 192.168.0.1 e 192.168.0.2. Indicare, giustificando la risposta, quanti sono i server FTP simultaneamente attivi nella rete NAT raggiungibili da host esterni.
+
+	      \textbf{Soluzione}: Il numero di server FTP accessibili sulla porta 21
+	      dall’esterno della rete NAT è \textbf{al più 4}, ovvero al più
+	      uno per ogni indirizzo pubblico del router NAT.
+
+	\item Consideriamo il frammento di sistema autonomo illustrato sotto:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Es7.png}
+		      \centering
+	      \end{figure}
+
+	      \pagebreak
+
+	      I router utilizzano RIP come protocollo intra-dominio e in cui B, C,
+	      G, H sono router IPv6 mentre a, d, e, f sono router IPv4.
+
+	      Supponiamo che G riceva da H un datagram P IPv6 contenente
+	      \begin{center}
+		      FE80::0202:B3FF:FE1E:8329
+	      \end{center}
+	      come indirizzo sorgente e l’indirizzo
+	      IPv6 dell’interfaccia di B sul collegamento BC come indirizzo
+	      destinazione. Supponendo che G utilizzi il tunneling per inoltrare
+	      tale datagramma, indicare il contenuto dei campi indirizzo sorgente e
+	      indirizzo destinazione del datagramma inoltrato da G: indicare
+	      indirizzo sorgente e indirizzo destinazione nel datagramma, di livello
+	      network, e del frame, di livello datalink.
+
+	      \textbf{Soluzione}: A livello 3 il datagramma ha come IP sorgente l’ip di G sull’interfaccia IPv4 sul collegamento G-e e come IP destinazione C$_{ipv4}$, ovvero l'interfaccia sul collegamento C-d.
+	      A livello datalink il frame ha come source address l’indirizzo di livello datalink di G$_{ipv4}$ e indirizzo di destinazione l’indirizzo datalink di e sul collegamento e-G.
+
+	\item Data la topologia raffigurata, determinare la
+	      tabella di forwarding del router R1.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.4]{Immagini/Es8.png}
+		      \centering
+	      \end{figure}
+
+	      \textbf{Soluzione}:
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.35]{Immagini/Es8_sol.png}
+		      \centering
+	      \end{figure}
+
+	      \pagebreak
+
+	\item Data la topologia di rete in figura in cui i nodi rappresentano dei routers, ipotizzando un costo unitario per ciascun collegamento, e usando
+	      l’algoritmo Distance Vector:
+	      \begin{enumerate}
+		      \item Definire la tabella di forwarding per A, dopo la convergenza.\textbf{}
+		      \item Ad un certo punto il nodo E si guasta, calcolare la tabella di B
+		            dopo la convergenza.
+	      \end{enumerate}
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.3]{Immagini/Es9.png}
+		      \centering
+	      \end{figure}
+
+	      \textbf{Soluzione}: A sinistra il punto a) e a destra il punto b).
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.25]{Immagini/Es9_sol1.png}
+		      \includegraphics[scale=0.25]{Immagini/Es9_sol2.png}
+		      \centering
+	      \end{figure}
+
+	\item Consideriamo uno switch con autoapprendimento dotato di 5 porte a cui sono connessi 5 computer:
+	      \begin{itemize}
+		      \item il computer A con indirizzo MAC V alla porta 1.
+		      \item il computer B con indirizzo MAC W alla porta 2.
+		      \item il computer C con indirizzo MAC X alla porta 3.
+		      \item il computer D con indirizzo MAC Y alla porta 4.
+		      \item il computer E con indirizzo MAC Z alla porta 5.
+	      \end{itemize}
+
+	      Indicare il contenuto della tabella di
+	      commutazione dello switch nell'ipotesi che
+	      quando essa è inizialmente vuota vengano inviati
+	      nell'ordine i seguenti frame: da A a C, da C a E, da D ad A, da B ad E, da E a B e da C ad A.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.27]{Immagini/Es10_sol.png}
+		      \centering
+	      \end{figure}
 \end{enumerate}
 
 \end{document}
