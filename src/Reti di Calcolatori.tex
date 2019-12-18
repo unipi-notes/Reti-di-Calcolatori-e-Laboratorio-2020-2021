@@ -696,16 +696,9 @@ Riportiamo di seguito la \textbf{struttura} di un generico messaggio http:\newli
 \texttt{[ message-body ]}\newline
 La prima riga o \textbf{start line} distingue i messaggi di request dai messaggi di response.
 \begin{figure}[!h]
-	\centering
-	\begin{minipage}[b]{0.4\textwidth}
-		\includegraphics[scale=0.4]{Immagini/Http_req.png}
-		\caption{In figura un messaggio di richiesta.}
-	\end{minipage}
-	\hfill
-	\begin{minipage}[b]{0.4\textwidth}
-		\includegraphics[scale=0.4]{Immagini/Http_res.png}
-		\caption{In figura un messaggio di risposta.}
-	\end{minipage}
+		\includegraphics[scale=0.43]{Immagini/Http_req.png}
+		\includegraphics[scale=0.43]{Immagini/Http_res.png}
+		\caption{In figura un messaggio di richiesta e uno di risposta.}
 \end{figure}
 
 \pagebreak
@@ -715,8 +708,6 @@ La prima riga o \textbf{start line} distingue i messaggi di request dai messaggi
 	\centering
 	\caption{La struttura della \textbf{request line}. Il campo \textbf{method} è case sensitive ed indica l'operazione da eseguire sulla risorsa identificata dalla URI. Il metodo \textbf{POST} serve per inviare dal client al server le
 		informazioni inserite nel body del messaggio, \textbf{PUT} è usato dal client per chiedere al server di creare o modificare una risorsa, \textbf{DELETE} per cancellarla.}
-\end{figure}
-\begin{figure}[!h]
 	\includegraphics[scale=0.4]{Immagini/Stat_line.png}
 	\centering
 	\caption{La \textbf{status-Line} è la prima riga del messaggio di risposta. Lo \textbf{status code} è un numero di 3 cifre, indica il risultato del tentativo di soddisfare la richiesta del client. La \textbf{reason-phrase} dà una breve descrizione testuale dello status-code. Lo status-code è rivolto alla macchina mentre la reason-phrase all'utente umano.}
@@ -775,9 +766,7 @@ alcuni parametri del messaggio trasmesso o ricevuto.
 
 \pagebreak
 
-Fin'ora abbiamo mostrato come il client accede alle risorse del web inviando richieste al server. Cosa succederebbe se, ad esempio, un client richiedesse continuamente la \textbf{stessa} risorsa? Potremmo evitare di inoltrare richieste tutte uguali al server?\newline
-\textbf{Sì}, ci viene in aiuto il \textbf{web caching}. L'obbiettivo del web caching è di soddisfare le richieste del client \textbf{senza} contattare il server. Funziona memorizzando \textbf{copie temporanee} di risorse web, servendole poi al client così da \textbf{ridurre} l’uso di \textbf{banda}, limitare il \textbf{workload} sul server e di conseguenza \textbf{diminuire tempo di risposta} verso gli altri clients.\newline
-Consideriamo due modelli possibili di web caching:
+Fin'ora abbiamo mostrato come il client accede alle risorse del web inviando richieste al server. Cosa succederebbe se, ad esempio, un client richiedesse continuamente la \textbf{stessa} risorsa? Potremmo evitare di inoltrare richieste tutte uguali al server? \textbf{Sì}, ci viene in aiuto il \textbf{web caching}. L'obbiettivo del web caching è di soddisfare le richieste del client \textbf{senza} contattare il server. Funziona memorizzando \textbf{copie temporanee} di risorse web, servendole poi al client così da \textbf{ridurre} l’uso di \textbf{banda}, limitare il \textbf{workload} sul server e di conseguenza \textbf{diminuire tempo di risposta} verso gli altri clients. Consideriamo due modelli possibili di web caching:
 \begin{itemize}
 	\item \textbf{User Agent Cache}: lo \textbf{user agent} (il browser) mantiene una \textbf{copia} delle risorse visitate dall’utente.
 	\item \textbf{Proxy Cache}: il \textbf{proxy intercetta il traffico} e mette in cache le risposte. Successive richieste alla stessa URI possono essere servite direttamente dal proxy senza inoltrare la richiesta al server. Sta poi all' utente configurare il browser per consentire gli accessi Web via proxy.
@@ -1997,7 +1986,7 @@ da cui
 
 \pagebreak
 
-\section{Esercizi}
+\subsection{Esercizi}
 \begin{enumerate}
 	\item L’utente \begin{center}
 		      \textbf{mickey@disney.com}
@@ -2030,7 +2019,7 @@ da cui
 	      È bene ricordarsi che il corpo del messaggio termina \textbf{sempre} con ritorno a capo e fine linea.
 
 	      \begin{flushleft}
-		      Per chiarimenti è consigliato il ripasso del capitolo sull'\hyperref[sec:SMTP]{\textbf{SMTP}}.
+		      Per eventuali chiarimenti è consigliato il ripasso del capitolo sull'\hyperref[sec:SMTP]{\textbf{SMTP}}.
 	      \end{flushleft}
 
 	      \pagebreak
@@ -2413,7 +2402,7 @@ L'intetazione è lunga da \textbf{20} a \textbf{60} byte e contiene le informazi
 	      \textbf{Protocollo}: è il campo contenente un numero di 8 bit, \textbf{individua il protocollo che fa uso di IP}. I numeri sono assegnati \textbf{univocamente}. Quando il datagramma arriva a destinazione il valore di questo campo permette di individuare il protocollo a cui consegnare il payload del datagramma. Il campo fornisce \textbf{multiplexing alla sorgente} e \textbf{demultiplexing alla destinazione}. Per il livello rete ha quindi una funzione molto simile ai numeri di porta del livello trasporto.
 
 	      \begin{figure}[!h]
-		      \includegraphics[scale=0.25]{Immagini/Ip_proto.png}
+		      \includegraphics[scale=0.22]{Immagini/Ip_proto.png}
 		      \centering
 		      \caption{Multiplexing e demultiplexing utilizzando il valore del campo protocollo.}
 	      \end{figure}
@@ -2430,7 +2419,7 @@ L'intetazione è lunga da \textbf{20} a \textbf{60} byte e contiene le informazi
 Per giungere a destinazione un \textbf{datagramma IP} potrebbe dover \textbf{attraversare varie reti},\textbf{ ognuna con caratteristiche differenti}. Supponiamo ad esempio che il datagramma sia \textbf{arrivato} a un \textbf{generico router}, a quel punto verrà \textbf{estratto dal frame di livello collegamento}, \textbf{elaborato}, \textbf{incapsulato in un altro frame} e poi \textbf{rispedito}. Il \textbf{formato} e la \textbf{dimensione} del frame in entrata nel router \textbf{dipendono} dalla \textbf{tecnologia fisica} e da quella di \textbf{collegamento} utilizzati per trasportare il frame, analogamente, formato e dimensione in uscita dipenderanno dalle caratteristiche di livello fisico e di livello collegamento della rete su cui il frame verrà inviato.
 
 \begin{figure}[!h]
-	\includegraphics[scale=0.25]{Immagini/MTU.png}
+	\includegraphics[scale=0.3]{Immagini/MTU.png}
 	\centering
 	\caption{Maximum Transfer Unit o MTU.}
 \end{figure}
@@ -2461,7 +2450,7 @@ L'host o il router che frammenta il datagramma IP deve, per l'intestazione di og
 	      Nel caso in cui avvengano \textbf{multiple frammentazioni} lo \textbf{scostamento di frammentazione} è sempre \textbf{relativo al datagramma originario}.
 
 	      \begin{figure}[!h]
-		      \includegraphics[scale=0.3]{Immagini/Ip_frag.png}
+		      \includegraphics[scale=0.33]{Immagini/Ip_frag.png}
 		      \centering
 		      \caption{Un esempio di frammentazione, l'offset è espresso in unità di 8 byte.}
 	      \end{figure}
@@ -2605,7 +2594,7 @@ Gli indirizzi \textbf{150.193.4.1/22}, \textbf{150.193.8.18/22}, \textbf{150.193
 \begin{alltt}
 	Indirizzo IP 150.193.4.1  10010110 11000001 00000100 00000001
 	Subnet Mask 255.255.252.0 11111111 11111111 11111100 00000000
-	AND           150.217.8.0 10010110 11000001 00000\underline{1}00 00000000
+	AND           150.217.4.0 10010110 11000001 00000\underline{1}00 00000000
 \end{alltt}
 \begin{verbatim}
 Indirizzo IP 150.193.8.18 10010110 11000001 00001000 00010010
@@ -3071,7 +3060,7 @@ Presentiamo di seguito \textbf{varie applicazioni} il cui funzionamento si basa 
 
 \end{itemize}
 
-\subsubsection{Esercizi}
+\subsection{Esercizi}
 \begin{enumerate}
 	\item Il sistema autonomo di una grande azienda è logicamente diviso in due sottosistemi: un sottosistema che usa indirizzi IP pubblici nel blocco 113.141.0.0/21, e uno che usa indirizzi IP privati nel blocco 192.168.0.0/16. Quali sono le maschere di rete, in notazione decimale puntata, usate nel sistema autonomo?
 
