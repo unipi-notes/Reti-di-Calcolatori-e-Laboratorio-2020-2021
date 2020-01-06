@@ -12,6 +12,7 @@
 \usepackage{alltt}
 \usepackage{multicol}
 \usepackage{amsmath}
+\usepackage{wrapfig}
 
 
 \lstset{tabsize = 2, mathescape}
@@ -696,9 +697,9 @@ Riportiamo di seguito la \textbf{struttura} di un generico messaggio http:\newli
 \texttt{[ message-body ]}\newline
 La prima riga o \textbf{start line} distingue i messaggi di request dai messaggi di response.
 \begin{figure}[!h]
-		\includegraphics[scale=0.43]{Immagini/Http_req.png}
-		\includegraphics[scale=0.43]{Immagini/Http_res.png}
-		\caption{In figura un messaggio di richiesta e uno di risposta.}
+	\includegraphics[scale=0.43]{Immagini/Http_req.png}
+	\includegraphics[scale=0.43]{Immagini/Http_res.png}
+	\caption{In figura un messaggio di richiesta e uno di risposta.}
 \end{figure}
 
 \pagebreak
@@ -3467,7 +3468,7 @@ Supponiamo che due i due routers in figura, A e B, siano collegati alla rete X. 
 
 Questo scenario è chiamato \textbf{count to infinity}.
 
-Una possibile soluzione a questo problema è chiamata \textbf{split orizon}: prevede che la tabella inviata da un router ad un suo vicino contenga solamente una riga per ogni destinazione raggiungibile passando per un router \textbf{diverso da quello a cui sta inviando la tabella}. Ad esempio: se B ritiene che il costo minore per raggiungere X passi da A, non invierà ad A tale informazione, ovvero $D_{B}[X]$.
+Una possibile soluzione a questo problema è chiamata \textbf{split horizon}: prevede che la tabella inviata da un router ad un suo vicino contenga solamente una riga per ogni destinazione raggiungibile passando per un router \textbf{diverso da quello a cui sta inviando la tabella}. Ad esempio: se B ritiene che il costo minore per raggiungere X passi da A, non invierà ad A tale informazione, ovvero $D_{B}[X]$.
 
 \begin{figure}[!h]
 	\centering
@@ -4502,12 +4503,133 @@ Il \textbf{router} è un dispositivo di interconnessione di \textbf{livello 3}, 
 	      Indicare il contenuto della tabella di
 	      commutazione dello switch nell'ipotesi che
 	      quando essa è inizialmente vuota vengano inviati
-	      nell'ordine i seguenti frame: da A a C, da C a E, da D ad A, da B ad E, da E a B e da C ad A.
+	      nell'ordine i seguenti frame: da A a C, da C a E, da D ad A, da B ad E, da E a B e da C ad A. \textbf{Soluzione}:
 
 	      \begin{figure}[!h]
 		      \includegraphics[scale=0.27]{Immagini/Es10_sol.png}
 		      \centering
 	      \end{figure}
+
+	      \pagebreak
+
+	\item A una rete IP è assegnato l’insieme di indirizzi definiti dall’indirizzo 208.57.0.0 e netmask: 255.255.0.0.
+	      Occorre partizionare la rete in modo da servire una vecchia rete locale con circa 4000 host; quale netmask
+	      serve per definire la sotto-rete per i circa 4000 host? Quale indirizzo di rete gli si può associare? (\textit{la risposta a questa domanda non è univoca}) Quante altre reti delle stesse dimensioni si possono definire? Quante reti con circa 60 host si possono ulteriormente definire nel rimanente spazio di indirizzi dopo aver assegnato la sottorete per i
+	      4000 host e con quale nuova netmask?
+
+	      \textbf{Soluzione}:
+
+	      La sottorete per 4000 host ha una subnetmask pari a 255.255.240.0 in quanto $2^{12}$ fa 4096. Il suo indirizzo di rete è 208.57.0.0/20.
+	      Si possono definire altre $2^{4}$ - 1 = 15 sottoreti da 4000 host.
+	      Per le sottoreti di circa 60 host servono 6 bit per gli host e 26 bit per la rete, quindi la netmask è 255.255.255.192.
+	      Le sottoreti possibili sono $15 \times 2^{6}$ = 15*64.
+
+	\item Per una Intranet si ha a disposizione l’indirizzo di rete 129.174.0.0 con netmask: 255.255.0.0. Nella Intranet
+	      occorre installare almeno 15 reti locali collegate mediante dei router; descrivere come possono essere ricavati gli indirizzi per le sotto-reti e dire quanti host al massimo possono contenere le sotto-reti. Infine,
+	      dire a quali sottoreti appartengono i seguenti indirizzi specificando se si tratta di indirizzi di host o di
+	      indirizzi speciali: 129.174.28.66 129.174.99.122 129.174.130.255 129.174.191.255.
+
+	      \textbf{Soluzione}:
+
+	      Devono essere dedicati 4 bit per indirizzo di rete poichè $2^{4} = 16$.
+	      12 bit per gli host, in totale ci saranno $2^{12}$ = 4096 - 2 host, vanno sottratti infatti indirizzo di rete e di broadcast.
+	      L'indirizzo 129.174.28.66 appartiene a 129.174.16.0/20.
+	      L'indirizzo 129.174.99.122 appartiene alla rete di indirizzo 129.174.96.0.
+	      L'indirizzo 129.174.130.255 appartiene alla rete di indirizzo 129.174.128.0/20.
+	      L'indirizzo 129.174.191.255 appartiene alla rete di indirizzo 129.174.176.0/20 ed è l'indirizzo di broadcast.
+
+	\item Un amministratore di rete deve gestire una campus LAN a cui è assegnato il blocco di indirizzi 150.10.0.0/16.
+
+	      Assumendo che la rete comprenda 100 sottoreti ognuna delle quali è connessa ad un router usando uno switch, definire una appropriata subnet mask se il numero massimo di host connessi ad ogni subnet è 70.
+
+	      \textbf{Soluzione}: Una subnet di 70 host ha 25 bit di sottorete e 7 bit per i dispositivi poiché $2^{7}$ = 128, la subnet mask sarà quindi 255.255.255.128.
+
+	      \pagebreak
+
+	\item Considerare la topologia nella figura seguente.
+
+	      \begin{figure}[!h]
+		      \includegraphics[scale=0.5]{Immagini/Es11.png}
+		      \centering
+	      \end{figure}
+
+	      I nodi utilizzano l’algoritmo distance vector per il calcolo dei cammini minimi. Dire:
+	      \begin{enumerate}
+		      \item Qual è lo stato della tabella di routing di ogni nodo prima del primo scambio di distance vectors?
+		      \item Supponiamo ora che siano avvenuti scambi di distance vectors tra i seguenti nodi:
+
+		            E $\rightarrow$ C ; B $\rightarrow$ A ; C $\rightarrow$ A ;
+
+		            Mostrare come sono modificate le tabelle di routing.
+
+		            \textbf{Soluzione}:
+		            \begin{figure}[!h]
+			            \includegraphics[scale=0.63]{Immagini/Es11_sol.png}
+			            \centering
+		            \end{figure}
+	      \end{enumerate}
+	      \pagebreak
 \end{enumerate}
+
+\chapter{Cenni su VLAN, P2P e sicurezza}
+
+\textit{Illustriamo di seguito i contenuti di questo capitolo: un'introduzione alla tecnologia VLAN o Virtual Local Area Network, applicazioni P2P o Peer To Peer e una breve introduzione alla sicurezza.}
+
+\section{VLAN}
+Prima di affrontare direttamente l'argomento si prenda in considerazione la LAN illustrata in figura:
+
+\begin{wrapfigure}{L} {0.5\textwidth}
+	\includegraphics[scale=0.35]{Immagini/Vlan.png}
+	\centering
+\end{wrapfigure}
+
+I dispositivi sono organizzati in \textbf{quattro segmenti LAN}, un segmento LAN è infatti costituito da uno switch e da tutti gli end systems ad esso connessi. Si supponga, ai fini dell'esempio, che i tre segmenti LAN in basso siano cinque distinti dipartimenti universitari e il quarto segmento, in alto, sia una server farm utilizzata da due dei dipartimenti. Supponiamo ora che l'host X debba inviare un frame a tutti gli altri dispositivi del suo dipartimento e che ragionevolmente lo invii in \textbf{broadcast}. A ricevere il frame saranno però tutti i dispositivi della LAN, anche quelli non interessati, come ad esempio gli altri dipartimenti e la server farm. Il dominio di \textbf{broadcast} è infatti l'intera LAN. Ciò crea però uno \textbf{spreco} di capacità trasmissiva. Come si può evitare ciò?
+
+\pagebreak
+
+\begin{wrapfigure}{L} {0.5\textwidth}
+	\includegraphics[scale=0.35]{Immagini/Vlan1.png}
+	\centering
+\end{wrapfigure}
+Un approccio molto semplice per evitare lo scenario descritto nell'esempio di prima e di conseguenza aumentare l'efficienza della comunicazione, è descritto nella figura a sinistra, e consiste nel \textbf{partizionare fisicamente la LAN} in domini di broadcast diversi. La configurazione così ottenuta infatti consiste di quattro LAN separate e connesse da un router, dove ciascuna LAN ha il proprio dominio di broadcast limitato ai dispositivi connessi allo switch.
+
+Un'altra soluzione possibile, illustrata della figura a destra, è invece quella di partizionare \textbf{logicamente}, non fisicamente, la LAN in varie \textbf{VLAN o virtual local area network}.
+
+\begin{wrapfigure}{R} {0.5\textwidth}
+	\includegraphics[scale=0.35]{Immagini/Vlan2.png}
+	\centering
+\end{wrapfigure}
+ 
+Una \textbf{VLAN} è un \textbf{dominio di broadcast} composto da un gruppo di dispositivi che comunicano come se facessero parte di una stessa LAN ma che sono in realtà fisicamente situati in \textbf{luoghi diversi}. Tutta la logica della VLAN è implementata al livello link e per consentire la comunicazione tra VLAN diverse è necessario un router che le colleghi. Una VLAN \textbf{non} è quindi limitata da un singolo switch. Tornando all'esempio precedente, una partizione via VLAN consente a ogni organizzazione dipartimentale di far parte di uno stesso gruppo pur essendo fisicamente distante l'una dall'altra. Ma come fare, proprio a causa della distanza fisica, a stabilire che un host appartiene a una determinata VLAN? 
+
+Di seguito verranno illustrati \textbf{tre} meccanismi che consentono di stabilire l'appartenenza di un host ad una VLAN.
+
+\begin{enumerate}
+	\item \textbf{Appartenenza per porta}: ad ogni porta di ogni switch della LAN corrisponde una VLAN. 
+	
+	\pagebreak 
+	
+	Una configurazione sì fatta ha il vantaggio di essere facile da  impostare tuttavia se un host cambia porta dello switch bisogna riconfigurare l'appartenenzaz.
+	
+	\item \textbf{Appartenenza per indirizzo MAC}: sono configurazioni di VLAN in cui, ad ogni VLAN, è associato un \textbf{gruppo di indirizzi}. Così facendo si risolve il problema di prima, un host che cambia la porta dello switch continua ad appartenere alla VLAN, infatti il suo indirizzo MAC resta immutato. Lo svantaggio è che l'appartenenza ad una VLAN per indirizzo MAC va assegnata \textbf{almeno una volta} ad ogni dispositivo.
+	
+	\item \textbf{Appartenenza per informazioni protocollari}: è un meccanismo molto flessibile che permette di determinare l'appartenenza di un dispositivo alla VLAN attraverso il suo \textbf{indirizzo IP}, il suo \textbf{protocollo di trasporto} o altre \textbf{informazioni proprie degli stack protocollari superiori al livello link}. Lo svantaggio principale è dato dal fatto che, per far ciò, lo switch deve accedere a porzioni del frame che non gli competono e ciò causa un declino delle prestazioni. 
+\end{enumerate}
+
+Prima di concludere la sezione, resta però da risolvere un ultimo problema, ovvero, come può uno switch distinguere l'appartenenza ad una VLAN \textbf{quando il traffico arriva da una sola porta}. Gli switch hanno infatti due tipi di porte: 
+
+\begin{enumerate}
+	\item \textbf{Porte tronco o trunk ports}: le porte tronco connettono uno switch ad un \textbf{altro switch} e trasmettono il traffico di più VLAN.
+	\item \textbf{Porte di accesso o end ports}: le porte di accesso connettono uno switch ad un \textbf{host}.
+\end{enumerate}
+
+Una pratica soluzione consiste nel \textbf{frame tagging}, ovvero l'inserimento all'interno di ogni frame di un header per indicare a quale VLAN è indirizzato il frame. Infatti, all'interno di una LAN, ad ogni VLAN è assegnato un \textbf{VID o vlan id} univoco compreso tra 1 e 4094. L'header viene aggiunto al frame prima che esso sia inoltrato su una porta tronco e viene poi rimosso prima che il frame sia inoltrato su una porta di accesso.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.28]{Immagini/Vlan_tagging.png}
+	\centering
+\end{figure}
+
+\pagebreak
 
 \end{document}
