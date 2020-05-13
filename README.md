@@ -1,8 +1,8 @@
-# Appunti-Reti-2019-20
+# Reti di calcolatori [2019-2020][Italiano]
 ![alt text](https://github.com/Gethseman/Appunti-Reti-2019-20/blob/master/background.png)
 
+## Authors
+Francesco Iannelli
 
-Cercherò di tenere il più possibile gli appunti in pari con le lezioni.
-Segnalatemi pure errori o possibili chiarimenti e correzioni su telegram: **@jan610**.
-Consiglio la stampa a colori.
-Buono studio!
+---
+[Download](https://github.com/unipi-notes/Networking_Notes-2019-20/releases/latest)
