@@ -1,20 +1,26 @@
 # UniPi Student Notes
 # CI Template - you shouldn't have a reason to edit this
 
-sudo: required
 language: generic
 services: docker
 
-script:
-  - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c 'cd src; tectonic "Reti di Calcolatori.tex"'
-
-after_success:
-  - mv "src/Reti di Calcolatori.pdf" reti-di-calcolatori.pdf
-  - body="**Ultima revisione**\n"
-  - body+="[Download - Reti di Calcolatori](https://github.com/$TRAVIS_REPO_SLUG/releases/download/continuous/reti-di-calcolatori.pdf)";
-    export UPLOADTOOL_BODY=$body
-  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-  - bash upload.sh reti-di-calcolatori.pdf
+jobs:
+  include:
+    - stage: "Compile"
+      name: "Compiling document(s)"  
+      script:
+        - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c 'cd src; tectonic "Reti di Calcolatori.tex"'
+      after_success:
+        - mv "src/Reti di Calcolatori.pdf" reti-di-calcolatori.pdf
+        - body="**Ultima revisione**\n$(date --iso-8601)\n"
+        - body+="[Download - Reti di Calcolatori](https://github.com/$TRAVIS_REPO_SLUG/releases/download/continuous/reti-di-calcolatori.pdf)";
+          export UPLOADTOOL_BODY=$body
+        - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+        - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && bash upload.sh reti-di-calcolatori.pdf;
+    - stage: "Testing"
+      name: "Lint checking"
+      script:
+        - docker run --rm -v $TRAVIS_BUILD_FIR:/workdir:z schw4rzlicht/texlive /bin/sh -c 'for i in *.tex; do lacheck "$i" > "$i.log"; done; for i in *.tex.log; do cat "$i"; [ -s "$i" ] && exit 1; done; exit 0'
 
 branches:
   except:
