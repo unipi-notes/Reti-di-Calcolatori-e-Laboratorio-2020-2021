@@ -12,6 +12,7 @@ jobs:
         - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c 'cd src; tectonic "Reti di Calcolatori.tex"'
       after_success:
         - mv "src/Reti di Calcolatori.pdf" reti-di-calcolatori.pdf
+        - RELEASE_TITLE="Ultima revisione"
         - body="**Ultima revisione**\n$(date --iso-8601)\n"
         - body+="[Download - Reti di Calcolatori](https://github.com/$TRAVIS_REPO_SLUG/releases/download/continuous/reti-di-calcolatori.pdf)";
           export UPLOADTOOL_BODY=$body
